@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #743186;
+}
+
+.text-custom-purple{
+  color: #743186
+}
+.w-96per{
+  width: 96%;
+}
+.iframe-google-maps{
+  width: 100%;
+  border:'0'
+}
