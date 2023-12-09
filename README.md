@@ -1,6 +1,6 @@
 <h2>About the project</h2>
 
-  <p>A Proyect Nextjs Mundo Camiones Front Admin</p>
+  <p>A Proyect Nextjs Mundo Camiones Front WEB Admin</p>
 
 <h3>Build with:</h3>
 
