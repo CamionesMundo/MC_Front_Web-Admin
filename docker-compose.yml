@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  app_front_admin:
+    build:
+    dockerfile: Dockerfile
+    container_name: front_admin
+    command: npm run start:prod
+    volumes:
+      - .:/usr/app_front_admin/
+      - /usr/app_front_admin/node_modules
+    ports:
+      - "4000:4000"
+    networks:
+      - mc
+
+networks:
+  mc:
+    driver: bridge
+
