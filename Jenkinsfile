@@ -23,7 +23,7 @@ pipeline {
             steps {
 
                 sh 'docker rm -f mc-front-web-admin'
-                sh 'docker run -d --restart always --name mc-front-web-admin -p 3000:3000 mc-front-web-admin'
+                sh 'docker run -d --restart always --name mc-front-web-admin -p 4000:4000 mc-front-web-admin'
 
             }
         }

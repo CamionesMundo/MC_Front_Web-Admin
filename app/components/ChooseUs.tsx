@@ -15,6 +15,7 @@ function ChooseUs() {
             height={1000}
             className="m-auto w-full"
           />
+          <label>DSAD</label>
         </div>
         <div className="flex flex-col gap-12 lg:flex-row lg:gap-32 lg:items-center">
           <div className="space-y-8 lg:basis-1/2">
