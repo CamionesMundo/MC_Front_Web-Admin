@@ -1,6 +1,21 @@
-FROM node:16.0.0
-WORKDIR /usr/app_front_admin
-COPY package.json .
-RUN npm install --quiet
+FROM node:16.0.0-alpine as build
+
+WORKDIR /app
+
+COPY ["package.json", "./"]
+COPY ["package-lock.json" , "./"]
+
+RUN apk add --update tzdata && \
+cp /usr/share/zoneinfo/America/Lima /etc/localtime && \
+echo "America/Lima" >  /etc/timezone
+
+RUN npm install 
 RUN npm run build
-COPY . .
+
+COPY .  ./ 
+
+EXPOSE 4000
+
+#CMD ["npm", "run all"]
+
+ENTRYPOINT ["sh", "-c", "npm run start:prod"]
