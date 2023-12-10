@@ -18,7 +18,6 @@ function BookingModal() {
 
   useEffect(() => {
     document.body.style.overflowY = bookingModal ? "hidden" : "auto";
-    console.log('dsadadasd')
   }, [bookingModal]);
 
   if (!bookingModal) return null;
