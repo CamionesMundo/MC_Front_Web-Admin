@@ -1,5 +1,4 @@
 FROM node:16.0.0-alpine as build
-USER root
 WORKDIR /app
 
 COPY ["package.json", "./"]
