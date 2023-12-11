@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 
-const twoDigits = (date) => {
+const twoDigits = (date:any) => {
   return date < 10 ? `0${date}` : date;
 };
 
 export const dateUtility = {
-  formatDate: (date, actual = 0) => {
+  formatDate: (date:any, actual = 0) => {
     let year =
       date.getMonth() + actual < 0
         ? date.getFullYear() - 1
@@ -17,7 +17,7 @@ export const dateUtility = {
     )}/${year}`;
     return format;
   },
-  formatDateYMD: (date, actual = 0) => {
+  formatDateYMD: (date:any, actual = 0) => {
     let year =
       date.getMonth() + actual < 0
         ? date.getFullYear() - 1
@@ -48,7 +48,7 @@ export const dateUtility = {
     var anio = partesFecha[0];
     return dia + "/" + mes + "/" + anio;
   },
-  dateToDMY: (date) => {
+  dateToDMY: (date:any) => {
     const newDate = dayjs(date);
     if (newDate.isValid()) {
       return newDate.format("DD/MM/YYYY");
@@ -56,7 +56,7 @@ export const dateUtility = {
       return "--";
     }
   },
-  monthsBetween: (date1, date2) => {
+  monthsBetween: (date1:any, date2:any) => {
     if (!date1 || !date2) return 0;
     let startDate = new Date(date1);
     let endDate = new Date(date2);
@@ -66,7 +66,7 @@ export const dateUtility = {
       12 * (endDate.getFullYear() - startDate.getFullYear())
     );
   },
-  daysBetween: (date1, date2) => {
+  daysBetween: (date1:any, date2:any) => {
     const dateFrom = dayjs(date1);
     const dateTo = dayjs(date2);
     return dateTo.diff(dateFrom, "day");
