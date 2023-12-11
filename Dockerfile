@@ -8,10 +8,9 @@ cp /usr/share/zoneinfo/America/Lima /etc/localtime && \
 echo "America/Lima" >  /etc/timezone
 
 RUN npm install 
-RUN npm run build
 
 COPY .  ./ 
-
+RUN npm run build
 EXPOSE 4000
 
 #CMD ["npm", "run all"]
