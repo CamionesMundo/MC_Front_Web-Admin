@@ -87,6 +87,7 @@ function BookingModal() {
                       className="border border-lightest-grey rounded text-sm px-2 text-center bg-transparent w-fit"
                     />
                   </span>
+                  <label>dsdsadas</label>
                 </div>
               </div>
               <div className="space-y-2">
