@@ -22,7 +22,7 @@ function Home() {
       <InputValueProvider>
         <CurrentValueProvider>
           <main>
-            <label>React Next</label>
+            <label>React Next Admin</label>
           </main>
         </CurrentValueProvider>
       </InputValueProvider>
