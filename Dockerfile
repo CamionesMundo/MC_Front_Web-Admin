@@ -2,7 +2,6 @@ FROM node:16.0.0-alpine as build
 WORKDIR /app
 
 COPY ["package.json", "./"]
-COPY ["package-lock.json" , "./"]
 
 RUN apk add --update tzdata && \
 cp /usr/share/zoneinfo/America/Lima /etc/localtime && \
