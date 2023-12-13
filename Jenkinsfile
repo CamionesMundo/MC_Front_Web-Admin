@@ -21,10 +21,9 @@ pipeline {
         }
         stage('Deploy Docker'){
             steps {
-
+                sh 'echo $(cat env-development.txt) > .env'
                 sh 'docker rm -f mc-front-web-admin'
                 sh 'docker run -d --restart always --name mc-front-web-admin -p 4000:4000 mc-front-web-admin'
-
             }
         }
     }
