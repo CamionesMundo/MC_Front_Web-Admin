@@ -10,9 +10,11 @@ echo "America/Lima" >  /etc/timezone
 RUN npm install 
 
 COPY .  ./ 
-RUN npm run build
-EXPOSE 4000
 
-#CMD ["npm", "run all"]
+RUN npm run build
+
+RUN cp .env.development .env
+
+EXPOSE 4000
 
 ENTRYPOINT ["sh", "-c", "npm run start:prod"]
