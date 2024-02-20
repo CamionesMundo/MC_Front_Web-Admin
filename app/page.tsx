@@ -1,33 +1,9 @@
-"use client";
+import Image from "next/image";
 
-import Header from "./components/Header";
-import MobileNavbar from "./components/MobileNavbar";
-import React from "react";
-import { TogglersProvider } from "./context/togglers";
-import Hero from "./components/Hero";
-import Booking from "./components/Booking";
-import { InputValueProvider } from "./context/inputValue";
-import BookingModal from "./components/BookingModal";
-import QuickEasy from "./components/QuickEasy";
-import ToTop from "./components/ToTop";
-import RentalFleet from "./components/RentalFleet";
-import { CurrentValueProvider } from "./context/currentValue";
-import SaveBig from "./components/SaveBig";
-import Faq from "./components/Faq";
-import Footer from "./components/Footer";
-
-function Home() {
+export default function Home() {
   return (
-    <TogglersProvider>
-      <InputValueProvider>
-        <CurrentValueProvider>
-          <main>
-            <label>React Next Admin</label>
-          </main>
-        </CurrentValueProvider>
-      </InputValueProvider>
-    </TogglersProvider>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+     <h1>HOla Mundo camiones</h1>
+    </main>
   );
 }
-
-export default Home;
