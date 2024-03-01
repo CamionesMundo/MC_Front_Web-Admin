@@ -13,8 +13,6 @@ COPY .  ./
 
 RUN npm run build
 
-RUN cp .env.development .env
-
-EXPOSE 4000
+EXPOSE 5000
 
 ENTRYPOINT ["sh", "-c", "npm run start:prod"]
