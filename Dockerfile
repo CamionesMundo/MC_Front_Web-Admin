@@ -1,4 +1,4 @@
-FROM node:16.8.0-alpine as build
+FROM node:18.17.0-alpine as build
 WORKDIR /app
 
 COPY ["package.json", "./"]
@@ -13,8 +13,6 @@ COPY .  ./
 
 RUN npm run build
 
-RUN cp .env.development .env
-
-EXPOSE 4000
+EXPOSE 5000
 
 ENTRYPOINT ["sh", "-c", "npm run start:prod"]
