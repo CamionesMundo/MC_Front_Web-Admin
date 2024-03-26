@@ -2,32 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.group[data-focus-visible=true].group-data-\[focus-visible\=true\]\:ring-offset-2{
+  outline-offset: 0 !important;
 }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.expand-h{   
+  
+  transition: grid-template-rows 0.5s ease-out ;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  .input-class {
+    @apply my-4
+  }
+  .icon-input{
+    @apply w-5 h-5 text-blackText hover:text-blackText/65 transition-colors mb-2 hover:cursor-pointer
+  }
+
+  .bg-radial{
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.6),rgba(25,8,43,.3));
+  }
+  .bg-global-background{
+    background-color: hsl(0,0%,0%,1);
+  }
+  #main-layout-area{  
+    grid-template-columns:300px 1fr;
+    grid-template-rows: 56px 1fr;
+  }
+  #main-layout-area.active{
+    grid-template-areas: "header header" "aside main";
+  }
+  #main-layout-area.inactive{
+    grid-template-areas: "header header" "main main";
+  }
+  @media (max-width: 1023px) {
+    #main-layout-area{
+      grid-template-areas: "header" "main";
+      grid-template-columns:1fr;
+      grid-template-rows: 56px 1fr;
+    }
   }
 }

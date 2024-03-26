@@ -1,4 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import withSvgr from '@newhighsco/next-plugin-svgr'
 
-export default nextConfig;
+const nextConfig = withSvgr({
+  swcMinify: true,
+  reactStrictMode: false
+})
+
+export default nextConfig
