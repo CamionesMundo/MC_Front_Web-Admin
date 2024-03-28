@@ -20,10 +20,10 @@ const config: Config = {
           DEFAULT: '#02416d'
         },
         primary: {
-          DEFAULT: '#066699'
+          DEFAULT: '#113AA4'
         },
         secondary: {
-          DEFAULT: '#aedd2b'
+          DEFAULT: '#FFC400'
         },
         darkPrimary: {
           DEFAULT: '#0a5483'
@@ -59,6 +59,7 @@ const config: Config = {
     }
   },
   plugins: [
+    require('tailwind-scrollbar')({ nocompatible: true, preferredStrategy: 'pseudoelements' }),
     nextui({
       themes: {
         light: {

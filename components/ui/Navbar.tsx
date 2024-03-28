@@ -1,24 +1,17 @@
-import { Collapsable } from '@/icons'
+import { Collapsable, Logo, MC } from '@/icons'
 import { useUIStore } from '@/store/useUiStore'
 import { Avatar, Tooltip } from '@nextui-org/react'
+
 import React from 'react'
 
 const Navbar = () => {
   const { changeShowMenu } = useUIStore()
   return (
-    <div className='w-full h-full bg-primary text-white  rounded-xl backdrop-blur-lg p-2 flex justify-between'>
+    <div className='w-full h-full bg-white text-blackText border border-gray-500/60  rounded-xl backdrop-blur-lg p-2 flex justify-between'>
       <div className='flex flex-row gap-2 w-64 justify-between'>
         <div className='flex flex-row gap-2 items-center'>
-          {/* <Logo className='w-14 h-14' /> */}
-          <div className='flex flex-col justify-center mt-2 pl-2'>
-            <p className='text-white leading-3 font-bold text-2xl'>
-              <span>PRA</span>
-              <span className='text-secondary'>IA</span>
-            </p>
-            <span className='text-xs leading-5 text-white font-light'>
-              tour system
-            </span>
-          </div>
+          <Logo className='w-12 h-12' />
+          <MC className='w-16 h-16' />
         </div>
         <Tooltip content='Menú' color='foreground'>
           <div
@@ -29,7 +22,7 @@ const Navbar = () => {
           </div>
         </Tooltip>
       </div>
-      <Avatar size='sm' />
+      <Avatar size='sm' src='https://i.pravatar.cc/150?u=a04258114e29026302d' />
     </div>
   )
 }

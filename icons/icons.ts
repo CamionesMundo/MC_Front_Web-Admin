@@ -10,7 +10,18 @@ import { ReactComponent as CheckCircle } from './src/CheckCircle.svg'
 import { ReactComponent as Search } from './src/Search.svg'
 import { ReactComponent as Edit } from './src/Edit.svg'
 import { ReactComponent as Delete } from './src/Delete.svg'
-import { ReactComponent as Modules } from './src/Modules.svg'
+import { ReactComponent as Post } from './src/Post.svg'
+import { ReactComponent as Logo } from './src/Logo.svg'
+import { ReactComponent as MC } from './src/MC.svg'
+import { ReactComponent as Settings } from './src/Settings.svg'
+import { ReactComponent as Company } from './src/Company.svg'
+import { ReactComponent as Marketplace } from './src/Marketplace.svg'
+import { ReactComponent as Hammer } from './src/Hammer.svg'
+import { ReactComponent as Bill } from './src/Bill.svg'
+import { ReactComponent as Ship } from './src/Ship.svg'
+import { ReactComponent as AppConfig } from './src/AppConfig.svg'
+import { ReactComponent as Category } from './src/Category.svg'
+import { ReactComponent as Delivery } from './src/Delivery.svg'
 
 export {
   Visible,
@@ -25,5 +36,16 @@ export {
   Search,
   Edit,
   Delete,
-  Modules
+  Post,
+  Logo,
+  MC,
+  Settings,
+  Company,
+  Marketplace,
+  Hammer,
+  Bill,
+  Ship,
+  AppConfig,
+  Category,
+  Delivery
 }

@@ -24,10 +24,17 @@
   }
 
   .bg-radial{
-    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.6),rgba(25,8,43,.3));
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.6),rgba(135, 135, 155, 0.3));
   }
   .bg-global-background{
     background-color: hsl(0,0%,0%,1);
+  }
+  .menu-height{
+    height: calc(100% - 112px)!important;
+  }
+  .sidebar-height{
+    height: calc(100vh - 64px );
+    overflow: hidden;
   }
   #main-layout-area{  
     grid-template-columns:300px 1fr;

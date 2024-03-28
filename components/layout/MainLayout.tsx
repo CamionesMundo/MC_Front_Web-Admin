@@ -8,10 +8,7 @@ interface Props {
 }
 
 const MainLayout = ({ children }: Props) => {
-  const {
-    isShowMenu
-
-  } = useUIStore()
+  const { isShowMenu } = useUIStore()
 
   return (
     <div className='w-screen flex flex-col  h-screen transition-all bg-radial bg-white'>
@@ -20,11 +17,11 @@ const MainLayout = ({ children }: Props) => {
       </header>
       <div className='w-full h-full flex flex-row'>
         <aside
-          className={` relative hidden h-full max-w-[288px] flex-1 flex-col px-2 pb-2 transition-[transform,opacity,margin] duration-250 ease-in-out lg:flex  ${
+          className={` relative hidden sidebar-height max-w-[288px] flex-1 flex-col px-2 pb-2 transition-[transform,opacity,margin] duration-250 ease-in-out lg:flex  ${
             isShowMenu ? 'lg:w-72 w-0 ' : '-ml-72 -translate-x-72'
           }`}
         >
-          <div className='w-full h-full text-white bg-primary  rounded-xl '>
+          <div className='w-full h-full  text-blackText border border-gray-500/60 bg-white  rounded-xl '>
             <Sidebar />
           </div>
         </aside>

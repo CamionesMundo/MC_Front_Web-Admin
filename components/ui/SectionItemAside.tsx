@@ -29,13 +29,13 @@ const SectionItemAside = ({
 
   return (
     <div className='w-full group rounded-xl flex flex-col items-center relative'>
-      <div className='flex flex-row justify-between items-center w-full pr-2 group-hover:bg-white/10 rounded-lg'>
+      <div className='flex flex-row justify-between items-center w-full pr-2 group-hover:bg-primary/10 rounded-lg'>
         <div className='flex flex-row gap-2 px-3 py-3 items-center'>
           <IconComponent className='w-5 h-5 ' />
           <span className='text-sm'>{label}</span>
         </div>
         <div
-          className='p-1.5 border border-white/50 rounded-full group-hover:cursor-pointer group-hover:bg-white/10'
+          className='p-1.5 border border-black/50 rounded-full group-hover:cursor-pointer group-hover:bg-primary/10'
           onClick={toggleVisibility}
         >
           <ChevronRight
@@ -56,8 +56,8 @@ const SectionItemAside = ({
         {items.map((item) => (
           <Link
             href={item.href}
-            className={`w-full transition-all ease-in pl-8 pr-3 py-2 rounded-lg hover:bg-white/10 ${
-              pathname === item.href ? 'bg-white/10' : ''
+            className={`w-full transition-all ease-in pl-8 pr-3 py-2 rounded-lg hover:bg-primary/10 ${
+              pathname === item.href ? 'bg-primary/10' : ''
             }`}
             key={item.label}
           >
