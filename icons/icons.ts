@@ -22,6 +22,7 @@ import { ReactComponent as Ship } from './src/Ship.svg'
 import { ReactComponent as AppConfig } from './src/AppConfig.svg'
 import { ReactComponent as Category } from './src/Category.svg'
 import { ReactComponent as Delivery } from './src/Delivery.svg'
+import { ReactComponent as Notification } from './src/Notification.svg'
 
 export {
   Visible,
@@ -47,5 +48,6 @@ export {
   Ship,
   AppConfig,
   Category,
-  Delivery
+  Delivery,
+  Notification
 }

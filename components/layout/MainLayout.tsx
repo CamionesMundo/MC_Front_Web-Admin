@@ -2,6 +2,8 @@
 import { useUIStore } from '@/store/useUiStore'
 import { type ReactNode } from 'react'
 import { Navbar, Sidebar } from '../ui'
+import { useResponsive } from '@/hooks/useResponsive'
+import { cn } from '@/lib/clsx/clsx'
 
 interface Props {
   children: ReactNode
@@ -9,6 +11,7 @@ interface Props {
 
 const MainLayout = ({ children }: Props) => {
   const { isShowMenu } = useUIStore()
+  const isMobile = useResponsive()
 
   return (
     <div className='w-screen flex flex-col  h-screen transition-all bg-radial bg-white'>
@@ -26,8 +29,8 @@ const MainLayout = ({ children }: Props) => {
           </div>
         </aside>
         <main
-          className={` text-black/70 flex-1 pr-2 pb-2 ${
-            isShowMenu ? '' : 'pl-2'
+          className={` text-black/70 flex-1 pr-2 pb-2 overflow-hidden ${cn({ 'pl-2': isMobile })} ${
+            isShowMenu ? 'w-[calc(100% - 288px)]' : 'pl-2 w-full'
           }`}
         >
           {children}
