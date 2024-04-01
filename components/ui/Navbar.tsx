@@ -1,3 +1,4 @@
+import { useResponsive } from '@/hooks/useResponsive'
 import { Collapsable, Logo, MC } from '@/icons'
 import { useUIStore } from '@/store/useUiStore'
 import { Avatar, Tooltip } from '@nextui-org/react'
@@ -5,7 +6,8 @@ import { Avatar, Tooltip } from '@nextui-org/react'
 import React from 'react'
 
 const Navbar = () => {
-  const { changeShowMenu } = useUIStore()
+  const { changeShowMenu, changeShowMobileMenu } = useUIStore()
+  const isMobile = useResponsive()
   return (
     <div className='w-full h-full bg-white text-blackText border border-gray-500/60  rounded-xl backdrop-blur-lg p-2 flex justify-between'>
       <div className='flex flex-row gap-2 w-64 justify-between'>
@@ -16,7 +18,7 @@ const Navbar = () => {
         <Tooltip content='Menú' color='foreground'>
           <div
             className='p-2 rounded-lg hover:cursor-pointer hover:bg-default-100/20 flex justify-center items-center'
-            onClick={changeShowMenu}
+            onClick={isMobile ? changeShowMobileMenu : changeShowMenu}
           >
             <Collapsable className='w-6 h-6' />
           </div>

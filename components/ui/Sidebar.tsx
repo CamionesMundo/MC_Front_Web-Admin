@@ -34,9 +34,6 @@ const Sidebar = () => {
       </div>
       <div className='menu-height overflow-hidden'>
         <div className='w-full h-full overflow-y-auto scrollbar-track-rounded-full scrollbar-thin scrollbar-thumb-slate-400 scrollbar-thumb-rounded-full'>
-          <div className='mb-2'>
-            <span className='text-xs text-black/60'>General</span>
-          </div>
           <ItemAside IconComponent={Home} href='/' label='Inicio' />
           <SectionItemAside
             IconComponent={Users}

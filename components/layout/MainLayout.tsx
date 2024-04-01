@@ -4,13 +4,14 @@ import { type ReactNode } from 'react'
 import { Navbar, Sidebar } from '../ui'
 import { useResponsive } from '@/hooks/useResponsive'
 import { cn } from '@/lib/clsx/clsx'
+import MobileAside from '../ui/MobileAside'
 
 interface Props {
   children: ReactNode
 }
 
 const MainLayout = ({ children }: Props) => {
-  const { isShowMenu } = useUIStore()
+  const { isShowMenu, isShowMobileMenu } = useUIStore()
   const isMobile = useResponsive()
 
   return (
@@ -35,6 +36,7 @@ const MainLayout = ({ children }: Props) => {
         >
           {children}
         </main>
+        {isMobile && isShowMobileMenu && <MobileAside />}
       </div>
     </div>
   )

@@ -23,6 +23,7 @@ import { ReactComponent as AppConfig } from './src/AppConfig.svg'
 import { ReactComponent as Category } from './src/Category.svg'
 import { ReactComponent as Delivery } from './src/Delivery.svg'
 import { ReactComponent as Notification } from './src/Notification.svg'
+import { ReactComponent as Close } from './src/Close.svg'
 
 export {
   Visible,
@@ -49,5 +50,6 @@ export {
   AppConfig,
   Category,
   Delivery,
-  Notification
+  Notification,
+  Close
 }

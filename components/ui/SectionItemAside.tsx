@@ -2,6 +2,8 @@ import { ChevronRight } from '@/icons'
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useResponsive } from '@/hooks/useResponsive'
+import { useUIStore } from '@/store/useUiStore'
 
 export type ItemSection = {
   label: string
@@ -18,6 +20,8 @@ const SectionItemAside = ({
   label,
   items
 }: SectionItemAsideProps) => {
+  const isMobile = useResponsive()
+  const { changeShowMobileMenu } = useUIStore()
   const [visible, setVisible] = useState(false)
   const toggleVisibility = () => {
     setVisible(!visible)
@@ -60,6 +64,11 @@ const SectionItemAside = ({
               pathname === item.href ? 'bg-primary/10' : ''
             }`}
             key={item.label}
+            onClick={() => {
+              if (isMobile) {
+                changeShowMobileMenu()
+              }
+            }}
           >
             <span className='text-sm'>{item.label}</span>
           </Link>
