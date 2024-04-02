@@ -30,9 +30,9 @@ const MainLayout = ({ children }: Props) => {
           </div>
         </aside>
         <main
-          className={` text-black/70 flex-1 pr-2 pb-2 overflow-hidden ${cn({ 'pl-2': isMobile })} ${
-            isShowMenu ? 'w-[calc(100% - 288px)]' : 'pl-2 w-full'
-          }`}
+          className={` text-black/70 flex-1 pr-2 pb-2 overflow-hidden sidebar-height ${cn(
+            { 'pl-2': isMobile }
+          )} ${isShowMenu ? 'w-[calc(100% - 288px)]' : 'pl-2 w-full'}`}
         >
           {children}
         </main>

@@ -15,14 +15,15 @@ import {
   DropdownTrigger,
   Button,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  Chip
 } from '@nextui-org/react'
 import React, { useCallback, useMemo, useState } from 'react'
 import { Loader } from '../ui/Loader'
 import { capitalize } from '@/lib/utils/utils'
 import { GenericButton } from '../buttons'
 import { cn } from '@/lib/clsx/clsx'
-import { TableActions } from './render-cell'
+import { TableActions, TableUser } from './render-cell'
 
 type CustomTableProps = {
   columns: ColumnsProps[]
@@ -144,6 +145,22 @@ const CustomTable = ({
                 : (
                 <XMarkCircle className='w-5 h-5' />
                   )}
+            </div>
+          )
+        case 'user':
+          return <TableUser row={row} />
+
+        case 'status':
+          return (
+            <div className='flex justify-center'>
+              <Chip
+                className='capitalize'
+                color={row.status === 'Activo' ? 'success' : 'danger'}
+                size='sm'
+                variant='flat'
+              >
+                {cellValue}
+              </Chip>
             </div>
           )
         case 'actions':

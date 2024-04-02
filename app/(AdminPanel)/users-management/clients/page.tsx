@@ -1,7 +1,7 @@
-import React from 'react'
+'use client'
 
 const ClientsPage = () => {
-  return <div>Holi</div>
+  return <div>Clients</div>
 }
 
 export default ClientsPage
