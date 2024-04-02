@@ -18,8 +18,12 @@ import {
 import { ItemAside, SectionItemAside } from '.'
 import { Avatar } from '@nextui-org/react'
 import { GenericButton } from '../buttons'
+import { signOut, useSession } from 'next-auth/react'
+import { capitalize } from '@/lib/utils/utils'
 
 const Sidebar = () => {
+  const { data: session } = useSession()
+
   return (
     <div className='w-full h-full rounded-xl p-2 '>
       <div className='w-full flex gap-4 items-center p-2 h-14'>
@@ -28,8 +32,10 @@ const Sidebar = () => {
           src='https://i.pravatar.cc/150?u=a04258114e29026302d'
         />
         <div className='flex flex-col'>
-          <span className='text-sm'>USERNAME</span>
-          <span className='text-black/60 text-xs'>Administrador</span>
+          <span className='text-sm'>{session?.user.name}</span>
+          <span className='text-black/60 text-xs'>
+            {capitalize(session?.user.role ?? '')}
+          </span>
         </div>
       </div>
       <div className='menu-height overflow-hidden'>
@@ -73,7 +79,12 @@ const Sidebar = () => {
         </div>
       </div>
       <div className='bg-white p-2'>
-        <GenericButton label='Cerrar Sesión' />
+        <GenericButton
+          label='Cerrar Sesión'
+          onClick={async () => {
+            await signOut()
+          }}
+        />
       </div>
     </div>
   )
