@@ -14,7 +14,7 @@ export interface UserResponse {
 }
 
 export interface Role {
-  name_rol: string
+  name_role: string
 }
 
 export interface FileProfile {

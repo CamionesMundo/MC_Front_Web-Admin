@@ -46,7 +46,7 @@ const authOptions: NextAuthOptions = {
           id: loginData.user.iduser_admin.toString(),
           email: loginData.user.email,
           profileImg: loginData.user.file_profile,
-          role: loginData.user.role.name_rol,
+          role: loginData.user.role.name_role,
           token: loginData.token,
           name: loginData.user.name_user
         }
