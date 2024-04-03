@@ -26,7 +26,7 @@ const authOptions: NextAuthOptions = {
         }
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/admin/users/login`,
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/admin/users/login`,
           {
             method: 'POST',
             body: JSON.stringify({ email, password }),
