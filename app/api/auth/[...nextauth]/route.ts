@@ -16,6 +16,9 @@ const authOptions: NextAuthOptions = {
           placeholder: 'Ingrese Password'
         }
       },
+      /* The `async authorize(credentials)` function is a custom authentication function defined within
+      the NextAuth configuration options. This function is responsible for handling the
+      authentication process when a user tries to sign in using the CredentialsProvider. */
       async authorize (credentials) {
         const { email, password } = credentials as {
           email: string
@@ -57,6 +60,8 @@ const authOptions: NextAuthOptions = {
     signIn: '/login'
   },
   callbacks: {
+    /* The `async jwt` and `async session` callbacks in the NextAuth configuration are responsible for
+    manipulating the JWT token and session object, respectively. */
     async jwt ({ token, user }) {
       return { ...token, ...user }
     },

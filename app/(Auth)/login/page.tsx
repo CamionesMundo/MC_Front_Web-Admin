@@ -3,6 +3,7 @@ import { GenericButton } from '@/components/buttons'
 import { CustomInput } from '@/components/inputs'
 import { Logo, Visible } from '@/icons'
 import { loginSchema } from '@/lib/validators'
+import { useRecoveryPasswordStore } from '@/store/useRecoveryPasswordStore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@nextui-org/react'
 import { signIn } from 'next-auth/react'
@@ -15,13 +16,16 @@ const LoginPage = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
+    watch
   } = useForm({
     resolver: zodResolver(loginSchema)
   })
   const router = useRouter()
+  const { changeCurrentEmail } = useRecoveryPasswordStore()
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const emailValue = watch('email')
 
   const togglePassword = () => {
     setShowPassword(!showPassword)
@@ -35,12 +39,13 @@ const LoginPage = () => {
         password: data.password,
         redirect: false
       })
+      console.log(res)
       if (res !== undefined) {
         if (res?.ok && res?.status === 200) {
           router.push('/')
         }
 
-        if (res?.error !== null && res?.status === 200) {
+        if (res?.error !== null && (res?.status !== 200)) {
           toast.error(res.error, {
             duration: 3000,
             className: '!bg-red-200',
@@ -54,6 +59,12 @@ const LoginPage = () => {
 
     setIsLoading(false)
   })
+
+  const onRecoveryPassword = () => {
+    const email = emailValue as string
+
+    changeCurrentEmail(email)
+  }
 
   return (
     <div className='max-w-lg w-full bg-white rounded-2xl mx-auto mt-7 '>
@@ -87,11 +98,14 @@ const LoginPage = () => {
             error={errors.password?.message?.toString() ?? ''}
           />
           <div className='flex justify-between pb-2'>
+            <span className='text-sm'>Olvidé mi contraseña</span>
             <Link
               className='text-sm text-blackText hover:cursor-pointer'
               underline='hover'
+              href='/recovery-password'
+              onClick={onRecoveryPassword}
             >
-              Olvidé mi contraseña
+              Recuperar
             </Link>
           </div>
           <div className='mt-3'>
