@@ -4,7 +4,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { type GenericResponse } from '@/types/api'
 import { type UserDataResponse } from '@/types/api/response/auth'
 
-const authOptions: NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',

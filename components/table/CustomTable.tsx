@@ -155,11 +155,11 @@ const CustomTable = ({
             <div className='flex justify-center'>
               <Chip
                 className='capitalize'
-                color={row.status === 'Activo' ? 'success' : 'danger'}
+                color={'success'}
                 size='sm'
                 variant='flat'
               >
-                {cellValue}
+                {'Activo'}
               </Chip>
             </div>
           )
