@@ -1,15 +1,20 @@
 'use client'
 import { GenericButton } from '@/components/buttons'
 import { CustomInput } from '@/components/inputs'
+import { showToast } from '@/hooks/useToast'
 import { Logo } from '@/icons'
 import { emailSchema } from '@/lib/validators/emailValidator'
 import { useRecoveryPasswordStore } from '@/store/useRecoveryPasswordStore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@nextui-org/react'
-import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { useRecoveryPassword } from '@/hooks/api/useAccount'
+import { type GenericResponse } from '@/types/api'
 
 const RecoveryPasswordPage = () => {
+  const { mutateAsync: sendEmail, isPending } = useRecoveryPassword()
   const { currentEmail, reset } = useRecoveryPasswordStore()
   const {
     register,
@@ -20,19 +25,33 @@ const RecoveryPasswordPage = () => {
     resolver: zodResolver(emailSchema)
   })
 
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
-    if (currentEmail !== undefined) {
+    if (currentEmail !== undefined && currentEmail !== '') {
       setValue('email', currentEmail)
     }
   }, [currentEmail])
 
   const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    console.log(currentEmail)
+    const { email } = data
 
-    setIsLoading(false)
+    try {
+      await sendEmail(
+        { email },
+        {
+          onSuccess: (data: GenericResponse<boolean>) => {
+            showToast(data.message, 'success')
+            router.push('/')
+          },
+          onError: (data) => {
+            showToast(data.message, 'error')
+          }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
   })
 
   return (
@@ -65,8 +84,8 @@ const RecoveryPasswordPage = () => {
             <GenericButton
               type='submit'
               label='Enviar'
-              isLoading={isLoading}
-              disabled={isLoading}
+              isLoading={isPending}
+              disabled={isPending}
             />
           </div>
           <div className='flex justify-end pb-2 mt-3'>
