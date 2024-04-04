@@ -3,10 +3,7 @@ import { getSession } from 'next-auth/react'
 
 export const axiosInstance = axios.create({
   baseURL: '/api',
-  timeout: 5000,
-  headers: {
-    // token: session?.user.token,
-  }
+  timeout: 5000
 })
 
 axiosInstance.interceptors.request.use(async (config) => {
