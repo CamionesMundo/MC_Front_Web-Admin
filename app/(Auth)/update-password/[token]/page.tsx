@@ -6,8 +6,21 @@ import { passwordSchema } from '@/lib/validators/passwordValidators'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useParams, useRouter } from 'next/navigation'
+import { useUpdatePassword } from '@/hooks/api/useAccount'
+import { type GenericResponse } from '@/types/api'
+import { showToast } from '@/hooks/useToast'
+import { type UserResponse } from '@/types/api/response/auth'
 
+type TypeParams = {
+  token: string
+}
 const UpdatePasswordPage = () => {
+  const params = useParams<TypeParams>()
+  const token = params.token
+  const { mutateAsync: sendNewPassword, isPending } = useUpdatePassword()
+  console.log(token)
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -18,7 +31,7 @@ const UpdatePasswordPage = () => {
 
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+
   const togglePassword = () => {
     setShowPassword(!showPassword)
   }
@@ -26,10 +39,24 @@ const UpdatePasswordPage = () => {
     setShowConfirmPassword(!showConfirmPassword)
   }
   const onSubmit = handleSubmit(async (data) => {
-    setIsLoading(true)
-    console.log(data)
-
-    setIsLoading(false)
+    const { password } = data
+    try {
+      await sendNewPassword(
+        { password, token },
+        {
+          onSuccess: (data: GenericResponse<UserResponse>) => {
+            console.log(data)
+            showToast(data.message, 'success')
+            router.push('/')
+          },
+          onError: (data) => {
+            showToast(data.message, 'error')
+          }
+        }
+      )
+    } catch (error) {
+      console.log(error)
+    }
   })
   return (
     <div className='max-w-lg w-full bg-white rounded-2xl mx-auto mt-7 '>
@@ -40,7 +67,13 @@ const UpdatePasswordPage = () => {
         <h1 className='text-center text-lg text-blackText'>
           Actualizar contraseña
         </h1>
-
+        <div className='my-2'>
+          <p className='text-xs'>
+            Recuerda que la nueva contraseña debe incluir al menos una letra en
+            mayúscula, al menos una letra en minúscula, al menos un número y
+            como mínimo 8 caracteres{' '}
+          </p>
+        </div>
         <form onSubmit={onSubmit}>
           <CustomInput
             name='password'
@@ -70,8 +103,8 @@ const UpdatePasswordPage = () => {
             <GenericButton
               type='submit'
               label='Actualizar contraseña'
-              isLoading={isLoading}
-              disabled={isLoading}
+              isLoading={isPending}
+              disabled={isPending}
             />
           </div>
         </form>
