@@ -19,7 +19,6 @@ export const useRecoveryPasswordStore = create(
     (set) => ({
       ...initialState,
       changeCurrentEmail: (email: string) => {
-        console.log(email)
         set(() => ({
           currentEmail: email
         }))

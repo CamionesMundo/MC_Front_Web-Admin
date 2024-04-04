@@ -39,13 +39,13 @@ const LoginPage = () => {
         password: data.password,
         redirect: false
       })
-      console.log(res)
+
       if (res !== undefined) {
         if (res?.ok && res?.status === 200) {
           router.push('/')
         }
 
-        if (res?.error !== null && (res?.status !== 200)) {
+        if (res?.error !== null && res?.status !== 200) {
           toast.error(res.error, {
             duration: 3000,
             className: '!bg-red-200',

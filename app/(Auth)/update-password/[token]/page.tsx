@@ -19,7 +19,6 @@ const UpdatePasswordPage = () => {
   const params = useParams<TypeParams>()
   const token = params.token
   const { mutateAsync: sendNewPassword, isPending } = useUpdatePassword()
-  console.log(token)
   const router = useRouter()
   const {
     register,
@@ -45,7 +44,6 @@ const UpdatePasswordPage = () => {
         { password, token },
         {
           onSuccess: (data: GenericResponse<UserResponse>) => {
-            console.log(data)
             showToast(data.message, 'success')
             router.push('/')
           },

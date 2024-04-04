@@ -6,14 +6,13 @@ import { NextResponse } from 'next/server'
 
 export async function POST (req: Request) {
   const body = (await req.json()) as BodyRecoveryPassword
-  console.log(body)
+
   try {
     const res = await axios.post<GenericResponse<boolean>>(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/core/mails/email-recover-password`,
       { email: body.email }
     )
 
-    console.log(res.data)
     return NextResponse.json(res.data)
   } catch (error) {
     return NextResponse.json({

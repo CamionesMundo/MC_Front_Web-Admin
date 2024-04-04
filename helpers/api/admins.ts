@@ -6,7 +6,7 @@ export const getAllAdmins = async () => {
     const res = await api.get<GenericResponse<UserResponse[]>>(
       '/admin/collaborators'
     )
-    console.log(res)
+
     const { data } = res
     return data
   } catch (error) {
