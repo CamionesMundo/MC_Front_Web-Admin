@@ -2,6 +2,11 @@ import { toast } from 'sonner'
 
 type ToastType = 'success' | 'warning' | 'error' | 'info'
 
+/**
+ * Displays a toast message with the specified message and type.
+ * @param message The message content to display in the toast.
+ * @param type The type of toast message ('success', 'warning', 'error', 'info').
+ */
 const showToast = (message: string, type: ToastType) => {
   const baseOptions = {
     duration: 3000,
