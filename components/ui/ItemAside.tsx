@@ -10,8 +10,21 @@ type ItemAsideProps = {
   href: string
 }
 
+/**
+ * Component for rendering an item in the aside menu.
+ * @param IconComponent The icon component to display.
+ * @param label The label for the item.
+ * @param href The href attribute for the link.
+ */
 const ItemAside = ({ IconComponent, label, href }: ItemAsideProps) => {
+  /**
+   * Hook to determine if the application is in mobile view.
+   */
   const isMobile: boolean = useResponsive()
+
+  /**
+   * Hook to control the state of the mobile menu.
+   */
   const { changeShowMobileMenu } = useUIStore()
   const pathname = usePathname()
 
