@@ -1,32 +1,48 @@
-import { Input, type InputProps } from '@nextui-org/react'
-import { type FieldValues, type RegisterOptions, type UseFormRegister } from 'react-hook-form'
+import { Input, useInput, type InputProps } from '@nextui-org/react'
 
 type CustomInputProps = {
-  register: UseFormRegister<FieldValues>
   name: string
-  validationSchema?: RegisterOptions<FieldValues, string>
   error?: string
 } & InputProps
 
-const CustomInput = ({
-  register,
-  name,
-  validationSchema,
-  error,
-  ...props
-}: CustomInputProps) => {
+const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
+  const { classNames } = useInput({
+    ...props,
+    classNames: {
+      input: `text-blackText placeholder:text-blackText/50 ${
+        props.disabled === true ? 'cursor-not-allowed text-blackText/50' : ''
+      }`,
+      label: `font-semibold ${
+        props.disabled === true
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
+          : ''
+      }`,
+      inputWrapper: `border border-[#e0e0e0]  ${
+        props.disabled === true
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
+          : ''
+      }`,
+      innerWrapper: ` ${
+        props.disabled === true
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
+          : ''
+      }`,
+      mainWrapper: ` ${
+        props.disabled === true
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
+          : ''
+      }`
+    }
+  })
   return (
     <div className='input-class'>
       <Input
         variant='flat'
         color='primary'
-        {...register(name, validationSchema)}
         {...props}
-        classNames={{
-          input: 'text-blackText placeholder:text-blackText/50',
-          label: 'font-semibold',
-          inputWrapper: 'border border-[#e0e0e0]'
-        }}
+        classNames={{ ...classNames }}
+        role='presentation'
+        autoComplete='nope'
       />
       {error !== '' && (
         <span className='text-danger text-xs italic'>{`(*) Error: ${error}`}</span>
