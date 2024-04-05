@@ -66,7 +66,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
   } = useAdminFormStore()
   const { data: adminData, isLoading, isRefetching, refetch } = useGetAdminById(Number(id))
   const [adminId, setAdminId] = useState<number | null>(null)
-  const loading = isLoading === true || isRefetching === true
+  const loading: boolean = isLoading ?? isRefetching
   const [errors, setErrors] = useState<FormErrorMessages | null>(null)
 
   /**
