@@ -16,7 +16,7 @@ const TableActions = ({ onEdit, onDelete, row }: Props) => {
           className='text-lg text-default-400 cursor-pointer active:opacity-50'
           onClick={() => {
             if (onEdit !== undefined) {
-              onEdit(row)
+              onEdit(row.id)
             }
           }}
         >

@@ -34,7 +34,7 @@ type CustomTableProps = {
   newButtonLabel?: string
   allowsSorting?: boolean
   initialVisibleColumns?: string[]
-  onEdit?: (row: any) => void
+  onEdit?: (id: number) => void
   onDelete?: (row: any) => void
   useRounded?: boolean
   useSearchBar?: boolean
@@ -70,18 +70,33 @@ const CustomTable = ({
   showTopContent = true,
   showBottomContent = true
 }: CustomTableProps) => {
-  const classWrapper = `max-h-[382px] p-1 md:p-3 ${
+  /**
+   * Wrapper class name for styling purposes.
+   * @param useRounded Indicates whether rounded corners should be used.
+   */
+  const classWrapper = ` p-1 md:p-3 ${
     useRounded ? '' : 'rounded-none'
   }`
+
+  /**
+   * Component state for managing visible columns.
+   */
   const [visibleColumns, setVisibleColumns] = React.useState<Selection>(
     new Set(initialVisibleColumns)
   )
+
+  /**
+   * Component state for managing the current page.
+   */
   const [page, setPage] = useState(1)
   const [filterValue, setFilterValue] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState<number>(5)
 
   const hasSearchFilter = Boolean(filterValue)
 
+  /**
+   * Memoized header columns based on visible columns selection.
+   */
   const headerColumns = useMemo(() => {
     if (visibleColumns === 'all') return columns
 
@@ -102,6 +117,9 @@ const CustomTable = ({
     return filtered
   }, [data, filterValue, hasSearchFilter])
 
+  /**
+   * Memoized items to display on the current page.
+   */
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
@@ -109,6 +127,9 @@ const CustomTable = ({
     return filteredItems.slice(start, end)
   }, [page, filteredItems, rowsPerPage])
 
+  /**
+   * Total number of pages based on filtered items and rows per page.
+   */
   const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
   const onSearchChange = useCallback((value: string) => {
@@ -125,6 +146,9 @@ const CustomTable = ({
     setPage(1)
   }, [])
 
+  /**
+   * Renders a cell in the table based on column key.
+   */
   const renderCell = useCallback(
     (row: any, columnKey: any) => {
       const cellValue = row[columnKey]
@@ -171,18 +195,28 @@ const CustomTable = ({
     },
     [onEdit, onDelete]
   )
+
+  /**
+   * Handles next page navigation.
+   */
   const onNextPage = useCallback(() => {
     if (page < pages) {
       setPage(page + 1)
     }
   }, [page, pages])
 
+  /**
+   * Handles previous page navigation.
+   */
   const onPreviousPage = useCallback(() => {
     if (page > 1) {
       setPage(page - 1)
     }
   }, [page])
 
+  /**
+   * Handles rows per page change event.
+   */
   const onRowsPerPageChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setRowsPerPage(Number(e.target.value))
@@ -191,6 +225,9 @@ const CustomTable = ({
     []
   )
 
+  /**
+   * Handles page change event.
+   */
   const onChangePage = useCallback((page: number) => {
     setPage(page)
   }, [])
