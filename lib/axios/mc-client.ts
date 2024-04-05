@@ -1,6 +1,6 @@
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import axios, { type AxiosRequestConfig } from 'axios'
 import { getServerSession } from 'next-auth'
+import authOptions from '../auth/options'
 
 /**
  * Function to create an instance of the API client for interacting with the backend server.
