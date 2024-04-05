@@ -15,6 +15,7 @@ export interface UserResponse {
 
 export interface Role {
   name_role: string
+  idrole_admin: number
 }
 
 export interface FileProfile {
