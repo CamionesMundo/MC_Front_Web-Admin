@@ -5,40 +5,61 @@ import { showToast } from '@/hooks/useToast'
 import { Logo } from '@/icons'
 import { emailSchema } from '@/lib/validators/emailValidator'
 import { useRecoveryPasswordStore } from '@/store/useRecoveryPasswordStore'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { type ChangeEvent, useState, type FormEvent } from 'react'
+
 import { useRecoveryPassword } from '@/hooks/api/useAccount'
 import { type GenericResponse } from '@/types/api'
+import {
+  handleValidationFormErrors,
+  type FormErrorMessages
+} from '@/helpers/error'
 
 const RecoveryPasswordPage = () => {
-  const { mutateAsync: sendEmail, isPending } = useRecoveryPassword()
-  const { currentEmail, reset } = useRecoveryPasswordStore()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue
-  } = useForm({
-    resolver: zodResolver(emailSchema)
-  })
-
   const router = useRouter()
 
-  useEffect(() => {
-    if (currentEmail !== undefined && currentEmail !== '') {
-      setValue('email', currentEmail)
+  // Custom hook to send email for password recovery
+  const { mutateAsync: sendEmail, isPending } = useRecoveryPassword()
+
+  // Custom hook to manage email and related operations for password recovery
+  const { currentEmail, reset, changeCurrentEmail } = useRecoveryPasswordStore()
+  const [errors, setErrors] = useState<FormErrorMessages | null>(null)
+
+  /**
+   * Function to handle email input change.
+   * @param e Input change event
+   */
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value
+    changeCurrentEmail(email)
+  }
+
+  /**
+   * Function executed when submitting the email form.
+   * @param e Form event
+   */
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    try {
+      // Validate the email using the email schema
+      emailSchema.parse({ email: currentEmail })
+
+      // If validation succeeds, reset errors state to null
+      setErrors(null)
+    } catch (error) {
+      // If validation fails, handle the error and set errors state accordingly
+      const err = handleValidationFormErrors(error)
+      if (err !== undefined) {
+        setErrors(err)
+        return
+      }
+      return
     }
-  }, [currentEmail])
-
-  const onSubmit = handleSubmit(async (data) => {
-    const { email } = data
-
+    // Attempt to send the email for init the recovery password process
     try {
       await sendEmail(
-        { email },
+        { email: currentEmail },
         {
           onSuccess: (data: GenericResponse<boolean>) => {
             showToast(data.message, 'success')
@@ -52,7 +73,7 @@ const RecoveryPasswordPage = () => {
     } catch (error) {
       console.log(error)
     }
-  })
+  }
 
   return (
     <div className='max-w-lg w-full bg-white rounded-2xl mx-auto mt-7 '>
@@ -73,12 +94,13 @@ const RecoveryPasswordPage = () => {
         <form onSubmit={onSubmit}>
           <CustomInput
             name='email'
-            register={register}
+            value={currentEmail}
+            onChange={handleChange}
             type='text'
-            color={errors.email !== undefined ? 'danger' : 'primary'}
+            color={errors?.email !== undefined ? 'danger' : 'primary'}
             label='Correo electrónico'
             placeholder='Ej. admin@mundocamiones.com'
-            error={errors.email?.message?.toString() ?? ''}
+            error={errors?.email?.toString() ?? ''}
           />
           <div className='mt-3'>
             <GenericButton
