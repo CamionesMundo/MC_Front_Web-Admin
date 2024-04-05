@@ -15,18 +15,31 @@ type SectionItemAsideProps = {
   items: ItemSection[]
 }
 
+/**
+ * Component for rendering a section item in the aside menu.
+ * @param IconComponent The icon component to display.
+ * @param label The label for the section item.
+ * @param items The list of items in the section.
+ */
 const SectionItemAside = ({
   IconComponent,
   label,
   items
 }: SectionItemAsideProps) => {
+  /** Hook to determine if the application is in mobile view. */
   const isMobile = useResponsive()
+
+  /** Hook to control the state of the mobile menu. */
   const { changeShowMobileMenu } = useUIStore()
+
+  /** State to manage visibility of section items. */
   const [visible, setVisible] = useState(false)
   const toggleVisibility = () => {
     setVisible(!visible)
   }
   const pathname = usePathname()
+
+  /** Calculates the total height of the section items. */
   const size = 40
   const totalItems = items.length
   const height = `${totalItems * size}px`
