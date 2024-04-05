@@ -3,6 +3,7 @@ import CustomTable from '@/components/table/CustomTable'
 import { BackComponent } from '@/components/ui/BackComponent'
 import { adminColumns } from '@/const/columns/users'
 import { type UserResponse } from '@/types/api/response/auth'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   admins: UserResponse[]
@@ -10,6 +11,13 @@ type Props = {
 }
 
 const Admins = ({ admins, isLoading }: Props) => {
+  const router = useRouter()
+  const onCreateAdmin = () => {
+    router.push('/users-management/collaborators/create')
+  }
+  const onEditAdmin = (id: number) => {
+    router.push(`/users-management/collaborators/edit/id/${id}`)
+  }
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -26,10 +34,11 @@ const Admins = ({ admins, isLoading }: Props) => {
         emptyLabel={isLoading ? '' : 'No tienes ningún usuario creado'}
         totalLabel='usuarios'
         initialVisibleColumns={adminColumns.map((column) => column.key)}
-        newButtonLabel={'Nuevo Usuario'}
-        onEdit={() => {}}
+        newButtonLabel={'Nuevo Administrador'}
+        onEdit={onEditAdmin}
         onDelete={() => {}}
         isLoading={isLoading}
+        actionOnAdd={onCreateAdmin}
       />
     </>
   )
