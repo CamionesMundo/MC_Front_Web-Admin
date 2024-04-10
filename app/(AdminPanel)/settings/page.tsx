@@ -1,11 +1,12 @@
 import SettingsView from '@/components/features/settings/Settings'
+import { MainContainer } from '@/components/ui'
 import React from 'react'
 
 const SettingsPage = () => {
   return (
-    <div className='w-full bg-white/70 p-2 md:p-4 rounded-lg border border-gray-500/60 h-full overflow-y-auto'>
+    <MainContainer>
       <SettingsView />
-    </div>
+    </MainContainer>
   )
 }
 

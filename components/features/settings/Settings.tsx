@@ -1,11 +1,12 @@
 'use client'
-import CustomTabs, { type TabItem } from '@/components/tabs/CustomTabs'
+import CustomTabs from '@/components/tabs/CustomTabs'
 import { BackComponent } from '@/components/ui/BackComponent'
 import { useState, type Key } from 'react'
 import Profile from './Profile'
 import Account from './Account'
 import Appearance from './Appearance'
 import Security from './Security'
+import { type TabItem } from '@/types/ui/tab'
 
 const SettingsView = () => {
   const [selected, setSelected] = useState('profile')

@@ -1,11 +1,5 @@
+import { type TabItem } from '@/types/ui/tab'
 import { Tab, Tabs, type TabsProps } from '@nextui-org/react'
-import { type Key, type ReactNode } from 'react'
-
-export type TabItem = {
-  key: Key
-  title: string
-  content: ReactNode
-}
 
 type CustomTabsProps = {
   tabs: TabItem[]
