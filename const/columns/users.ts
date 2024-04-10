@@ -1,15 +1,19 @@
-import { type UserResponse } from '@/types/api/response/auth'
-
 export const adminColumns = [
   {
     key: 'user',
-    display: 'Nombre',
-    render: (item: UserResponse) => item.name_user
+    display: 'Administrador'
+  },
+  {
+    key: 'name_role',
+    display: 'Rol'
   },
   {
     key: 'status',
-    display: 'Estado',
-    render: (item: UserResponse) => item.iduser_admin
+    display: 'Activo'
+  },
+  {
+    key: 'updatedAt',
+    display: 'F. Actualización'
   },
   {
     key: 'actions',

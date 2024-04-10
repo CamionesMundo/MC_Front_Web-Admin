@@ -64,7 +64,12 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
     togglePassword,
     changeSelection
   } = useAdminFormStore()
-  const { data: adminData, isLoading, isRefetching, refetch } = useGetAdminById(Number(id))
+  const {
+    data: adminData,
+    isLoading,
+    isRefetching,
+    refetch
+  } = useGetAdminById(Number(id))
   const [adminId, setAdminId] = useState<number | null>(null)
   const loading: boolean = isLoading ?? isRefetching
   const [errors, setErrors] = useState<FormErrorMessages | null>(null)
@@ -82,6 +87,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
             email: dataR?.data.email ?? '',
             password: ''
           })
+
           changeSelection((dataR?.data.role.idrole_admin ?? '').toString())
           setAdminId(dataR?.data.iduser_admin ?? null)
         })

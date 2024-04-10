@@ -13,6 +13,12 @@ export interface UserResponse {
   file_profile: FileProfile
 }
 
+export interface WithId {
+  id: number
+}
+
+export type AdminDataType = UserResponse & WithId
+
 export interface Role {
   name_role: string
   idrole_admin: number
