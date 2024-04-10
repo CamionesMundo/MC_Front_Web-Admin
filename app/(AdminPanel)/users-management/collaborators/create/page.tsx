@@ -1,11 +1,13 @@
+'use client'
 import AdminForm from '@/components/features/users-management/collaborators/AdminForm'
+import { MainContainer } from '@/components/ui'
 import React from 'react'
 
 const CreateCollaboratorsPage = () => {
   return (
-    <div className='w-full bg-white/70 p-2 md:p-4 rounded-lg border border-gray-500/60 h-full overflow-y-auto'>
+    <MainContainer>
       <AdminForm />
-    </div>
+    </MainContainer>
   )
 }
 

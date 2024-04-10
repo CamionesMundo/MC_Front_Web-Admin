@@ -1,18 +1,26 @@
 'use client'
+
 import Admins from '@/components/features/users-management/collaborators/Admins'
+import { MainContainer } from '@/components/ui'
 import { useGetAllAdmins } from '@/hooks/api/useAdmins'
+
+import { useMemo } from 'react'
 
 const CollaboratorsPage = () => {
   const { data: adminsResponse, isLoading } = useGetAllAdmins()
 
-  const admins = adminsResponse?.data.map((admin) => ({
-    ...admin,
-    id: admin.iduser_admin
-  }))
+  const admins = useMemo(() => {
+    const usersAdmin = adminsResponse?.data?.map((admin) => ({
+      ...admin,
+      id: admin.iduser_admin
+    }))
+    return usersAdmin
+  }, [adminsResponse])
+
   return (
-    <div className='w-full bg-white/70 p-2 md:p-4 rounded-lg border border-gray-500/60 h-full overflow-y-auto'>
+    <MainContainer>
       <Admins admins={admins ?? []} isLoading={isLoading} />
-    </div>
+    </MainContainer>
   )
 }
 
