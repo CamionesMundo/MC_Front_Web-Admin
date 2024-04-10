@@ -37,7 +37,7 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
   return (
     <div className='input-class'>
       <Input
-        variant='flat'
+        variant='faded'
         color='primary'
         {...props}
         classNames={{ ...classNames }}
