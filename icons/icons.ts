@@ -24,6 +24,10 @@ import { ReactComponent as Category } from './src/Category.svg'
 import { ReactComponent as Delivery } from './src/Delivery.svg'
 import { ReactComponent as Notification } from './src/Notification.svg'
 import { ReactComponent as Close } from './src/Close.svg'
+import { ReactComponent as Camera } from './src/Camera.svg'
+import { ReactComponent as Profile } from './src/Profile.svg'
+import { ReactComponent as ThemeLight } from './src/ThemeLight.svg'
+import { ReactComponent as ThemeDark } from './src/ThemeDark.svg'
 
 export {
   Visible,
@@ -51,5 +55,9 @@ export {
   Category,
   Delivery,
   Notification,
-  Close
+  Close,
+  Camera,
+  Profile,
+  ThemeLight,
+  ThemeDark
 }
