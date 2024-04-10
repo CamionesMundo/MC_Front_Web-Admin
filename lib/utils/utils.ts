@@ -22,3 +22,17 @@ export function useGoBackPage () {
     handleGoBack
   }
 }
+
+export function parseIsoDate (isoStringDate: string): string {
+  const date = new Date(isoStringDate)
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true
+  }
+
+  return date.toLocaleString('es-ES', options).replace('.', '')
+}
