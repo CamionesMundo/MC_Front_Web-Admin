@@ -1,3 +1,4 @@
+'use client'
 import { ChevronRight } from '@/icons'
 import { useState } from 'react'
 import Link from 'next/link'
