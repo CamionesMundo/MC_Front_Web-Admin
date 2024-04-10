@@ -7,6 +7,7 @@ declare module 'next-auth' {
       token: string
       role: string
       name: string | undefined | null
+      image: string | undefined | null
     }
   }
 }
@@ -16,5 +17,6 @@ declare module 'next-auth/jwt' {
     token: string
     id: string
     role: string
+    profileImg: string | undefined | null
   }
 }

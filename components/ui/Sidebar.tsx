@@ -5,6 +5,7 @@ import {
   Delivery,
   Home,
   Post,
+  Profile,
   Settings,
   Ship,
   Users
@@ -29,7 +30,8 @@ const Sidebar = () => {
       <div className='w-full flex gap-4 items-center p-2 h-14'>
         <Avatar
           isBordered
-          src='https://i.pravatar.cc/150?u=a04258114e29026302d'
+          src={session?.user.image ?? ''}
+          fallback={<Profile className='w-5 h-5 text-default-500' />}
         />
         <div className='flex flex-col'>
           <span className='text-sm'>{session?.user.name}</span>

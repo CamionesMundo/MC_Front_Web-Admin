@@ -1,12 +1,14 @@
 import { useResponsive } from '@/hooks/useResponsive'
-import { Collapsable, Logo, MC } from '@/icons'
+import { Collapsable, Logo, MC, Profile } from '@/icons'
 import { useUIStore } from '@/store/useUiStore'
 import { Avatar, Tooltip } from '@nextui-org/react'
+import { useSession } from 'next-auth/react'
 
 import React from 'react'
 
 const Navbar = () => {
   const { changeShowMenu, changeShowMobileMenu } = useUIStore()
+  const { data: session } = useSession()
   const isMobile = useResponsive()
   return (
     <div className='w-full h-full bg-white text-blackText border border-gray-500/60  rounded-xl backdrop-blur-lg p-2 flex justify-between'>
@@ -24,7 +26,13 @@ const Navbar = () => {
           </div>
         </Tooltip>
       </div>
-      <Avatar size='sm' src='https://i.pravatar.cc/150?u=a04258114e29026302d' />
+      <Avatar
+        size='sm'
+        src={session?.user.image ?? ''}
+        fallback={
+          <Profile className='w-4 h-4 text-default-500' />
+        }
+      />
     </div>
   )
 }
