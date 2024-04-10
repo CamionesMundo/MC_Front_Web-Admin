@@ -16,18 +16,24 @@ import {
   Button,
   DropdownMenu,
   DropdownItem,
-  Chip
+  Switch,
+  Tooltip
 } from '@nextui-org/react'
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { type ReactNode, useCallback, useMemo, useState } from 'react'
 import { Loader } from '../ui/Loader'
-import { capitalize } from '@/lib/utils/utils'
+import { capitalize, parseIsoDate } from '@/lib/utils/utils'
 import { GenericButton } from '../buttons'
 import { cn } from '@/lib/clsx/clsx'
 import { TableActions, TableUser } from './render-cell'
+import TableRole from './render-cell/TableRole'
+import { type WithId } from '@/types/api/response/auth'
 
-type CustomTableProps = {
+type CustomTableProps<T extends WithId> = {
   columns: ColumnsProps[]
-  data: any
+  data: T[]
+  filteredItems: T[]
+  filterValue: string
+  handleSearch: (value: string) => void
   isLoading?: boolean
   emptyLabel?: string
   totalLabel?: string
@@ -46,11 +52,15 @@ type CustomTableProps = {
   showFilesPerPage?: boolean
   showTopContent?: boolean
   showBottomContent?: boolean
+  filterContent?: ReactNode | undefined | null
 }
 
-const CustomTable = ({
+const CustomTable = <T extends WithId>({
   columns,
   data,
+  filteredItems,
+  filterValue,
+  handleSearch,
   isLoading = false,
   emptyLabel = 'No existen registros',
   totalLabel = 'Registros',
@@ -68,20 +78,19 @@ const CustomTable = ({
   showTotalRegister = true,
   showFilesPerPage = true,
   showTopContent = true,
-  showBottomContent = true
-}: CustomTableProps) => {
+  showBottomContent = true,
+  filterContent
+}: CustomTableProps<T>) => {
   /**
    * Wrapper class name for styling purposes.
    * @param useRounded Indicates whether rounded corners should be used.
    */
-  const classWrapper = ` p-1 md:p-3 ${
-    useRounded ? '' : 'rounded-none'
-  }`
+  const classWrapper = ` p-1 md:p-3 ${useRounded ? '' : 'rounded-none'}`
 
   /**
    * Component state for managing visible columns.
    */
-  const [visibleColumns, setVisibleColumns] = React.useState<Selection>(
+  const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set(initialVisibleColumns)
   )
 
@@ -89,10 +98,7 @@ const CustomTable = ({
    * Component state for managing the current page.
    */
   const [page, setPage] = useState(1)
-  const [filterValue, setFilterValue] = useState('')
   const [rowsPerPage, setRowsPerPage] = useState<number>(5)
-
-  const hasSearchFilter = Boolean(filterValue)
 
   /**
    * Memoized header columns based on visible columns selection.
@@ -104,18 +110,6 @@ const CustomTable = ({
       Array.from(visibleColumns).includes(column.key)
     )
   }, [visibleColumns])
-
-  const filteredItems = useMemo(() => {
-    let filtered = data?.length > 0 ? [...data] : []
-
-    if (hasSearchFilter) {
-      filtered = filtered.filter((item) =>
-        item.name.toLowerCase().includes(filterValue.toLowerCase())
-      )
-    }
-
-    return filtered
-  }, [data, filterValue, hasSearchFilter])
 
   /**
    * Memoized items to display on the current page.
@@ -134,15 +128,15 @@ const CustomTable = ({
 
   const onSearchChange = useCallback((value: string) => {
     if (value !== undefined) {
-      setFilterValue(value)
+      handleSearch(value)
       setPage(1)
     } else {
-      setFilterValue('')
+      handleSearch('')
     }
   }, [])
 
   const onClear = useCallback(() => {
-    setFilterValue('')
+    handleSearch('')
     setPage(1)
   }, [])
 
@@ -171,21 +165,23 @@ const CustomTable = ({
                   )}
             </div>
           )
+        case 'name_role':
+          return <TableRole row={row} />
         case 'user':
           return <TableUser row={row} />
-
+        case 'updatedAt':
+          return (
+            <div className='text-center'>
+              {parseIsoDate((row.updatedAt.toString() as string) ?? '')}
+            </div>
+          )
         case 'status':
           return (
-            <div className='flex justify-center'>
-              <Chip
-                className='capitalize'
-                color={'success'}
-                size='sm'
-                variant='flat'
-              >
-                {'Activo'}
-              </Chip>
-            </div>
+            <Tooltip content='Activar/Desactivar' color='foreground'>
+              <div className='flex justify-center'>
+                <Switch size='sm' defaultSelected color='primary' />
+              </div>
+            </Tooltip>
           )
         case 'actions':
           return <TableActions onEdit={onEdit} onDelete={onDelete} row={row} />
@@ -236,7 +232,7 @@ const CustomTable = ({
     return (
       <div className='flex flex-col gap-4'>
         <div
-          className={cn('flex flex-col md:flex-row gap-3 items-end', {
+          className={cn('flex flex-col md:flex-row gap-3 items-center', {
             'justify-end': !useSearchBar,
             'justify-between': useSearchBar
           })}
@@ -254,7 +250,8 @@ const CustomTable = ({
               onValueChange={onSearchChange}
             />
           )}
-          <div className='flex w-full md:w-auto md:justify-normal justify-center gap-3'>
+          <div className='flex w-full md:w-auto md:justify-normal items-center justify-center gap-3'>
+            {filterContent !== undefined && filterContent}
             {showColumnsButton && (
               <Dropdown>
                 <DropdownTrigger className='hidden sm:flex'>
@@ -332,8 +329,7 @@ const CustomTable = ({
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    data.length,
-    hasSearchFilter
+    data.length
   ])
 
   const bottomContent = useMemo(() => {

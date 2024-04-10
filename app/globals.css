@@ -24,7 +24,7 @@
   }
 
   .bg-radial{
-    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(0,24,51,.6),rgba(135, 135, 155, 0.3));
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(65, 74, 83, 0.6),rgba(177, 177, 184, 0.3));
   }
   .bg-global-background{
     background-color: hsl(0,0%,0%,1);
@@ -136,6 +136,10 @@
     100% {
       transform: translate(1px, -1px) rotate(-1deg);
     }
+  }
+
+  .bg-input-white{
+    background-color: white !important;
   }
   
   

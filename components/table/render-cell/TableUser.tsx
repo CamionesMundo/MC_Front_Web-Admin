@@ -6,14 +6,15 @@ type Props = {
 }
 
 const TableUser = ({ row }: Props) => {
-  const profileImg = row.file_profile !== null ? row.file_profile.url : undefined
+  const profileImg =
+    row.file_profile !== null ? row.file_profile.url : undefined
   return (
     <div className='max-w-[300px]'>
       <User
         avatarProps={{ radius: 'lg', src: profileImg }}
         description={
           <div className='flex flex-col'>
-            <span className='uppercase'>{row.role.name_role}</span>
+            <span className='uppercase'>{row?.role?.name_role}</span>
             <span>{row.email}</span>
           </div>
         }

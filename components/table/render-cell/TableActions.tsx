@@ -11,7 +11,7 @@ type Props = {
 const TableActions = ({ onEdit, onDelete, row }: Props) => {
   return (
     <div className='relative flex items-center justify-center gap-4'>
-      <Tooltip content='Editar'>
+      <Tooltip content='Editar' color='foreground'>
         <span
           className='text-lg text-default-400 cursor-pointer active:opacity-50'
           onClick={() => {
