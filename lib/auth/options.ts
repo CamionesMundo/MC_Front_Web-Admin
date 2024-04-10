@@ -68,6 +68,7 @@ const authOptions: NextAuthOptions = {
       session.user.token = token.token
       session.user.role = token.role
       session.user.name = token.name
+      session.user.image = token.profileImg
       return session
     }
   }
