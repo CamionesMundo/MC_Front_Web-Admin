@@ -3,15 +3,22 @@
     "scss.lint.unknownAtRules": "error",
     "cSpell.words": [
       "Almenos",
+      "birthdate",
       "clsx",
       "Collapsable",
+      "Dismissable",
       "ecma",
       "Eichtici",
       "fazer",
       "hookform",
+      "idcity",
+      "idcountry",
       "idgallery",
+      "idlegal",
       "idrole",
+      "idseller",
       "iduser",
+      "movil",
       "nextauth",
       "nextui",
       "nocompatible",
@@ -20,6 +27,7 @@
       "sonner",
       "tailwindcss",
       "tanstack",
+      "whatsapp",
       "zustand"
     ]
   }
