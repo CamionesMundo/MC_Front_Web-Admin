@@ -2,6 +2,7 @@ import { capitalize } from '@/lib/utils/utils'
 import React from 'react'
 
 type Props = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   row: any
 }
 

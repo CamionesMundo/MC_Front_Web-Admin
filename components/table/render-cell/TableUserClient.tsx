@@ -6,7 +6,7 @@ type Props = {
   row: any
 }
 
-const TableUser = ({ row }: Props) => {
+const TableUserClient = ({ row }: Props) => {
   const profileImg =
     row.file_profile !== null ? row.file_profile?.url : undefined
   return (
@@ -15,17 +15,16 @@ const TableUser = ({ row }: Props) => {
         avatarProps={{ radius: 'lg', src: profileImg }}
         description={
           <div className='flex flex-col'>
-            <span className='uppercase'>{row?.role?.name_role}</span>
             <span>{row.email}</span>
           </div>
         }
-        name={row.name_user}
+        name={row.username}
         className='w-full max-w-[300px] flex justify-start'
       >
-        {row.name_user}
+        {row.username}
       </User>
     </div>
   )
 }
 
-export { TableUser }
+export { TableUserClient }

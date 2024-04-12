@@ -1,5 +1,5 @@
 import { CheckCircle, ChevronRight, Plus, Search, XMarkCircle } from '@/icons'
-import { type ColumnsProps } from '@/types/ui/table'
+import { type ActionsPermissions, type ColumnsProps } from '@/types/ui/table'
 
 import {
   Input,
@@ -15,16 +15,22 @@ import {
   DropdownTrigger,
   Button,
   DropdownMenu,
-  DropdownItem,
-  Switch,
-  Tooltip
+  DropdownItem
 } from '@nextui-org/react'
 import React, { type ReactNode, useCallback, useMemo, useState } from 'react'
 import { Loader } from '../ui/Loader'
 import { capitalize, parseIsoDate } from '@/lib/utils/utils'
 import { GenericButton } from '../buttons'
 import { cn } from '@/lib/clsx/clsx'
-import { TableActions, TableUser } from './render-cell'
+import {
+  TableActions,
+  TableFullName,
+  TableUser,
+  TableUserClient,
+  TableIsActive,
+  TableCountry,
+  TableUserType
+} from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
 
@@ -40,8 +46,9 @@ type CustomTableProps<T extends WithId> = {
   newButtonLabel?: string
   allowsSorting?: boolean
   initialVisibleColumns?: string[]
+  onViewMore?: (id: number) => void
   onEdit?: (id: number) => void
-  onDelete?: (row: any) => void
+  onDelete?: (id: number) => void
   useRounded?: boolean
   useSearchBar?: boolean
   searchBarPlaceholder?: string
@@ -53,6 +60,7 @@ type CustomTableProps<T extends WithId> = {
   showTopContent?: boolean
   showBottomContent?: boolean
   filterContent?: ReactNode | undefined | null
+  actions?: ActionsPermissions
 }
 
 const CustomTable = <T extends WithId>({
@@ -67,6 +75,7 @@ const CustomTable = <T extends WithId>({
   newButtonLabel = 'Nuevo registro',
   allowsSorting = false,
   initialVisibleColumns = [],
+  onViewMore,
   onEdit,
   onDelete,
   useRounded = true,
@@ -79,7 +88,12 @@ const CustomTable = <T extends WithId>({
   showFilesPerPage = true,
   showTopContent = true,
   showBottomContent = true,
-  filterContent
+  filterContent,
+  actions = {
+    useViewMore: false,
+    useEdit: true,
+    useDelete: true
+  }
 }: CustomTableProps<T>) => {
   /**
    * Wrapper class name for styling purposes.
@@ -109,7 +123,7 @@ const CustomTable = <T extends WithId>({
     return columns.filter((column) =>
       Array.from(visibleColumns).includes(column.key)
     )
-  }, [visibleColumns])
+  }, [visibleColumns, columns])
 
   /**
    * Memoized items to display on the current page.
@@ -133,17 +147,18 @@ const CustomTable = <T extends WithId>({
     } else {
       handleSearch('')
     }
-  }, [])
+  }, [handleSearch])
 
   const onClear = useCallback(() => {
     handleSearch('')
     setPage(1)
-  }, [])
+  }, [handleSearch])
 
   /**
    * Renders a cell in the table based on column key.
    */
   const renderCell = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (row: any, columnKey: any) => {
       const cellValue = row[columnKey]
 
@@ -176,20 +191,30 @@ const CustomTable = <T extends WithId>({
             </div>
           )
         case 'status':
-          return (
-            <Tooltip content='Activar/Desactivar' color='foreground'>
-              <div className='flex justify-center'>
-                <Switch size='sm' defaultSelected color='primary' />
-              </div>
-            </Tooltip>
-          )
+          return <TableIsActive row={row} />
+        case 'user_client':
+          return <TableUserClient row={row} />
+        case 'full_name':
+          return <TableFullName row={row} />
+        case 'country_name':
+          return <TableCountry row={row} />
+        case 'user_type':
+          return <TableUserType row={row}/>
         case 'actions':
-          return <TableActions onEdit={onEdit} onDelete={onDelete} row={row} />
+          return (
+            <TableActions
+              onViewMore={onViewMore}
+              onEdit={onEdit}
+              onDelete={onDelete}
+              id={row.id}
+              actions={actions}
+            />
+          )
         default:
           return <div className='flex justify-center'>{cellValue}</div>
       }
     },
-    [onEdit, onDelete]
+    [onEdit, onDelete, actions, onViewMore]
   )
 
   /**
@@ -329,7 +354,19 @@ const CustomTable = <T extends WithId>({
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    data.length
+    data.length,
+    columns,
+    newButtonLabel,
+    actionOnAdd,
+    onClear,
+    filterContent,
+    searchBarPlaceholder,
+    showColumnsButton,
+    showFilesPerPage,
+    showTotalRegister,
+    totalLabel,
+    useAddButton,
+    useSearchBar
   ])
 
   const bottomContent = useMemo(() => {
@@ -379,7 +416,6 @@ const CustomTable = <T extends WithId>({
         }}
         isHeaderSticky
         color={'primary'}
-        selectionMode='single'
         topContent={showTopContent ? topContent : undefined}
         topContentPlacement='outside'
         bottomContentPlacement='outside'
