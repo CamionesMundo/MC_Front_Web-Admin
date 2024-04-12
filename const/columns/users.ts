@@ -20,3 +20,30 @@ export const adminColumns = [
     display: 'Acciones'
   }
 ]
+
+export const clientColumns = [
+  {
+    key: 'user_client',
+    display: 'Cliente'
+  },
+  {
+    key: 'full_name',
+    display: 'Nombre Completo'
+  },
+  {
+    key: 'user_type',
+    display: 'Tipo'
+  },
+  {
+    key: 'status',
+    display: 'Activo'
+  },
+  {
+    key: 'country_name',
+    display: 'País'
+  },
+  {
+    key: 'actions',
+    display: 'Acciones'
+  }
+]
