@@ -28,6 +28,9 @@ import { ReactComponent as Camera } from './src/Camera.svg'
 import { ReactComponent as Profile } from './src/Profile.svg'
 import { ReactComponent as ThemeLight } from './src/ThemeLight.svg'
 import { ReactComponent as ThemeDark } from './src/ThemeDark.svg'
+import { ReactComponent as Buyer } from './src/Buyer.svg'
+import { ReactComponent as Seller } from './src/Seller.svg'
+import { ReactComponent as LegalRepresentative } from './src/LegalRepresentative.svg'
 
 export {
   Visible,
@@ -59,5 +62,8 @@ export {
   Camera,
   Profile,
   ThemeLight,
-  ThemeDark
+  ThemeDark,
+  Buyer,
+  Seller,
+  LegalRepresentative
 }
