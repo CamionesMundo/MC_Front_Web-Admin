@@ -5,7 +5,7 @@ import { Divider, SelectItem } from '@nextui-org/react'
 import React, { useState } from 'react'
 
 const Account = () => {
-  const [errors, setErrors] = useState<FormErrorMessages | null>(null)
+  const [errors] = useState<FormErrorMessages | null>(null)
 
   return (
     <div className='mt-4'>
