@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { type ReactNode, useState } from 'react'
 import { SessionProvider } from 'next-auth/react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { MINUTE } from '@/const/other'
 
 interface Props {
   children: ReactNode
@@ -15,7 +16,10 @@ export default function Providers ({ children }: Props) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 5 * (60 * 1000) // 5 mins
+            staleTime: 5 * MINUTE,
+            refetchOnWindowFocus: false,
+            gcTime: 10 * MINUTE,
+            refetchInterval: 5 * MINUTE
           }
         }
       })
