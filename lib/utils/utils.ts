@@ -1,3 +1,4 @@
+import { UserType } from '@/types/enums'
 import { useRouter } from 'next/navigation'
 
 /**
@@ -23,7 +24,8 @@ export function useGoBackPage () {
   }
 }
 
-export function parseIsoDate (isoStringDate: string): string {
+export function parseIsoDate (isoStringDate: string | null | undefined): string {
+  if (isoStringDate === null || isoStringDate === undefined) return ''
   const date = new Date(isoStringDate)
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
@@ -35,4 +37,28 @@ export function parseIsoDate (isoStringDate: string): string {
   }
 
   return date.toLocaleString('es-ES', options).replace('.', '')
+}
+
+export function getUserType (userType: number): string {
+  switch (userType) {
+    case UserType.Buyer:
+      return 'Comprador'
+    case UserType.Seller:
+      return 'Vendedor'
+    case UserType.Business:
+      return 'Empresa'
+    case UserType.NaturalPerson:
+      return 'Persona Natural'
+    case UserType.LegalRepresentative:
+      return 'Representante legal'
+    default:
+      return 'Usuario'
+  }
+}
+
+export function getBirthday (dateString: string | null | undefined): string {
+  if (dateString === null || dateString === undefined) return 'No registrado'
+  const date = new Date(dateString)
+  const options = { day: '2-digit', month: 'long' } as const
+  return new Intl.DateTimeFormat('es-ES', options).format(date)
 }
