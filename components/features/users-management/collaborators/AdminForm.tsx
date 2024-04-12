@@ -100,7 +100,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
     } else {
       reset()
     }
-  }, [isEditing, adminData, refetch])
+  }, [isEditing, adminData, refetch, reset, changeSelection, setData])
 
   /**
    * Handles form submission.

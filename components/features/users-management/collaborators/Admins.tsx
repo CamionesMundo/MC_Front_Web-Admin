@@ -78,7 +78,7 @@ const Admins = ({ admins, isLoading }: Props) => {
     }
 
     return []
-  }, [admins, filterValue, selectedRoles])
+  }, [admins, filterValue, selectedRoles, hasSearchFilter])
 
   /**
    * Callback function to handle search filter change.
