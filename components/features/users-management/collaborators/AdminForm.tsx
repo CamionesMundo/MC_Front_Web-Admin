@@ -208,7 +208,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
         />
       </div>
       <div>
-        <p className='text-xs mb-2'>
+        <p className='text-xs mb-2 dark:text-white'>
           {isEditing
             ? 'Modifica los campos que necesites para editar y actualizar los datos de un administrador'
             : 'Llena todos los campos del formulario para añadir un nuevo Administrador'}

@@ -125,7 +125,7 @@ const Admins = ({ admins, isLoading }: Props) => {
         <BackComponent title=' ' subtitle='Administradores' />
       </div>
       <div>
-        <p className='text-xs mb-2'>
+        <p className='text-xs mb-2 dark:text-white'>
           Gestiona en esta sección a los administradores registrados.
         </p>
       </div>
