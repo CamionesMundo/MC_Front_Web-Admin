@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { type ReactNode, useState } from 'react'
 import { SessionProvider } from 'next-auth/react'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { ThemeProvider as NextThemesProvider } from 'next-themes'
 import { MINUTE } from '@/const/other'
 
 interface Props {
@@ -27,12 +28,14 @@ export default function Providers ({ children }: Props) {
   return (
     <>
       <NextUIProvider>
-        <SessionProvider>
-          <QueryClientProvider client={queryClient}>
-            {children}
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </SessionProvider>
+        <NextThemesProvider attribute='class' defaultTheme='dark'>
+          <SessionProvider>
+            <QueryClientProvider client={queryClient}>
+              {children}
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
+          </SessionProvider>
+        </NextThemesProvider>
       </NextUIProvider>
     </>
   )

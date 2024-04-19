@@ -36,6 +36,9 @@ const config: Config = {
         },
         blackText: {
           DEFAULT: '#0f2137'
+        },
+        darkBg: {
+          DEFAULT: '#18181b'
         }
       },
       boxShadow: {
