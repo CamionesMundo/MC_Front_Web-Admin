@@ -25,7 +25,7 @@ export default function RootLayout ({
         className={`${workSans.variable} ${workSans.className} h-screen overflow-hidden w-screen`}
       >
         <Providers>{children}</Providers>
-        <Toaster richColors />
+        <Toaster richColors position='top-right'/>
       </body>
     </html>
   )
