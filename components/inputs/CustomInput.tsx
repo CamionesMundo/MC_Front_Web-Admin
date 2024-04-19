@@ -17,7 +17,9 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
           ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
           : ''
       }`,
-      inputWrapper: `border border-[#e0e0e0]  ${
+      inputWrapper: `border ${
+        error !== '' ? 'border-danger' : 'border-[#e0e0e0]'
+      }  ${
         props.disabled === true
           ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
           : ''
@@ -35,10 +37,11 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
     }
   })
   return (
-    <div className='input-class'>
+    <div className={`${error !== '' ? 'mt-8' : 'mt-4'} mb-4 flex flex-col justify-center`}
+    >
       <Input
         variant='faded'
-        color='primary'
+        color={error !== '' ? 'danger' : 'primary'}
         {...props}
         classNames={{ ...classNames }}
         role='presentation'
