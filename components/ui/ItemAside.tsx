@@ -31,8 +31,8 @@ const ItemAside = ({ IconComponent, label, href }: ItemAsideProps) => {
   return (
     <Link
       href={href}
-      className={`w-full hover:bg-primary/10 ${
-        pathname === href ? 'bg-primary/10' : ''
+      className={`w-full hover:bg-primary/10 dark:hover:bg-white/10 ${
+        pathname === href ? 'bg-primary/10 dark:bg-white/10' : ''
       } rounded-xl hover:cursor-pointer flex flex-row gap-2 items-center`}
       onClick={() => {
         if (isMobile) {

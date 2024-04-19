@@ -80,7 +80,7 @@ const Sidebar = () => {
           />
         </div>
       </div>
-      <div className='bg-white p-2'>
+      <div className='bg-white dark:bg-darkBg p-2'>
         <GenericButton
           label='Cerrar Sesión'
           onClick={async () => {

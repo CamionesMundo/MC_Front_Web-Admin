@@ -22,7 +22,7 @@ const BackComponent = ({ title, subtitle, onAction }: BackComponentProps) => {
   return (
     <div className='  w-full flex justify-start items-center gap-4 flex-row'>
       <div
-        className=' bg-transparent border-black/50 border-1 w-10 h-10 flex justify-center items-center rounded-lg hover:cursor-pointer hover:opacity-100 opacity-85'
+        className=' bg-transparent border-black/50 dark:border-white/50 border-1 w-10 h-10 flex justify-center items-center rounded-lg hover:cursor-pointer hover:opacity-100 opacity-85'
         onClick={() => {
           handleGoBack()
           if (onAction !== undefined) {
@@ -30,9 +30,9 @@ const BackComponent = ({ title, subtitle, onAction }: BackComponentProps) => {
           }
         }}
       >
-        <LeftArrow className='w-4 h-4 text-black' />
+        <LeftArrow className='w-4 h-4 text-black dark:text-white' />
       </div>
-      <div className='flex flex-col text-black/70'>
+      <div className='flex flex-col text-black/70 dark:text-white/80'>
         <span className='text-xs md:text-sm'>{title}</span>
         <span className='font-bold text-sm md:text-xl'>{subtitle}</span>
       </div>

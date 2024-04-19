@@ -11,7 +11,7 @@ const Navbar = () => {
   const { data: session } = useSession()
   const isMobile = useResponsive()
   return (
-    <div className='w-full h-full bg-white text-blackText border border-gray-500/60  rounded-xl backdrop-blur-lg p-2 flex justify-between'>
+    <div className='w-full h-full bg-white dark:bg-darkBg text-blackText dark:text-white border border-gray-500/60  rounded-xl backdrop-blur-lg p-2 flex justify-between'>
       <div className='flex flex-row gap-2 w-64 justify-between'>
         <div className='flex flex-row gap-2 items-center'>
           <Logo className='w-12 h-12' />
