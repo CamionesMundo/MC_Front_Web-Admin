@@ -27,7 +27,7 @@ const DeliveryAddress = ({ addresses, idUser }: DeliveryAddressProps) => {
   return (
     <div>
       <div className='flex flex-row justify-between gap-2 items-center'>
-        <span className='text-blackText font-semibold'>
+        <span className='text-blackText dark:text-white font-semibold'>
           Dirección de Entrega
         </span>
         <div>
@@ -63,7 +63,7 @@ const DeliveryAddress = ({ addresses, idUser }: DeliveryAddressProps) => {
               })
             )
           : (
-          <span className='text-black/70 text-sm'>No existen registros</span>
+          <span className='text-black/70 dark:text-white text-sm'>No existen registros</span>
             )}
       </div>
     </div>

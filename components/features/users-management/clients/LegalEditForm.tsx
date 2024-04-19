@@ -149,7 +149,7 @@ const LegalEditForm = ({ client }: LegalEditFormProps) => {
   }
   return (
     <div>
-      <span className='font-semibold text-blackText flex justify-between items-center'>
+      <span className='font-semibold text-blackText dark:text-white flex justify-between items-center'>
         <div className='flex flex-row items-center gap-4'>
           <span>Usuario: {representative?.username}</span>
         </div>

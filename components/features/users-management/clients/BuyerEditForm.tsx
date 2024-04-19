@@ -160,12 +160,12 @@ const BuyerEditForm = ({ client }: BuyerEditFormProps) => {
   }
 
   /**
- * The `handleActiveOrInactiveUser` function toggles the active status of a user client.
- * It sends a request to the server to activate or deactivate the user client based on its current status.
- * This function is typically triggered by a user action, such as clicking a button.
- * If the operation is successful, it displays a success toast message and refreshes the router.
- * If an error occurs during the operation, it displays an error toast message.
- */
+   * The `handleActiveOrInactiveUser` function toggles the active status of a user client.
+   * It sends a request to the server to activate or deactivate the user client based on its current status.
+   * This function is typically triggered by a user action, such as clicking a button.
+   * If the operation is successful, it displays a success toast message and refreshes the router.
+   * If an error occurs during the operation, it displays an error toast message.
+   */
   const handleActiveOrInactiveUser = async () => {
     if (client !== undefined) {
       await activeOrInactive(
@@ -187,7 +187,7 @@ const BuyerEditForm = ({ client }: BuyerEditFormProps) => {
   }
   return (
     <div>
-      <span className='font-semibold text-blackText flex justify-between items-center'>
+      <span className='font-semibold text-blackText dark:text-white flex justify-between items-center'>
         <span>Usuario: {client?.username}</span>
 
         <div className='flex flex-row gap-2 items-center'>
@@ -307,11 +307,11 @@ const BuyerEditForm = ({ client }: BuyerEditFormProps) => {
         actionLabel={isActive ? 'Desactivar' : 'Activar'}
         title={isActive ? 'Desactivar Usuario' : 'Activar Usuario'}
         description={
-          <p className='text-black/80 text-sm'>
+          <p className='text-black/80 dark:text-white text-sm'>
             {`Estas a un paso de ${
               isActive ? 'desactivar' : 'activar'
             } al usuario`}
-            <span className='font-bold text-blackText'>{` ${client?.username}`}</span>
+            <span className='font-bold text-blackText dark:text-white'>{` ${client?.username}`}</span>
             {'. Si estas seguro que deseas hacerlo, presiona en el botón'}
             <span
               className={`font-bold ${

@@ -202,7 +202,9 @@ const AddressItem = ({
         ? (
         <>
           <div className='w-full flex fle-row justify-between px-2 items-center'>
-            <span className='text-blackText font-semibold'>Editando</span>
+            <span className='text-blackText dark:text-white font-semibold'>
+              Editando
+            </span>
             {item.main_address === false && (
               <div className='flex flex-row gap-2 items-center mt-2'>
                 <span className='text-sm text-default-500'>
@@ -319,7 +321,7 @@ const AddressItem = ({
         <div className='w-full flex flex-col border border-gray rounded-xl p-2 md:p-3'>
           <div className='w-full flex flex-row justify-between items-center'>
             <div className='flex flex-row items-center gap-4'>
-              <span className='font-semibold text-sm'>
+              <span className='font-semibold text-sm dark:text-white'>
                 {item.alias_address ?? 'Sin nombre (alias)'}
               </span>
               {(item.main_address ?? false) && (
@@ -332,7 +334,7 @@ const AddressItem = ({
               <div className='flex gap-2 flex-row'>
                 <Tooltip content='Editar' color='foreground'>
                   <span
-                    className='text-lg text-default-400 cursor-pointer active:opacity-50'
+                    className='text-lg text-default-400 cursor-pointer active:opacity-50 dark:text-white'
                     onClick={() => {
                       setIsEditing(true)
                     }}
@@ -353,24 +355,24 @@ const AddressItem = ({
           </div>
           <div className='flex flex-col w-full gap-1 mt-2'>
             <div className='flex flex-row gap-2 items-center'>
-              <Location className='w-3.5 h-3.5' />
-              <span className='text-xs md:text-sm'>
+              <Location className='w-3.5 h-3.5 dark:text-white' />
+              <span className='text-xs md:text-sm dark:text-white'>
                 {item.address ?? 'No registrado'}
               </span>
             </div>
             {item.type_address === AddressType.Delivery
               ? (
               <div className='flex flex-row gap-2 items-center'>
-                <Ship className='w-3.5 h-3.5' />
-                <span className='text-xs md:text-sm'>
+                <Ship className='w-3.5 h-3.5 dark:text-white' />
+                <span className='text-xs md:text-sm dark:text-white'>
                   {item.receiving_port?.name ?? 'No registrado'}
                 </span>
               </div>
                 )
               : (
               <div className='flex flex-row gap-2 items-center'>
-                <PostalCode className='w-3.5 h-3.5' />
-                <span className='text-xs md:text-sm'>{`Código postal: ${
+                <PostalCode className='w-3.5 h-3.5 dark:text-white' />
+                <span className='text-xs md:text-sm dark:text-white'>{`Código postal: ${
                   item.postal_code ?? 'No registrado'
                 }`}</span>
               </div>
@@ -385,9 +387,11 @@ const AddressItem = ({
                   ).toLowerCase()}.svg`}
                 />
               )}
-              <p className='text-xs md:text-sm'>
+              <p className='text-xs md:text-sm dark:text-white'>
                 {item.city.city_name ?? 'No registrado'},{' '}
-                <span>{item.city.country.country_name ?? 'No registrado'}</span>
+                <span className='dark:text-white'>
+                  {item.city.country.country_name ?? 'No registrado'}
+                </span>
               </p>
             </div>
           </div>

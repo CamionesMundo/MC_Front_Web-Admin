@@ -110,7 +110,7 @@ const Users = ({ clients, isLoading }: UsersProps) => {
         <BackComponent title=' ' subtitle='Usuarios' />
       </div>
       <div>
-        <p className='text-xs mb-2'>
+        <p className='text-xs mb-2 dark:text-white'>
           Gestiona en esta sección a los usuarios registrados en la aplicación
           de cliente.
         </p>

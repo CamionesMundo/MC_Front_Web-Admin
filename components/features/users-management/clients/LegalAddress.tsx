@@ -26,7 +26,7 @@ const LegalAddress = ({ addresses, idUser }: LegalAddressProps) => {
   return (
     <div className='my-4'>
       <div className='flex flex-row justify-between gap-2'>
-        <span className='text-blackText font-semibold'>
+        <span className='text-blackText dark:text-white font-semibold'>
           Dirección de Representante legal
         </span>
         <div>
@@ -63,7 +63,7 @@ const LegalAddress = ({ addresses, idUser }: LegalAddressProps) => {
               })
             )
           : (
-          <span className='text-black/70 text-sm'>No existen registros</span>
+          <span className='text-black/70 text-sm dark:text-white'>No existen registros</span>
             )}
       </div>
     </div>

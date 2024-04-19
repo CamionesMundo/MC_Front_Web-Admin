@@ -254,7 +254,7 @@ const SellerEditForm = ({ client }: SellerEditFormProps) => {
             </>
           )}
           <div className='flex flex-col justify-center'>
-            <span className='text-blackText font-semibold text-xs'>
+            <span className='text-blackText dark:text-white font-semibold text-xs'>
               Estado de aprobación
             </span>
             <div className='flex flex-row gap-2 items-center mt-2'>
@@ -306,11 +306,11 @@ const SellerEditForm = ({ client }: SellerEditFormProps) => {
         actionLabel={isApproved ? 'Desaprobar' : 'Aprobar'}
         title={isApproved ? 'Desaprobar Vendedor' : 'Aprobar Vendedor'}
         description={
-          <p className='text-black/80 text-sm'>
+          <p className='text-black/80 dark:text-white text-sm'>
             {`Estas a un paso de ${
               isApproved ? 'desaprobar' : 'aprobar'
             } al vendedor con id`}
-            <span className='font-bold text-blackText'>{` ${client?.seller?.iduser}`}</span>
+            <span className='font-bold text-blackText dark:text-white'>{` ${client?.seller?.iduser}`}</span>
             {'. Si estas seguro que deseas hacerlo, presiona en el botón'}
             <span
               className={`font-bold ${

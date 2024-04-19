@@ -7,6 +7,9 @@ import React from 'react'
 type LegalRepresentativeProfileProps = {
   client: ClientResponse | null
 }
+
+const sectionClass = 'text-blackText dark:text-white font-semibold text-md'
+
 const LegalRepresentativeProfile = ({
   client
 }: LegalRepresentativeProfileProps) => {
@@ -43,7 +46,7 @@ const LegalRepresentativeProfile = ({
         </div>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Nombre Completo
         </span>
         <span className='text-md text-default-500 text-sm'>
@@ -52,7 +55,7 @@ const LegalRepresentativeProfile = ({
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Correo electrónico
         </span>
         <span className='text-md text-default-500 text-sm'>
@@ -60,20 +63,20 @@ const LegalRepresentativeProfile = ({
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Fecha de Cumpleaños
         </span>
         <span className='text-sm text-default-500'>{birthday}</span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>País</span>
+        <span className={sectionClass}>País</span>
         <span className='text-sm text-default-500'>
           {client?.seller?.legal_representative?.country?.country_name ??
             'No registrado'}
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Código Postal
         </span>
         <span className='text-sm text-default-500'>
@@ -82,7 +85,7 @@ const LegalRepresentativeProfile = ({
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>Dirección</span>
+        <span className={sectionClass}>Dirección</span>
         <span className='text-sm text-default-500'>
           {client?.seller?.legal_representative?.address?.address ??
             'No registrado'}
@@ -90,13 +93,13 @@ const LegalRepresentativeProfile = ({
       </div>
 
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>Sexo</span>
+        <span className={sectionClass}>Sexo</span>
         <span className='text-sm text-default-500'>
           {client?.seller?.legal_representative?.sex ?? 'No registrado'}
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Número telefónico
         </span>
         <span className='text-sm text-default-500'>
@@ -105,7 +108,7 @@ const LegalRepresentativeProfile = ({
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Número de documento
         </span>
         <span className='text-sm text-default-500'>
@@ -114,7 +117,7 @@ const LegalRepresentativeProfile = ({
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Estado de aprobación
         </span>
         <span className='text-sm text-default-500'>
@@ -144,7 +147,7 @@ const LegalRepresentativeProfile = ({
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Fecha de Creación
         </span>
         <span className='text-sm text-default-500'>
@@ -154,7 +157,7 @@ const LegalRepresentativeProfile = ({
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Ultima actualización
         </span>
         <span className='text-sm text-default-500'>
@@ -165,7 +168,7 @@ const LegalRepresentativeProfile = ({
       </div>
       {client?.seller?.legal_representative?.comment !== null && (
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Comentarios
           </span>
           <span className='text-sm text-default-500'>

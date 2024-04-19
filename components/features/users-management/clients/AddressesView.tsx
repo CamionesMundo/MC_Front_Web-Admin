@@ -35,7 +35,7 @@ const AddressesView = ({ client }: AddressesViewProps) => {
   return (
     <div>
       <div>
-        <span className='text-blackText font-semibold'>
+        <span className='text-blackText dark:text-white font-semibold'>
           Dirección de Entrega
         </span>
         <Spacer />
@@ -56,12 +56,14 @@ const AddressesView = ({ client }: AddressesViewProps) => {
                 })
               )
             : (
-            <span className='text-black/70 text-sm'>No existen registros</span>
+            <span className='text-black/70 text-sm dark:text-white/70'>
+              No existen registros
+            </span>
               )}
         </div>
       </div>
       <div className='my-4'>
-        <span className='text-blackText font-semibold'>
+        <span className='text-blackText dark:text-white font-semibold'>
           Dirección de Facturación
         </span>
         <Spacer />
@@ -82,14 +84,16 @@ const AddressesView = ({ client }: AddressesViewProps) => {
                 })
               )
             : (
-            <span className='text-black/70 text-sm'>No existen registros</span>
+            <span className='text-black/70 text-sm dark:text-white/70'>
+              No existen registros
+            </span>
               )}
         </div>
       </div>
       {isSeller && (
         <>
           <div className='my-4'>
-            <span className='text-blackText font-semibold'>
+            <span className='text-blackText font-semibold dark:text-white'>
               Dirección de Representante legal
             </span>
             <Spacer />
@@ -111,7 +115,7 @@ const AddressesView = ({ client }: AddressesViewProps) => {
                     })
                   )
                 : (
-                <span className='text-black/70 text-sm'>
+                <span className='text-black/70 text-sm dark:text-white/70'>
                   No existen registros
                 </span>
                   )}
@@ -119,7 +123,7 @@ const AddressesView = ({ client }: AddressesViewProps) => {
           </div>
           {isBusiness && (
             <div className='my-4'>
-              <span className='text-blackText font-semibold'>
+              <span className='text-blackText dark:text-white font-semibold'>
                 Dirección de la compañía
               </span>
               <Spacer />
@@ -140,7 +144,7 @@ const AddressesView = ({ client }: AddressesViewProps) => {
                       })
                     )
                   : (
-                  <span className='text-black/70 text-sm'>
+                  <span className='text-black/70 text-sm dark:text-white'>
                     No existen registros
                   </span>
                     )}

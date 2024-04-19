@@ -16,6 +16,8 @@ import {
 
 import React, { useState } from 'react'
 
+const sectionClass = 'text-blackText dark:text-white font-semibold text-md'
+
 type SellerProfileProps = {
   client: ClientResponse | null
 }
@@ -48,7 +50,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
       <div className='w-full grid md:grid-cols-2 lg:grid-cols-3 mt-2 gap-3'>
         {client?.seller?.type_seller === UserType.Business && (
           <div className='flex flex-col justify-center'>
-            <span className='text-blackText font-semibold text-md'>
+            <span className={sectionClass}>
               Numero de RUT
             </span>
             <span className='text-md text-default-500 text-sm'>
@@ -57,7 +59,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </div>
         )}
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Sitio web
           </span>
           <span className='text-md text-default-500 text-sm'>
@@ -65,7 +67,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </span>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Estado de aprobación
           </span>
           <div className='flex flex-row gap-2 items-center'>
@@ -96,7 +98,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </div>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Whatsapp asociado
           </span>
           <span className='text-sm text-default-500'>
@@ -112,7 +114,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </span>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Tipo de Vendedor
           </span>
           <span className='text-md text-default-500 text-sm'>
@@ -122,7 +124,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
         {client?.seller?.type_seller === UserType.Business && (
           <>
             <div className='flex flex-col justify-center'>
-              <span className='text-blackText font-semibold text-md'>
+              <span className={sectionClass}>
                 Nombre de la compañía
               </span>
               <span className='text-sm text-default-500'>
@@ -130,7 +132,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
               </span>
             </div>
             <div className='flex flex-col justify-center'>
-              <span className='text-blackText font-semibold text-md'>
+              <span className={sectionClass}>
                 Correo electrónico de la compañía
               </span>
               <span className='text-sm text-default-500'>
@@ -138,7 +140,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
               </span>
             </div>
             <div className='flex flex-col justify-center'>
-              <span className='text-blackText font-semibold text-md'>
+              <span className={sectionClass}>
                 Teléfono de la compañía
               </span>
               <span className='text-sm text-default-500'>
@@ -148,7 +150,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </>
         )}
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Fecha de Creación
           </span>
           <span className='text-sm text-default-500'>
@@ -156,7 +158,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </span>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Ultima actualización
           </span>
           <span className='text-sm text-default-500'>
@@ -168,7 +170,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
         <Divider />
       </div>
       <div className='mt-3'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Verificación de Identidad
         </span>
       </div>
@@ -196,7 +198,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
         filesConstitution.length > 0 && (
           <>
             <div className='mt-3'>
-              <span className='text-blackText font-semibold text-md'>
+              <span className={sectionClass}>
                 Documentos de Constitución de Empresa
               </span>
             </div>

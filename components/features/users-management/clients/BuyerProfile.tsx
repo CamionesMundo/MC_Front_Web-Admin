@@ -9,6 +9,8 @@ type BuyerProfileProps = {
   client: ClientResponse | null
 }
 
+const sectionClass = 'text-blackText dark:text-white font-semibold text-md'
+
 const getAccountType = (accountType: string): ReactNode => {
   switch (accountType) {
     case AccountType.Facebook:
@@ -93,7 +95,7 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
         </div>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Nombre Completo
         </span>
         <span className='text-md text-default-500 text-sm'>
@@ -101,7 +103,7 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Correo electrónico
         </span>
         <span className='text-md text-default-500 text-sm'>
@@ -109,26 +111,26 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Fecha de Cumpleaños
         </span>
         <span className='text-sm text-default-500'>{birthday}</span>
       </div>
 
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>País</span>
+        <span className={sectionClass}>País</span>
         <span className='text-sm text-default-500'>
           {client?.country?.country_name ?? 'No registrado'}
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>Sexo</span>
+        <span className={sectionClass}>Sexo</span>
         <span className='text-sm text-default-500'>
           {client?.sex ?? 'No registrado'}
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Número telefónico
         </span>
         <span className='text-sm text-default-500'>
@@ -136,7 +138,7 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Número de documento
         </span>
         <span className='text-sm text-default-500'>
@@ -144,7 +146,7 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Términos de Uso
         </span>
         <span className='text-sm text-default-500'>
@@ -155,13 +157,13 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
       </div>
 
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Configuración de Idioma
         </span>
         <span className='text-sm text-default-500'>{language}</span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Fecha de Creación
         </span>
         <span className='text-sm text-default-500'>
@@ -169,7 +171,7 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
         </span>
       </div>
       <div className='flex flex-col justify-center'>
-        <span className='text-blackText font-semibold text-md'>
+        <span className={sectionClass}>
           Ultima actualización
         </span>
         <span className='text-sm text-default-500'>
@@ -178,7 +180,7 @@ const BuyerProfile = ({ client }: BuyerProfileProps) => {
       </div>
       {client?.comment !== null && (
         <div className='flex flex-col justify-center'>
-          <span className='text-blackText font-semibold text-md'>
+          <span className={sectionClass}>
             Comentarios
           </span>
           <span className='text-sm text-default-500'>{client?.comment}</span>
