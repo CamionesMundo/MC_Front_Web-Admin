@@ -5,7 +5,6 @@ import { useState, type Key } from 'react'
 import Profile from './Profile'
 import Account from './Account'
 import Appearance from './Appearance'
-import Security from './Security'
 import { type TabItem } from '@/types/ui/tab'
 
 const SettingsView = () => {
@@ -20,8 +19,7 @@ const SettingsView = () => {
   const tabs: TabItem[] = [
     { key: 'profile', title: 'Perfil', content: <Profile /> },
     { key: 'account', title: 'Cuenta', content: <Account /> },
-    { key: 'appearance', title: 'Apariencia', content: <Appearance /> },
-    { key: 'security', title: 'Seguridad', content: <Security /> }
+    { key: 'appearance', title: 'Apariencia', content: <Appearance /> }
   ]
   return (
     <>
