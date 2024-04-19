@@ -34,8 +34,8 @@ const Sidebar = () => {
           fallback={<Profile className='w-5 h-5 text-default-500' />}
         />
         <div className='flex flex-col'>
-          <span className='text-sm'>{session?.user.name}</span>
-          <span className='text-black/60 text-xs'>
+          <span className='text-sm dark:text-white'>{session?.user.name}</span>
+          <span className='text-black/60 text-xs dark:text-white'>
             {capitalize(session?.user.role ?? '')}
           </span>
         </div>
