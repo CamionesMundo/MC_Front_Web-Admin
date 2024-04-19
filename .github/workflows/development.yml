@@ -8,7 +8,7 @@ on:
 jobs:
   deploy_to_droplet:
     runs-on: ubuntu-latest
-    timeout-minutes: 100
+    timeout-minutes: 200
     name: Deploy to Droplet
     steps:
       - name: Connect with SSH and Deploy
