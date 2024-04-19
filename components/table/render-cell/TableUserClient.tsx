@@ -19,7 +19,7 @@ const TableUserClient = ({ row }: Props) => {
           </div>
         }
         name={row.username}
-        className='w-full max-w-[300px] flex justify-start'
+        className='w-full max-w-[300px] flex justify-start dark:text-white'
       >
         {row.username}
       </User>

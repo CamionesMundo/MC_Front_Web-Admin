@@ -4,7 +4,9 @@ type Props = {
 }
 
 const TableFullName = ({ row }: Props) => {
-  return <div className='text-start'>{`${row?.name} ${row?.surname}`}</div>
+  return (
+    <div className='text-start dark:text-white'>{`${row?.name} ${row?.surname}`}</div>
+  )
 }
 
 export { TableFullName }

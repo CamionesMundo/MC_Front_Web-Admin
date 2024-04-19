@@ -5,7 +5,7 @@ type Props = {
 
 const TableCountry = ({ row }: Props) => {
   return (
-    <div className='text-center'>
+    <div className='text-center dark:text-white'>
       {row?.country !== null ? row?.country.country_name : 'País no registrado'}
     </div>
   )

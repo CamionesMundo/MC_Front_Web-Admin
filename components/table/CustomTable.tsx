@@ -225,7 +225,7 @@ const CustomTable = <T extends WithId>({
           return <TableUser row={row} />
         case 'updatedAt':
           return (
-            <div className='text-center'>
+            <div className='text-center dark:text-white'>
               {parseIsoDate((row.updatedAt.toString() as string) ?? '')}
             </div>
           )
@@ -250,7 +250,7 @@ const CustomTable = <T extends WithId>({
             />
           )
         default:
-          return <div className='flex justify-center'>{cellValue}</div>
+          return <div className='flex justify-center dark:text-white'>{cellValue}</div>
       }
     },
     [onEdit, onDelete, actions, onViewMore]

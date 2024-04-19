@@ -8,7 +8,11 @@ type Props = {
 
 const TableRole = ({ row }: Props) => {
   const roleName = row?.role?.name_role ?? 'Sin rol'
-  return <div className='text-center'>{capitalize(roleName as string)}</div>
+  return (
+    <div className='text-center dark:text-white'>
+      {capitalize(roleName as string)}
+    </div>
+  )
 }
 
 export default TableRole

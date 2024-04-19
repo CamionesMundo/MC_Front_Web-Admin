@@ -20,7 +20,7 @@ const TableUser = ({ row }: Props) => {
           </div>
         }
         name={row.name_user}
-        className='w-full max-w-[300px] flex justify-start'
+        className='w-full max-w-[300px] flex justify-start dark:text-white'
       >
         {row.name_user}
       </User>

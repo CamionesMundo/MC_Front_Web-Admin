@@ -7,7 +7,7 @@ type Props = {
 
 const TableUserType = ({ row }: Props) => {
   const userType = getUserType(Number(row.user_type))
-  return <div className='text-center'>{userType}</div>
+  return <div className='text-center dark:text-white'>{userType}</div>
 }
 
 export { TableUserType }
