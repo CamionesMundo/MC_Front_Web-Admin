@@ -5,6 +5,28 @@ import { useFilter } from '@react-aria/i18n'
 import { useAsyncList } from '@react-stately/data'
 import React, { useState, type Key, useEffect, useCallback } from 'react'
 
+/**
+ * The `CountryAutocomplete` component provides an autocomplete input for selecting a country.
+ * It fetches and displays a list of countries from a specified backend URL and allows the user
+ * to search and select a country. The component uses React's state and effect hooks to manage
+ * and update its state based on user interaction and fetched data.
+ *
+ * Props:
+ * @param {CountryListItem | null | undefined} currentCountry - The currently selected country, if any.
+ * @param {(country: CountryListItem | undefined) => void} changeCountry - A callback function that updates the state of the parent component with the new selected country.
+ * @param {string} [error] - An optional error message to be displayed above the autocomplete input if something goes wrong.
+ *
+ * The component utilizes a number of hooks:
+ * - useState to manage internal state of the input and selected items.
+ * - useEffect to handle side effects related to fetching country data and updating the input based on the current country.
+ * - useCallback to memoize the callback provided to selection change events.
+ * - useAsyncList from @react-stately/data to asynchronously fetch country data from the backend.
+ * - useFilter from @react-aria/i18n for filtering the country list based on user input.
+ *
+ * It is designed to be flexible and responsive, with custom styling options passed to the NextUI `Autocomplete` component.
+ * Errors are displayed conditionally based on the `error` prop.
+ */
+
 type CountryAutocompleteProps = {
   currentCountry: CountryListItem | null | undefined
   changeCountry: (country: CountryListItem | undefined) => void

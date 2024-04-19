@@ -5,6 +5,27 @@ import { useFilter } from '@react-aria/i18n'
 import { useAsyncList } from '@react-stately/data'
 import React, { useState, type Key, useEffect } from 'react'
 
+/**
+ * The `PortAutocomplete` component provides an autocomplete input for selecting receiving ports.
+ * It fetches and displays a list of receiving ports from a specified backend URL and allows the user
+ * to search and select a port. The component uses React's state and effect hooks to manage
+ * and update its state based on user interaction and fetched data.
+ *
+ * Props:
+ * @param {ReceivingPortData | null | undefined} currentPort - The currently selected receiving port, if any.
+ * @param {(port: ReceivingPortData | undefined) => void} changePort - A callback function that updates the state of the parent component with the new selected receiving port.
+ * @param {string} [error] - An optional error message to be displayed above the autocomplete input if something goes wrong.
+ *
+ * The component utilizes a number of hooks:
+ * - useState to manage internal state of the input and selected items.
+ * - useEffect to handle side effects related to fetching port data and updating the input based on the current port.
+ * - useAsyncList from @react-stately/data to asynchronously fetch port data from the backend.
+ * - useFilter from @react-aria/i18n for filtering the port list based on user input.
+ *
+ * It is designed to be flexible and responsive, with custom styling options passed to the NextUI `Autocomplete` component.
+ * Errors are displayed conditionally based on the `error` prop.
+ */
+
 type PortAutocompleteProps = {
   currentPort: ReceivingPortData | null | undefined
   changePort: (port: ReceivingPortData | undefined) => void

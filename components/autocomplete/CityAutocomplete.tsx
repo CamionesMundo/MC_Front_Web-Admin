@@ -5,6 +5,26 @@ import { useFilter } from '@react-aria/i18n'
 import { useAsyncList } from '@react-stately/data'
 import React, { useState, type Key, useEffect } from 'react'
 
+/**
+ * The `CityAutocomplete` component provides a user interface for selecting cities
+ * via an autocomplete field. This component uses the city API based on the selected country
+ * and allows for dynamic city selection by filtering based on user input.
+ *
+ * Props:
+ * @param {number | undefined} countryId - The ID of the country for which cities will be loaded. If `undefined`, no cities will be loaded.
+ * @param {CityListItem | undefined} currentCity - The currently selected city, if any.
+ * @param {(city: CityListItem | undefined) => void} changeCity - Callback function that is invoked when a new city is selected.
+ * @param {string} [error] - Optional error message to display in the component in case of an error during the operation.
+ *
+ * Behavior:
+ * - Utilizes `useAsyncList` to manage asynchronous loading and handling of the city list.
+ * - Filters available cities based on user input.
+ * - Allows for clear selection and display of a previously selected city.
+ * - Displays appropriate error messages in case of errors during selection or data loading.
+ *
+ * This component is useful in forms where city selection is required based on country selection.
+ */
+
 type CityAutocompleteProps = {
   countryId: number | undefined
   currentCity: CityListItem | undefined
