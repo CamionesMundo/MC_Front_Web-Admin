@@ -151,7 +151,9 @@ const CityAutocomplete = ({
   }, [list.items, city])
 
   return (
-    <div className={`flex flex-col justify-center ${error !== '' ? 'mt-4' : ''}`}>
+    <div
+      className={`flex flex-col justify-center ${error !== '' ? 'mt-4' : ''}`}
+    >
       <Autocomplete
         inputValue={fieldState.inputValue}
         items={fieldState.items}
@@ -165,10 +167,12 @@ const CityAutocomplete = ({
         }}
         inputProps={{
           classNames: {
-            inputWrapper: `border ${
-              error !== '' ? 'border-danger' : 'border-[#e0e0e0]'
+            inputWrapper: `border rounded-xl dark:text-white ${
+              error !== ''
+                ? 'border-danger'
+                : 'border-[#e0e0e0] dark:data-[hover=true]:border-white dark:focus-whithin:border-white'
             }`,
-            label: 'font-semibold'
+            label: 'font-semibold dark:text-white'
           }
         }}
         color={error !== '' ? 'danger' : 'primary'}

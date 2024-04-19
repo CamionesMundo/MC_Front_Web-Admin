@@ -142,10 +142,12 @@ const PortAutocomplete = ({
         }}
         inputProps={{
           classNames: {
-            inputWrapper: `border ${
-              error !== '' ? 'border-danger' : 'border-[#e0e0e0]'
+            inputWrapper: `border rounded-xl dark:text-white ${
+              error !== ''
+                ? 'border-danger'
+                : 'border-[#e0e0e0] dark:data-[hover=true]:border-white dark:focus-whithin:border-white'
             }`,
-            label: 'font-semibold'
+            label: 'font-semibold dark:text-white'
           }
         }}
         color={error !== '' ? 'danger' : 'primary'}
