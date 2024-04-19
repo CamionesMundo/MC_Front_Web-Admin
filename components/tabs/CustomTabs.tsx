@@ -11,10 +11,11 @@ const CustomTabs = ({ tabs }: CustomTabsProps) => {
         aria-label='Options'
         classNames={{
           tabList:
-            'gap-6 w-fit relative p-1.5 bg-primary/20 flex justify-center',
-          cursor: 'w-full bg-gray-400',
+            'gap-6 w-fit relative p-1.5 bg-primary/20 dark:bg-gray-700 flex justify-center',
+          cursor: 'w-full bg-gray-400 dark:bg-primary',
           tab: 'max-w-fit px-4 h-auto',
-          tabContent: 'group-data-[selected=true]:text-black  text-black/80'
+          tabContent:
+            'group-data-[selected=true]:text-black text-black/80 dark:text-white/80 dark:group-data-[selected=true]:text-white'
         }}
       >
         {tabs.map((tab) => (

@@ -82,9 +82,7 @@ const ModalStatus = ({
       footer={footerActions}
       backdrop='opaque'
     >
-      <div className='flex flex-col'>
-       {description}
-      </div>
+      <div className='flex flex-col dark:text-white'>{description}</div>
     </CustomModal>
   )
 }

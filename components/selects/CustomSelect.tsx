@@ -25,17 +25,20 @@ const CustomSelect = ({
         color='primary'
         size='md'
         classNames={{
-          label: 'text-blackText placeholder:text-blackText/50 font-semibold',
-          trigger: 'h-[54px] border rounded-lg',
+          label:
+            'text-blackText placeholder:text-blackText/50 font-semibold dark:text-white',
+          trigger:
+            'h-[54px] border border-[#E2E2E2] rounded-lg dark:data-[hover=true]:border-white rounded-xl',
           listboxWrapper: 'max-h-[400px] rounded-lg border',
           mainWrapper: [
-            'border border-[#E2E2E2] rounded-lg',
+            'rounded-lg',
             '!cursor-text',
             'hover:bg-default',
             'hover:border-none',
             'focus-within:!bg-default-200/50',
             `${useMarginTop ? 'mt-4' : ''}`
-          ]
+          ],
+          selectorIcon: 'dark:text-white'
         }}
         listboxProps={{
           itemClasses: {

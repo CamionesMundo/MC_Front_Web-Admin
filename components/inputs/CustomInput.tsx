@@ -25,35 +25,44 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
   const { classNames } = useInput({
     ...props,
     classNames: {
-      input: `text-blackText placeholder:text-blackText/50 ${
-        props.disabled === true ? 'cursor-not-allowed text-blackText/50' : ''
+      input: `text-blackText placeholder:text-blackText/50 dark:placeholder:text-white/60 ${
+        props.disabled === true
+          ? 'cursor-not-allowed text-blackText/50 dark:text-black/70'
+          : 'dark:text-white'
       }`,
       label: `font-semibold ${
         props.disabled === true
-          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
-          : ''
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200 dark:bg-gray-700 dark:text-black-600'
+          : 'dark:text-white'
       }`,
       inputWrapper: `border ${
-        error !== '' ? 'border-danger' : 'border-[#e0e0e0]'
+        error !== ''
+          ? 'border-danger'
+          : 'border-[#e0e0e0] dark:hover:border-white data-[hover=true]:cursor-not-allowed'
       }  ${
         props.disabled === true
-          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
+          ? '!cursor-not-allowed bg-gray-200 hover:bg-gray-200 dark:bg-gray-700'
           : ''
       }`,
       innerWrapper: ` ${
         props.disabled === true
-          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200 dark:bg-gray-700'
           : ''
       }`,
       mainWrapper: ` ${
         props.disabled === true
-          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200'
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200 dark:bg-gray-700'
           : ''
-      }`
+      }`,
+      base: ` ${props.disabled === true ? 'cursor-not-allowed data-[hover=true]:cursor-not-allowed' : ''}`,
+      helperWrapper: ` ${props.disabled === true ? 'cursor-not-allowed' : ''}`
     }
   })
   return (
-    <div className={`${error !== '' ? 'mt-8' : 'mt-4'} mb-4 flex flex-col justify-center`}
+    <div
+      className={`${
+        error !== '' ? 'mt-8' : 'mt-4'
+      } mb-4 flex flex-col justify-center`}
     >
       <Input
         variant='faded'

@@ -15,7 +15,7 @@ const MainLayout = ({ children }: Props) => {
   const isMobile = useResponsive()
 
   return (
-    <div className='w-screen flex flex-col  h-screen transition-all bg-radial bg-white'>
+    <div className='w-screen flex flex-col  h-screen transition-all bg-radial dark:bg-radial-dark bg-white'>
       <header className='w-full h-16 p-2 '>
         <Navbar />
       </header>
@@ -25,7 +25,7 @@ const MainLayout = ({ children }: Props) => {
             isShowMenu ? 'lg:w-72 w-0 ' : '-ml-72 -translate-x-72'
           }`}
         >
-          <div className='w-full h-full  text-blackText border border-gray-500/60 bg-white  rounded-xl '>
+          <div className='w-full h-full  text-blackText border border-gray-500/60 bg-white dark:bg-darkBg dark:text-white  rounded-xl '>
             <Sidebar />
           </div>
         </aside>
