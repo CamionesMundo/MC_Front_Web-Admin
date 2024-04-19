@@ -31,6 +31,14 @@ import { ReactComponent as ThemeDark } from './src/ThemeDark.svg'
 import { ReactComponent as Buyer } from './src/Buyer.svg'
 import { ReactComponent as Seller } from './src/Seller.svg'
 import { ReactComponent as LegalRepresentative } from './src/LegalRepresentative.svg'
+import { ReactComponent as FacebookColor } from './src/FacebookColor.svg'
+import { ReactComponent as GoogleColor } from './src/GoogleColor.svg'
+import { ReactComponent as Envelope } from './src/Envelope.svg'
+import { ReactComponent as Files } from './src/Files.svg'
+import { ReactComponent as DownloadCloud } from './src/DownloadCloud.svg'
+import { ReactComponent as Check } from './src/Check.svg'
+import { ReactComponent as PostalCode } from './src/PostalCode.svg'
+import { ReactComponent as Location } from './src/Location.svg'
 
 export {
   Visible,
@@ -65,5 +73,13 @@ export {
   ThemeDark,
   Buyer,
   Seller,
-  LegalRepresentative
+  LegalRepresentative,
+  FacebookColor,
+  GoogleColor,
+  Envelope,
+  Files,
+  DownloadCloud,
+  Check,
+  PostalCode,
+  Location
 }
