@@ -159,6 +159,13 @@ const BuyerEditForm = ({ client }: BuyerEditFormProps) => {
     })
   }
 
+  /**
+ * The `handleActiveOrInactiveUser` function toggles the active status of a user client.
+ * It sends a request to the server to activate or deactivate the user client based on its current status.
+ * This function is typically triggered by a user action, such as clicking a button.
+ * If the operation is successful, it displays a success toast message and refreshes the router.
+ * If an error occurs during the operation, it displays an error toast message.
+ */
   const handleActiveOrInactiveUser = async () => {
     if (client !== undefined) {
       await activeOrInactive(
