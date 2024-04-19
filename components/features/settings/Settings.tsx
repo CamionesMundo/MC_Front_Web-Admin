@@ -27,7 +27,7 @@ const SettingsView = () => {
         <BackComponent title=' ' subtitle='Configuración de cuenta' />
       </div>
       <div>
-        <p className='text-xs mb-2'>
+        <p className='text-xs mb-2 dark:text-white'>
           Personalice la configuración de tu perfil, tu cuenta, y apariencia web
         </p>
       </div>

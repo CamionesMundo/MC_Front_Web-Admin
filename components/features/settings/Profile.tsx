@@ -7,14 +7,14 @@ const Profile = () => {
   const { data: session } = useSession()
   return (
     <div className='mt-4'>
-      <h1 className='font-semibold text-blackText'>Perfil</h1>
-      <span className='text-sm text-black/70'>
+      <h1 className='font-semibold text-blackText dark:text-white'>Perfil</h1>
+      <span className='text-sm text-black/70 dark:text-white/70'>
         Esto muestra su perfil en nuestro sistema. Desde aquí puedes cambiar la
         imagen de tu perfil.
       </span>
       <div>
         <div className='w-full flex justify-start items-center'>
-          <div className='p-3 bg-white shadow-container rounded-xl mt-4 flex flex-row gap-4'>
+          <div className='p-3 bg-white dark:bg-darkBg shadow-container rounded-xl mt-4 flex flex-row gap-4'>
             <div className='relative'>
               <Avatar
                 showFallback
@@ -27,7 +27,9 @@ const Profile = () => {
               </div>
             </div>
             <div className='flex flex-col w-60'>
-              <span className='text-blackText'>{session?.user.name}</span>
+              <span className='text-blackText dark:text-white'>
+                {session?.user.name}
+              </span>
               <span className='text-gray-500 text-sm'>
                 {capitalize(session?.user.role ?? '')}
               </span>

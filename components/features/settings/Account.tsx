@@ -51,7 +51,7 @@ const Account = () => {
       <div className='my-3'>
         <Divider />
       </div>
-      <h1 className='font-semibold text-blackText'>
+      <h1 className='font-semibold text-blackText dark:text-white'>
         Solicitar cambio de contraseña
       </h1>
       <div className='w-1/4 mt-3'>
