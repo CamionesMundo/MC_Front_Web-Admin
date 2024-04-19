@@ -43,6 +43,10 @@ export const clientColumns = [
     display: 'País'
   },
   {
+    key: 'updatedAt',
+    display: 'F. Actualización'
+  },
+  {
     key: 'actions',
     display: 'Acciones'
   }

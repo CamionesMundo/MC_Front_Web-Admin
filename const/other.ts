@@ -1,3 +1,11 @@
 const MINUTE = 60 * 1000
 
-export { MINUTE }
+/**
+ * Validators
+ */
+const MAX_LENGTH_MESSAGE = 'Máximo 50 caracteres'
+const MAX_LENGTH = 50
+const MAX_LENGTH_ADDRESS = 50
+const MAX_LENGTH_ADDRESS_MESSAGE = 'Máximo 50 caracteres'
+
+export { MINUTE, MAX_LENGTH, MAX_LENGTH_MESSAGE, MAX_LENGTH_ADDRESS, MAX_LENGTH_ADDRESS_MESSAGE }
