@@ -112,6 +112,13 @@ export function formatDateToYMD (dateString: string) {
   return isNaN(date.getTime()) ? undefined : date.toISOString().split('T')[0]
 }
 
+/**
+ * Transforms a date string from "yyyy-MM-dd" format into a Date object.
+ * This can be useful for creating Date objects from inputs of type 'date' in forms.
+ *
+ * @param value - The date string in "yyyy-MM-dd" format.
+ * @returns A Date object representing the date specified in the input string.
+ */
 export function formatDateForInputDate (value: string) {
   const dateParts = value.split('-')
   const year = parseInt(dateParts[0])
