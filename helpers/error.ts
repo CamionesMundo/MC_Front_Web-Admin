@@ -1,4 +1,6 @@
+import { showToast } from '@/hooks/useToast'
 import { AxiosError } from 'axios'
+import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
 
 /**
@@ -8,14 +10,38 @@ import { ZodError } from 'zod'
  */
 export function handleServerError (error: unknown) {
   if (error instanceof AxiosError) {
-    return error.message.split('\n')
+    console.log(error)
+    if (error.response !== undefined) {
+      return NextResponse.json({
+        statusCode: error.response.status,
+        message: null,
+        data: null,
+        error: error.message.split('\n')
+      })
+    } else {
+      return NextResponse.json({
+        statusCode: 500,
+        message: null,
+        data: null,
+        error: error.message.split('\n')
+      })
+    }
   }
 
   if (error instanceof Error) {
-    return error.message
+    return NextResponse.json({
+      statusCode: 500,
+      message: null,
+      data: null,
+      error: error.message
+    })
   }
-
-  return String(error).split('\n')
+  return NextResponse.json({
+    statusCode: 500,
+    message: null,
+    data: null,
+    error: String(error).split('\n')
+  })
 }
 
 /**
@@ -42,5 +68,17 @@ export const handleValidationFormErrors = (
   } else {
     console.log('ERROR=>', err)
     return undefined
+  }
+}
+
+export const handleClientError = (statusCode: number) => {
+  if (statusCode === 401) {
+    showToast('Usuario no autorizado | Token expirado', 'error')
+  }
+  if (statusCode === 404) {
+    showToast('Recurso no encontrado', 'error')
+  }
+  if (statusCode === 500) {
+    showToast('Error en el servidor', 'error')
   }
 }
