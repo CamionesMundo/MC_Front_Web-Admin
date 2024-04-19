@@ -6,9 +6,27 @@ enum UserType {
   LegalRepresentative = 5
 }
 
-enum Sex {
-  Hombre = 'Hombre',
-  Mujer = 'Mujer',
+enum AddressType {
+  LegalRepresentative = 9,
+  Company = 10,
+  Delivery = 11,
+  Billing = 12
 }
 
-export { UserType, Sex }
+enum Sex {
+  Hombre = 'Hombre',
+  Mujer = 'Mujer'
+}
+
+enum AccountType {
+  Facebook = 'Facebook',
+  Google = 'Google',
+  Email = 'Email'
+}
+
+enum LanguagePreference {
+  English = 'en',
+  Spanish = 'es'
+}
+
+export { UserType, Sex, AccountType, LanguagePreference, AddressType }

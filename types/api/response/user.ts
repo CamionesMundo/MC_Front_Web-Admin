@@ -1,5 +1,12 @@
-import { type UserType, type Sex } from '@/types/enums'
+import {
+  type UserType,
+  type Sex,
+  type AccountType,
+  type LanguagePreference
+} from '@/types/enums'
 import { type WithId } from './auth'
+import { type FilesGallery } from './files'
+import { type CityListItem, type CountryListItem } from './country'
 
 export interface BaseUserData {
   iduser: number
@@ -15,7 +22,7 @@ export interface BaseUserData {
   file_profile_picture: number | null
   accept_terms: boolean
   birthdate: Date | null
-  sex: Sex | null
+  sex: Sex | undefined
   active: boolean
   comment: string | null
   idcountry: number | null
@@ -23,8 +30,13 @@ export interface BaseUserData {
   createdAt: Date
   updatedAt: Date
   file_profiles: FileProfiles | null
-  country: Country | null
+  country: CountryListItem
   address: Address | null
+  firebase_uid: FirebaseUID | null
+  lang: LanguagePreference | null
+}
+export interface FirebaseUID {
+  uid_reference: AccountType
 }
 
 export interface FileProfiles {
@@ -45,16 +57,20 @@ export type Address = {
   iduser: number
   createdAt: Date
   updatedAt: Date
-  city: City | null
+  city: CityListItem | undefined
 }
 
 export type City = {
+  idcity: number
   city_name: string
-  country: Country
+  idcountry: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type Country = {
   country_name: string
+  idcountry: number
 }
 
 export type UserAppType = {
@@ -75,11 +91,14 @@ export type SellerData = {
   idaddress: number
   file_company_constitution: number | null
   file_identity_verification: number
-  type_seller: number
+  type_seller: UserType
   idlegal_representative: number
   createdAt: Date
   updatedAt: Date
   legal_representative: LegalRepresentativeResponse
+  company_constitution_galleries: FilesGallery
+  identity_verification_galleries: FilesGallery
+  address: Address
 }
 
 export type ClientResponse = UserClientResponse & {
