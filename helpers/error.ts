@@ -71,6 +71,11 @@ export const handleValidationFormErrors = (
   }
 }
 
+/**
+ * Handles client errors by displaying appropriate error messages based on the HTTP status code.
+ *
+ * @param statusCode - The HTTP status code returned from a failed API request.
+ */
 export const handleClientError = (statusCode: number) => {
   if (statusCode === 401) {
     showToast('Usuario no autorizado | Token expirado', 'error')
