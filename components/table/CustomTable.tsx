@@ -34,6 +34,45 @@ import {
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
 
+/**
+ * The `CustomTable` component is a reusable table component with various customization options
+ * such as sorting, pagination, search, and column visibility.
+ * It accepts data, columns configuration, and several props to customize its behavior and appearance.
+ *
+ * Props:
+ * @param {ColumnsProps[]} columns - The configuration for table columns.
+ * @param {T[]} data - The array of data objects to be displayed in the table.
+ * @param {T[]} filteredItems - The array of data objects after applying the search filter.
+ * @param {string} filterValue - The value of the search filter.
+ * @param {(value: string) => void} handleSearch - The function to handle search input change.
+ * @param {boolean} [isLoading=false] - Indicates whether the table is in loading state.
+ * @param {string} [emptyLabel='No existen registros'] - The label to display when there are no records to show.
+ * @param {string} [totalLabel='Registros'] - The label for the total number of records.
+ * @param {string} [newButtonLabel='Nuevo registro'] - The label for the button to add new records.
+ * @param {boolean} [allowsSorting=false] - Indicates whether sorting is allowed on table columns.
+ * @param {string[]} [initialVisibleColumns=[]] - The initial set of visible columns.
+ * @param {(id: number) => void} [onViewMore] - The function to handle "View More" action.
+ * @param {(id: number) => void} [onEdit] - The function to handle "Edit" action.
+ * @param {(id: number) => void} [onDelete] - The function to handle "Delete" action.
+ * @param {boolean} [useRounded=true] - Indicates whether rounded corners should be used in table wrapper.
+ * @param {boolean} [useSearchBar=true] - Indicates whether to display the search bar.
+ * @param {string} [searchBarPlaceholder='Buscar'] - The placeholder text for the search bar.
+ * @param {boolean} [showColumnsButton=true] - Indicates whether to display the "Columns" dropdown button.
+ * @param {() => void} [actionOnAdd] - The function to be executed when the "Add" button is clicked.
+ * @param {boolean} [useAddButton=true] - Indicates whether to display the "Add" button.
+ * @param {boolean} [showTotalRegister=true] - Indicates whether to display the total number of records.
+ * @param {boolean} [showFilesPerPage=true] - Indicates whether to display the files per page selector.
+ * @param {boolean} [showTopContent=true] - Indicates whether to display the top content section.
+ * @param {boolean} [showBottomContent=true] - Indicates whether to display the bottom content section.
+ * @param {ReactNode} [filterContent] - The content to display alongside the search bar.
+ * @param {ActionsPermissions} [actions] - The permissions for table actions such as view more, edit, and delete.
+ *
+ * The `CustomTable` component renders a table with customizable features such as sorting, pagination,
+ * search, column visibility, and action buttons. It utilizes various components from NextUI and custom
+ * rendering components for table cells. The component provides extensive customization options and
+ * flexibility to meet different use cases.
+ */
+
 type CustomTableProps<T extends WithId> = {
   columns: ColumnsProps[]
   data: T[]

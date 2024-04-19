@@ -3,6 +3,23 @@ import { type ActionsPermissions } from '@/types/ui/table'
 import { Tooltip } from '@nextui-org/react'
 import React from 'react'
 
+/**
+ * The `TableActions` component renders action buttons for table rows,
+ * such as view more, edit, and delete buttons.
+ * It accepts callbacks for each action and permissions to determine which actions are enabled.
+ *
+ * Props:
+ * @param {(id: number) => void} [onViewMore] - The callback function for the "View More" action.
+ * @param {(id: number) => void} [onEdit] - The callback function for the "Edit" action.
+ * @param {(id: number) => void} [onDelete] - The callback function for the "Delete" action.
+ * @param {number} id - The unique identifier of the table row.
+ * @param {ActionsPermissions} actions - The permissions for table actions such as view more, edit, and delete.
+ *
+ * The `TableActions` component renders action buttons based on the provided permissions and
+ * invokes the corresponding callback functions when the buttons are clicked. It provides
+ * tooltips for each action button to enhance user experience and clarity of action purpose.
+ */
+
 type Props = {
   onViewMore: ((id: number) => void) | undefined
   onEdit: ((id: number) => void) | undefined
