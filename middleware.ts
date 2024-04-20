@@ -1,5 +1,7 @@
 export { default } from 'next-auth/middleware'
 
 export const config = {
-  matcher: ['/', '/users-management/:path*']
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico|login|recovery-password).*)'
+  ]
 }
