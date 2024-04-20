@@ -177,16 +177,22 @@ const CustomTable = <T extends WithId>({
   /**
    * Total number of pages based on filtered items and rows per page.
    */
-  const pages = Math.ceil(filteredItems.length / rowsPerPage)
 
-  const onSearchChange = useCallback((value: string) => {
-    if (value !== undefined) {
-      handleSearch(value)
-      setPage(1)
-    } else {
-      handleSearch('')
-    }
-  }, [handleSearch])
+  const pages = useMemo(() => {
+    return Math.ceil(filteredItems.length / rowsPerPage)
+  }, [filteredItems.length, rowsPerPage])
+
+  const onSearchChange = useCallback(
+    (value: string) => {
+      if (value !== undefined) {
+        handleSearch(value)
+        setPage(1)
+      } else {
+        handleSearch('')
+      }
+    },
+    [handleSearch]
+  )
 
   const onClear = useCallback(() => {
     handleSearch('')
@@ -238,7 +244,7 @@ const CustomTable = <T extends WithId>({
         case 'country_name':
           return <TableCountry row={row} />
         case 'user_type':
-          return <TableUserType row={row}/>
+          return <TableUserType row={row} />
         case 'actions':
           return (
             <TableActions
@@ -250,7 +256,11 @@ const CustomTable = <T extends WithId>({
             />
           )
         default:
-          return <div className='flex justify-center dark:text-white'>{cellValue}</div>
+          return (
+            <div className='flex justify-center dark:text-white'>
+              {cellValue}
+            </div>
+          )
       }
     },
     [onEdit, onDelete, actions, onViewMore]
@@ -306,7 +316,7 @@ const CustomTable = <T extends WithId>({
               isClearable
               className='w-full sm:max-w-[44%]'
               placeholder={searchBarPlaceholder}
-              startContent={<Search className='w-3 h-3' />}
+              startContent={<Search className='w-3 h-3 dark:text-white' />}
               value={filterValue}
               onClear={() => {
                 onClear()
@@ -320,7 +330,7 @@ const CustomTable = <T extends WithId>({
               <Dropdown>
                 <DropdownTrigger className='hidden sm:flex'>
                   <Button
-                    className='bg-slate-300 text-blackText'
+                    className='bg-slate-300 dark:bg-default-200 text-blackText dark:text-white'
                     endContent={
                       <ChevronRight className='w-2.5 h-2.5 rotate-90' />
                     }
@@ -369,7 +379,7 @@ const CustomTable = <T extends WithId>({
         >
           {showTotalRegister && (
             <span className='text-default-400 text-small'>
-              Total {data.length} {totalLabel}
+              Total {filteredItems.length} {totalLabel}
             </span>
           )}
           {showFilesPerPage && (
@@ -393,7 +403,6 @@ const CustomTable = <T extends WithId>({
     visibleColumns,
     onSearchChange,
     onRowsPerPageChange,
-    data.length,
     columns,
     newButtonLabel,
     actionOnAdd,
@@ -405,7 +414,8 @@ const CustomTable = <T extends WithId>({
     showTotalRegister,
     totalLabel,
     useAddButton,
-    useSearchBar
+    useSearchBar,
+    filteredItems.length
   ])
 
   const bottomContent = useMemo(() => {

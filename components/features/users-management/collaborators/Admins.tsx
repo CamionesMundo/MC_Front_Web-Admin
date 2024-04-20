@@ -105,7 +105,8 @@ const Admins = ({ admins, isLoading }: Props) => {
           selectedKeys={selectedRoles}
           onChange={handleSelectionChange}
           classNames={{
-            trigger: 'bg-slate-300 text-blackText',
+            trigger:
+              'bg-slate-300 text-blackText dark:bg-default-200 dark:text-white',
             base: 'items-center'
           }}
         >
