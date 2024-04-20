@@ -76,12 +76,12 @@ const RecoveryPasswordPage = () => {
   }
 
   return (
-    <div className='max-w-lg w-full bg-white rounded-2xl mx-auto mt-7 '>
+    <div className='max-w-lg w-full bg-white dark:bg-darkBg rounded-2xl mx-auto mt-7 '>
       <div className='p-4 flex flex-col w-full'>
         <div className='w-full flex justify-center'>
-          <Logo className='w-14 h-14 text-blackText' />
+          <Logo className='w-14 h-14 text-blackText dark:text-white' />
         </div>
-        <h1 className='text-center text-lg text-blackText'>
+        <h1 className='text-center text-lg text-blackText dark:text-white'>
           Recuperar contraseña
         </h1>
         <div className='my-2'>
@@ -112,7 +112,7 @@ const RecoveryPasswordPage = () => {
           </div>
           <div className='flex justify-end pb-2 mt-3'>
             <Link
-              className='text-sm text-blackText hover:cursor-pointer'
+              className='text-sm text-blackText dark:text-white hover:cursor-pointer'
               underline='hover'
               href='/login'
               onClick={() => {

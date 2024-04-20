@@ -36,7 +36,8 @@ const GenericButton = ({
       <Button
         className={cn('uppercase font-bold w-full', {
           ' bg-secondary text-blackText': isSecondary,
-          ' text-whitePrimary bg-blackText': !isSecondary
+          ' text-whitePrimary bg-blackText dark:border-white/10 dark:border':
+            !isSecondary
         })}
         {...props}
       >

@@ -131,16 +131,16 @@ const UpdatePasswordPage = () => {
    */
 
   return (
-    <div className='max-w-lg w-full bg-white rounded-2xl mx-auto mt-7 '>
+    <div className='max-w-lg w-full bg-white dark:bg-darkBg rounded-2xl mx-auto mt-7 '>
       <div className='p-4 flex flex-col w-full'>
         <div className='w-full flex justify-center'>
-          <Logo className='w-14 h-14 text-blackText' />
+          <Logo className='w-14 h-14 text-blackText dark:text-white' />
         </div>
-        <h1 className='text-center text-lg text-blackText'>
+        <h1 className='text-center text-lg text-blackText dark:text-white'>
           Actualizar contraseña
         </h1>
         <div className='my-2'>
-          <p className='text-xs'>
+          <p className='text-xs dark:text-white'>
             Recuerda que la nueva contraseña debe incluir al menos una letra en
             mayúscula, al menos una letra en minúscula, al menos un número y
             como mínimo 8 caracteres{' '}
@@ -158,7 +158,7 @@ const UpdatePasswordPage = () => {
             label='Nueva    Contraseña'
             placeholder='Ingresa aquí tu contraseña'
             endContent={
-              <Visible className='icon-input' onClick={togglePassword} />
+              <Visible className='icon-input dark:text-white' onClick={togglePassword} />
             }
             error={errors?.password?.toString() ?? ''}
           />
@@ -173,7 +173,7 @@ const UpdatePasswordPage = () => {
             label='Repetir Contraseña'
             placeholder='Ingresa aquí tu contraseña'
             endContent={
-              <Visible className='icon-input' onClick={toggleConfirmPassword} />
+              <Visible className='icon-input dark:text-white' onClick={toggleConfirmPassword} />
             }
             error={errors?.confirmPassword?.toString() ?? ''}
           />

@@ -109,12 +109,12 @@ const LoginPage = () => {
     setData(newData as LoginData)
   }
   return (
-    <div className='max-w-lg w-full bg-white rounded-2xl mx-auto mt-7 '>
+    <div className='max-w-lg w-full bg-white dark:bg-darkBg rounded-2xl mx-auto mt-7 '>
       <div className='p-4 flex flex-col w-full'>
         <div className='w-full flex justify-center'>
-          <Logo className='w-14 h-14 text-blackText' />
+          <Logo className='w-14 h-14 text-blackText dark:text-white' />
         </div>
-        <h1 className='text-center text-lg text-blackText'>
+        <h1 className='text-center text-lg text-blackText dark:text-white'>
           Iniciar Sesión en el Administrador
         </h1>
         <form className='my-4' onSubmit={onSubmit}>
@@ -141,14 +141,17 @@ const LoginPage = () => {
             label='Contraseña'
             placeholder='Ingresa aquí tu contraseña'
             endContent={
-              <Visible className='icon-input' onClick={togglePassword} />
+              <Visible
+                className='icon-input dark:text-white'
+                onClick={togglePassword}
+              />
             }
             error={errors?.password?.toString() ?? ''}
           />
           <div className='flex justify-between pb-2'>
             <span className='text-sm'>Olvidé mi contraseña</span>
             <Link
-              className='text-sm text-blackText hover:cursor-pointer'
+              className='text-sm text-blackText dark:text-white hover:cursor-pointer'
               underline='hover'
               href='/recovery-password'
               onClick={onRecoveryPassword}

@@ -60,7 +60,7 @@ const ModalStatus = ({
         <div className='md:w-1/2 w-full'>
           <GenericButton
             type='button'
-            className='bg-red-700 text-white uppercase font-bold w-full'
+            className='bg-red-700 text-white uppercase font-bold w-full dark:border dark:border-red-500'
             label={'Cancelar'}
             onClick={() => {
               if (onClose !== undefined) {
