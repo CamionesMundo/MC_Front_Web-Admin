@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# 🚛 MC Web Admin
+Este proyecto web esta orientado a la administración de Mundo Camiones. Solo usuarios registrados podrán acceder a esta web, en donde podrán gestionar a los diferentes actores de la aplicación móvil del cliente y otros procesos administrativos.
 
-First, run the development server:
+
+## 🚀 Sobre el proyecto
+El proyecto esta construido sobre el framework de Next Js en su versión 14 con interfaz basada en Next UI y Tailwind Css, combinados con otras librerías.
+### Tecnologías utilizadas:
+- React 
+- Next Js
+- React Query
+- Typescript
+- Tailwind Css
+- Next UI
+- Zustand
+- Zod
+- Axios
+- Sonner
+
+
+## Corre el proyecto en local
+
+Para obtener el proyecto seguir los siguientes pasos:
+
+    1. Clona el repositorio
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+  git clone https://github.com/Proyectos-marketplace/MC_Front_Web-Admin.git
+```
+    2. Dirigete al directorio
+```bash
+  cd aqui-el-directorio
+```
+    3. Instala las dependencias
+```bash
+  npm install
+```
+    4. Inicia el proyecto en modo desarrollo
+```bash
+  npm run dev  
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abra [http://localhost:3000](http://localhost:3000) con su navegador para ver el resultado.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+>[!Important]
+> No olvidar configurar tus archivos .env
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Sobre Next Js
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Para obtener más información sobre Next.js, consulte los siguientes recursos:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- [Documentación de Next.js] (https://nextjs.org/docs): obtenga información sobre las funciones y la API de Next.js.
+- [Aprende Next.js](https://nextjs.org/learn): un tutorial interactivo de Next.js.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
