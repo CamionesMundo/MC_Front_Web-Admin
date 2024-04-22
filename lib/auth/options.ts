@@ -47,7 +47,7 @@ const authOptions: NextAuthOptions = {
         return {
           id: loginData.user.iduser_admin.toString(),
           email: loginData.user.email,
-          profileImg: loginData.user.file_profile,
+          profileImg: loginData.user.file_profile.url,
           role: loginData.user.role.name_role,
           token: loginData.token,
           name: loginData.user.name_user
@@ -61,7 +61,11 @@ const authOptions: NextAuthOptions = {
   callbacks: {
     /* The `async jwt` and `async session` callbacks in the NextAuth configuration are responsible for
       manipulating the JWT token and session object, respectively. */
-    async jwt ({ token, user }) {
+    async jwt ({ token, user, trigger, session }) {
+      if (trigger === 'update') {
+        console.log(session)
+        token.profileImg = session.user.image
+      }
       return { ...token, ...user }
     },
     async session ({ session, token }) {
@@ -69,6 +73,7 @@ const authOptions: NextAuthOptions = {
       session.user.role = token.role
       session.user.name = token.name
       session.user.image = token.profileImg
+      session.user.id = token.id
       return session
     }
   }
