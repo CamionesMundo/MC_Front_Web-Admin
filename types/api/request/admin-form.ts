@@ -6,7 +6,7 @@ export type BodyAdminForm = {
   photo_idgallery: number | null
 }
 
-export type BodyUpdateAdminForm = Omit<BodyAdminForm, 'password' | 'email'>
+export type BodyUpdateAdminForm = Partial<Omit<BodyAdminForm, 'password' | 'email'>>
 
 export type BodyUpdateProfileAdmin = Pick<BodyUpdateAdminForm, 'photo_idgallery'>
 

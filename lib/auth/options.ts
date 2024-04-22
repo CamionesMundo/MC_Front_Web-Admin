@@ -63,8 +63,8 @@ const authOptions: NextAuthOptions = {
       manipulating the JWT token and session object, respectively. */
     async jwt ({ token, user, trigger, session }) {
       if (trigger === 'update') {
-        console.log(session)
         token.profileImg = session.user.image
+        token.name = session.user.name
       }
       return { ...token, ...user }
     },

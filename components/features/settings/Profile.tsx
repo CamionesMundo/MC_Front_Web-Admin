@@ -83,7 +83,7 @@ const Profile = () => {
           setIsEditProfileImage(false)
           await update({
             ...session,
-            user: { ...session?.user, image: profileImage }
+            user: { ...session?.user, image: data?.data.file_profile.url }
           })
 
           router.refresh()
