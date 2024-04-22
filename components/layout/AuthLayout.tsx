@@ -14,9 +14,9 @@ const AuthLayout = ({ children }: AuthLayoutProps) => {
         <div className='w-full hidden md:block h-screen '>
           <div className='w-full h-full'>
             <Image
-              src={'/images/BGLogin.jpeg'}
-              width={1500}
-              height={1500}
+              src={'/images/BGLogin.avif'}
+              width={1000}
+              height={1000}
               alt='Imagen de mundo camiones'
               className='object-cover w-full h-full dark:brightness-75'
               priority
