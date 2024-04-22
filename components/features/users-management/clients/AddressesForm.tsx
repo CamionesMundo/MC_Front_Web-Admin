@@ -6,8 +6,15 @@ import { Loader } from '@/components/ui/Loader'
 import { UserType } from '@/types/enums'
 import DeliveryAddress from './DeliveryAddress'
 import BillingAddress from './BillingAddress'
-import LegalAddress from './LegalAddress'
-import CompanyAddress from './CompanyAddress'
+import dynamic from 'next/dynamic'
+
+const DynamicCompanyAddress = dynamic(
+  async () => await import('./CompanyAddress')
+)
+
+const DynamicLegalAddress = dynamic(
+  async () => await import('./LegalAddress')
+)
 
 type AddressesFormProps = {
   client: ClientResponse | null
@@ -41,9 +48,9 @@ const AddressesForm = ({ client }: AddressesFormProps) => {
       <BillingAddress addresses={addresses} idUser={client?.iduser ?? 0} />
       {isSeller && (
         <>
-          <LegalAddress addresses={addresses} idUser={client?.iduser ?? 0} />
+          <DynamicLegalAddress addresses={addresses} idUser={client?.iduser ?? 0} />
           {isBusiness && (
-            <CompanyAddress
+            <DynamicCompanyAddress
               addresses={addresses}
               idUser={client?.iduser ?? 0}
             />

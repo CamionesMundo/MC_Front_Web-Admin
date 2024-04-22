@@ -4,8 +4,12 @@ import { type AddressResponse } from '@/types/api/response/address'
 import { Divider, Spacer } from '@nextui-org/react'
 import React, { useState } from 'react'
 import AddressItem from './AddressItem'
-import NewAddressForm from './NewAddressForm'
 import { AddressType } from '@/types/enums'
+import dynamic from 'next/dynamic'
+
+const DynamicNewAddressForm = dynamic(
+  async () => await import('./NewAddressForm')
+)
 
 type CompanyAddressProps = {
   addresses: AddressResponse | null
@@ -45,7 +49,7 @@ const CompanyAddress = ({ addresses, idUser }: CompanyAddressProps) => {
       <div className='flex flex-col gap-2 py-2'>
         {showForm && (
           <>
-            <NewAddressForm
+            <DynamicNewAddressForm
               addressType={AddressType.Company}
               onCancel={onCancel}
               idUser={idUser}

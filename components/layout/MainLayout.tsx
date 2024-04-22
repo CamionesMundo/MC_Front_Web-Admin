@@ -4,7 +4,11 @@ import { type ReactNode } from 'react'
 import { Navbar, Sidebar } from '../ui'
 import { useResponsive } from '@/hooks/useResponsive'
 import { cn } from '@/lib/clsx/clsx'
-import MobileAside from '../ui/MobileAside'
+import dynamic from 'next/dynamic'
+
+const DynamicMobileAside = dynamic(
+  async () => await import('../ui/MobileAside')
+)
 
 interface Props {
   children: ReactNode
@@ -36,7 +40,7 @@ const MainLayout = ({ children }: Props) => {
         >
           {children}
         </main>
-        {isMobile && isShowMobileMenu && <MobileAside />}
+        {isMobile && isShowMobileMenu && <DynamicMobileAside />}
       </div>
     </div>
   )
