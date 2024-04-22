@@ -8,7 +8,23 @@ export type BodyAdminForm = {
 
 export type BodyUpdateAdminForm = Omit<BodyAdminForm, 'password' | 'email'>
 
+export type BodyUpdateProfileAdmin = Pick<BodyUpdateAdminForm, 'photo_idgallery'>
+
 export type RequestUpdateAdminForm = {
   id: number
   body: BodyUpdateAdminForm
+}
+
+export type BodyUpdateImageProfile = {
+  id: number
+  data: BodyFileImage
+}
+
+export type BodyFileImage = {
+  file: FileImage[]
+}
+
+export type FileImage = {
+  file: string
+  name: string
 }

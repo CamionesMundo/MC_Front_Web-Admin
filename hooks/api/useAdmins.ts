@@ -1,5 +1,6 @@
 import {
   createAdmin,
+  createProfileImage,
   getAdminById,
   getAllAdmins,
   updateAdmin
@@ -61,6 +62,33 @@ export const useUpdateAdmin = () => {
           queryKey: ['administrator', { id: response?.data.iduser_admin }]
         })
         router.refresh()
+        await queryClient.setQueryData(
+          ['administrator', { id: response?.data.iduser_admin }],
+          response?.data
+        )
+        router.refresh()
+      } catch (error) {
+        console.error('Error al invalidar las queries:', error)
+      }
+    },
+    onError: (data: Error) => {
+      toast.error(data.message)
+    }
+  })
+}
+
+export const useUpdateImageProfile = () => {
+  const queryClient = useQueryClient()
+  const router = useRouter()
+  return useMutation({
+    mutationKey: ['createAdmin'],
+    mutationFn: createProfileImage,
+    onSuccess: async (response) => {
+      try {
+        await queryClient.invalidateQueries({ queryKey: ['administrators'] })
+        await queryClient.invalidateQueries({
+          queryKey: ['administrator', { id: response?.data.iduser_admin }]
+        })
         await queryClient.setQueryData(
           ['administrator', { id: response?.data.iduser_admin }],
           response?.data

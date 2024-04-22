@@ -7,6 +7,7 @@ const BASE_MC_CORE_URL = '/core'
 const BASE_MC_ADMIN_URL = `${BASE_MC_AUTH_URL}/users`
 const BASE_MC_CLIENT_URL = `${BASE_MC_AUTH_URL}/users/app/movil`
 const BASE_MC_ADDRESS = `${BASE_MC_CORE_URL}/address/admin`
+const BASE_MC_FILES = `${BASE_MC_CORE_URL}/files`
 export {
   BASE_ADMIN_URL,
   BASE_MC_ADMIN_URL,
@@ -15,5 +16,6 @@ export {
   BASE_MC_CLIENT_URL,
   BASE_MC_CORE_URL,
   BASE_MC_ADDRESS,
-  BASE_ADDRESS_URL
+  BASE_ADDRESS_URL,
+  BASE_MC_FILES
 }

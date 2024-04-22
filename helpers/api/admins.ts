@@ -3,7 +3,8 @@ import api from '@/lib/axios/axios-client'
 import { type GenericResponse } from '@/types/api'
 import {
   type BodyUpdateAdminForm,
-  type BodyAdminForm
+  type BodyAdminForm,
+  type BodyUpdateImageProfile
 } from '@/types/api/request'
 import {
   type UserDataResponse,
@@ -57,4 +58,15 @@ export const updateAdmin = async (id: number, body: BodyUpdateAdminForm) => {
   } catch (error) {
     console.log(error)
   }
+}
+
+export const createProfileImage = async (body: BodyUpdateImageProfile) => {
+  const res = await api.post<GenericResponse<UserResponse>>(
+    `${BASE_ADMIN_URL}/image`,
+    body
+  )
+
+  const { data } = res
+
+  return data
 }
