@@ -39,6 +39,8 @@ import { ReactComponent as DownloadCloud } from './src/DownloadCloud.svg'
 import { ReactComponent as Check } from './src/Check.svg'
 import { ReactComponent as PostalCode } from './src/PostalCode.svg'
 import { ReactComponent as Location } from './src/Location.svg'
+import { ReactComponent as EditInput } from './src/EditInput.svg'
+import { ReactComponent as Save } from './src/Save.svg'
 
 export {
   Visible,
@@ -81,5 +83,7 @@ export {
   DownloadCloud,
   Check,
   PostalCode,
-  Location
+  Location,
+  EditInput,
+  Save
 }
