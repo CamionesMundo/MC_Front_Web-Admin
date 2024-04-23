@@ -71,6 +71,18 @@ export const handleValidationFormErrors = (
   }
 }
 
+export const handleValidationErrors = (
+  err: unknown
+): string | undefined => {
+  if (err instanceof ZodError) {
+    const errorMessage = err.errors[0]?.message
+    return errorMessage
+  } else {
+    console.log('ERROR=>', err)
+    return undefined
+  }
+}
+
 /**
  * Handles client errors by displaying appropriate error messages based on the HTTP status code.
  *
