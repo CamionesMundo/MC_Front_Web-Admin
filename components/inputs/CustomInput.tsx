@@ -62,7 +62,7 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
     <div
       className={`${
         error !== '' ? 'mt-8' : 'mt-4'
-      } mb-4 flex flex-col justify-center`}
+      } mb-4 flex flex-col justify-center flex-1`}
     >
       <Input
         variant='faded'
