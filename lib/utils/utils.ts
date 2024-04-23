@@ -126,3 +126,8 @@ export function formatDateForInputDate (value: string) {
   const day = parseInt(dateParts[2])
   return new Date(year, month, day)
 }
+
+export function formatNumber (numStr: string) {
+  const num = parseFloat(numStr)
+  return isNaN(num) ? '' : num.toFixed(2)
+}
