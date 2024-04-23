@@ -29,4 +29,29 @@ enum LanguagePreference {
   Spanish = 'es'
 }
 
-export { UserType, Sex, AccountType, LanguagePreference, AddressType }
+enum AppParametersType {
+  Warranty = 1,
+  Mechanical = 2,
+  WarrantyDeposit = 3,
+  MaximumNumberPhotos = 4,
+  MinimumNumberPhotos = 5,
+  CommissionForSale = 6,
+  PlanFree = 7,
+  PlanMonthly = 8,
+  PlanAnnual = 9,
+  FreeMemberShipsForever = 10,
+  PublicationFree = 11,
+  CustomAgentDescription = 12,
+  TimeOfMarginForPayment = 13,
+  SupportContactNumber = 14,
+  DefaultAdmin = 15
+}
+
+export {
+  UserType,
+  Sex,
+  AccountType,
+  LanguagePreference,
+  AddressType,
+  AppParametersType
+}
