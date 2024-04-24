@@ -103,7 +103,7 @@ const CityAutocomplete = ({
         ...prevState,
         inputValue: cityName,
         selectedKey: key,
-        currentCountry: selectedItem
+        currentCity: selectedItem
       }
     })
     const filtered = list.items.find(

@@ -86,7 +86,7 @@ const PortAutocomplete = ({
         ...prevState,
         inputValue: portName,
         selectedKey: key,
-        currentCountry: selectedItem
+        currentPort: selectedItem
       }
     })
     const filtered = list.items.find(
