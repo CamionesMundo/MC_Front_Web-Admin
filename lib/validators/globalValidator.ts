@@ -31,8 +31,11 @@ export const percentNumberSchema = z
     message: 'El valor debe ser menor a 100'
   })
 
-export const booleanSchema = z
+export const booleanSchema = z.string().refine((val) => !isNaN(parseInt(val)), {
+  message: 'El valor debe ser un número'
+})
+
+export const descriptionSchema = z
   .string()
-  .refine((val) => !isNaN(parseInt(val)), {
-    message: 'El valor debe ser un número'
-  })
+  .min(8, { message: 'Mínimo 8 caracteres' })
+  .max(1000, { message: 'Máximo 1000 caracteres' })
