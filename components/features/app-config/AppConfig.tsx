@@ -6,6 +6,8 @@ import { useGetAllParameters } from '@/hooks/api/useAppConfig'
 import { AppParametersType } from '@/types/enums'
 import InputParameter from './InputParameter'
 import { Loader } from '@/components/ui/Loader'
+import TextAreaParameter from './TextAreaParameter'
+import AdminParameter from './AdminParameter'
 
 const AppConfig = () => {
   const { data: response, isLoading } = useGetAllParameters()
@@ -35,28 +37,49 @@ const AppConfig = () => {
         </div>
       )}
       {!isLoading && (
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-x-4 md:gap-y-1'>
-          {appParameters !== undefined &&
-            appParameters?.length > 0 &&
-            appParameters.map((parameter) => {
-              if (parameter.idparameter === AppParametersType.DefaultAdmin) {
-                return <div key={parameter.idparameter}>Otra</div>
-              }
-              if (
-                parameter.idparameter ===
-                AppParametersType.CustomAgentDescription
-              ) {
-                return <div key={parameter.idparameter}> Hola</div>
-              } else {
-                return (
-                  <InputParameter
-                    key={parameter.idparameter}
-                    item={parameter}
-                  />
-                )
-              }
-            })}
-        </div>
+        <>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-x-4 md:gap-y-1'>
+            {appParameters !== undefined &&
+              appParameters?.length > 0 &&
+              appParameters.map((parameter) => {
+                if (parameter.idparameter === AppParametersType.DefaultAdmin) {
+                  return <AdminParameter key={parameter.idparameter} item={parameter}/>
+                }
+                if (
+                  parameter.idparameter ===
+                  AppParametersType.CustomAgentDescription
+                ) {
+                  return null
+                } else {
+                  return (
+                    <InputParameter
+                      key={parameter.idparameter}
+                      item={parameter}
+                    />
+                  )
+                }
+              })}
+          </div>
+          <div className='w-1/2'>
+            {appParameters !== undefined &&
+              appParameters?.length > 0 &&
+              appParameters.map((parameter) => {
+                if (
+                  parameter.idparameter ===
+                  AppParametersType.CustomAgentDescription
+                ) {
+                  return (
+                    <TextAreaParameter
+                      key={parameter.idparameter}
+                      item={parameter}
+                    />
+                  )
+                } else {
+                  return null
+                }
+              })}
+          </div>
+        </>
       )}
     </>
   )
