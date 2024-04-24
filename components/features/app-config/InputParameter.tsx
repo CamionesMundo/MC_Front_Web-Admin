@@ -56,7 +56,9 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
       ? initialState
       : isPercentNumber
         ? (parseFloat(formatNumber(initialState)) * 100).toFixed(2).toString()
-        : formatNumber(initialState)
+        : isMoney
+          ? formatNumber(initialState)
+          : parseInt(initialState).toString()
   )
 
   const isTrue = item.value === '1.00'
@@ -115,6 +117,17 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
       await onUpdated(updateData)
     } else {
       if (validateInput()) {
+        if (isPhoneText) {
+          const updateData: BodyParameters = {
+            id: item.idparameter,
+            data: {
+              value: null,
+              value_str: value
+            }
+          }
+          await onUpdated(updateData)
+          return
+        }
         if (isPercentNumber) {
           const updateData: BodyParameters = {
             id: item.idparameter,
@@ -124,7 +137,27 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
             }
           }
           await onUpdated(updateData)
+          return
         }
+        if (isMoney) {
+          const updateData: BodyParameters = {
+            id: item.idparameter,
+            data: {
+              value: parseFloat(value),
+              value_str: null
+            }
+          }
+          await onUpdated(updateData)
+          return
+        }
+        const updateData: BodyParameters = {
+          id: item.idparameter,
+          data: {
+            value: Number(value),
+            value_str: null
+          }
+        }
+        await onUpdated(updateData)
       }
     }
   }
@@ -151,7 +184,11 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
 
   const onBlur = () => {
     if (!isText) {
-      setValue(formatNumber(value))
+      if (isMoney || isPercentNumber) {
+        setValue(formatNumber(value))
+      } else {
+        setValue(value)
+      }
     }
   }
   const toggleIsSelected = useCallback((value: boolean | undefined) => {
@@ -163,7 +200,7 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
         ? (
         <div className='flex flex-row gap-2 justify-between items-center w-full'>
           <div className='flex flex-row items-center gap-3'>
-            <div className='dark:text-white text-xs font-semibold'>
+            <div className='dark:text-white text-blackText text-xs font-semibold'>
               {item.name}
             </div>
 
@@ -213,13 +250,13 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
             startContent={
               isPercentNumber
                 ? (
-                <div className='flex items-center font-semibold dark:text-white text-sm'>
+                <div className='flex items-center font-semibold text-blackText dark:text-white text-sm'>
                   {'%'}
                 </div>
                   )
                 : isMoney
                   ? (
-                <div className='flex items-center font-semibold dark:text-white text-sm'>
+                <div className='flex items-center font-semibold text-blackText dark:text-white text-sm'>
                   {'$'}
                 </div>
                     )
@@ -228,12 +265,23 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
           />
           <Tooltip content='Guardar'>
             <div
-              className='w-8 h-8 flex justify-center items-center dark:bg-primary/80 dark:hover:bg-primary bg-slate-300 hover:bg-slate-400 hover:cursor-pointer rounded-full dark:border dark:border-white/60'
+              className='w-8 h-8 flex justify-center items-center relative dark:bg-primary/80 dark:hover:bg-primary bg-slate-300 hover:bg-slate-400 hover:cursor-pointer rounded-full dark:border dark:border-white/60'
               onClick={!isPending ? onSubmit : undefined}
             >
               {isPending
                 ? (
-                <Spinner label='' color='default' />
+                <div className='w-5 h-5'>
+                  <Spinner
+                    label=''
+                    color='primary'
+                    classNames={{
+                      circle1:
+                        'absolute w-5 h-5 rounded-full animate-spinner-ease-spin border-solid border-t-transparent border-l-transparent border-r-transparent border-2 dark:border-b-white border-b-primary',
+                      circle2:
+                        'absolute w-5 h-5 rounded-full opacity-75 animate-spinner-linear-spin border-dotted border-t-transparent border-l-transparent border-r-transparent border-2 dark:border-b-white border-b-primary'
+                    }}
+                  />
+                </div>
                   )
                 : (
                 <Save className='w-4 h-4 dark:text-white' />
