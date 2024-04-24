@@ -54,7 +54,11 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
           ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200 dark:bg-gray-700'
           : ''
       }`,
-      base: ` ${props.disabled === true ? 'cursor-not-allowed data-[hover=true]:cursor-not-allowed' : ''}`,
+      base: ` ${
+        props.disabled === true
+          ? 'cursor-not-allowed data-[hover=true]:cursor-not-allowed'
+          : ''
+      }`,
       helperWrapper: ` ${props.disabled === true ? 'cursor-not-allowed' : ''}`
     }
   })
@@ -71,10 +75,8 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
         classNames={{ ...classNames }}
         role='presentation'
         autoComplete='nope'
+        errorMessage={error !== '' && `(*) Error: ${error}`}
       />
-      {error !== '' && (
-        <span className='text-danger text-xs italic'>{`(*) Error: ${error}`}</span>
-      )}
     </div>
   )
 }
