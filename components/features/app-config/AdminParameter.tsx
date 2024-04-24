@@ -39,7 +39,7 @@ const AdminParameter = ({ item }: AdminParameterProps) => {
 
   const onSubmit = async () => {
     const currentValue = currentAdmin?.iduser_admin ?? 0
-    console.log(currentValue)
+
     const updateData: BodyParameters = {
       id: item.idparameter,
       data: {

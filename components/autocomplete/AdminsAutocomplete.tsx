@@ -43,7 +43,6 @@ const AdminsAutocomplete = ({
           BASE_ADMIN_URL,
           { signal }
         )
-        console.log(response)
         return { items: response.data.data }
       } catch (error) {
         console.log('Error fetching admin users:', error)
@@ -52,7 +51,6 @@ const AdminsAutocomplete = ({
     }
   })
 
-  console.log(list.items)
   useEffect(() => {
     if (admin === undefined) {
       setFieldState({
