@@ -47,11 +47,37 @@ enum AppParametersType {
   DefaultAdmin = 15
 }
 
+enum ModulesType {
+  UsersManagement = 'users_management',
+  UsersManagementAdmins = 'users_management_admins',
+  UsersManagementRoles = 'users_management_roles',
+  UsersManagementClients = 'users_management_clients',
+  PublicationsManagement = 'publications_management',
+  PublicationsManagementProducts = 'publications_management_products',
+  PublicationsManagementAuctions = 'publications_management_auctions',
+  PublicationsManagementLots = 'publications_management_lots',
+  CustomsAgents = 'customs_agents',
+  AppConfig = 'app_config',
+  CategoriesManagement = 'categories_management',
+  CategoriesManagementCountries = 'categories_management_countries',
+  CategoriesManagementCities = 'categories_management_cities',
+  CategoriesManagementVehicleTypes = 'categories_management_vehicle_types',
+  CategoriesManagementBrands = 'categories_management_brands',
+  CategoriesManagementModels = 'categories_management_models',
+  CategoriesManagementSubModels = 'categories_management_sub_models',
+  ShippingManagement = 'shipping_management',
+  ShippingManagementOrders = 'shipping_management_orders',
+  ShippingManagementHistory = 'shipping_management_history',
+  ShippingManagementNotifications = 'shipping_management_notifications',
+  AccountConfiguration = 'account_configuration'
+}
+
 export {
   UserType,
   Sex,
   AccountType,
   LanguagePreference,
   AddressType,
-  AppParametersType
+  AppParametersType,
+  ModulesType
 }
