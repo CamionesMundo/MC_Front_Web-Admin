@@ -76,7 +76,7 @@ const Sidebar = () => {
           <ItemAside
             IconComponent={Settings}
             href='/settings'
-            label='Configuración'
+            label='Configuración de cuenta'
           />
         </div>
       </div>
