@@ -51,3 +51,34 @@ export const clientColumns = [
     display: 'Acciones'
   }
 ]
+
+export const customAgentsColumns = [
+  {
+    key: 'user',
+    display: 'Agente Aduanero'
+  },
+  {
+    key: 'port',
+    display: 'Puerto'
+  },
+  {
+    key: 'city-country',
+    display: 'Locación'
+  },
+  {
+    key: 'status',
+    display: 'Activo'
+  },
+  {
+    key: 'company_name',
+    display: 'Compañía'
+  },
+  {
+    key: 'updatedAt',
+    display: 'F. Actualización'
+  },
+  {
+    key: 'actions',
+    display: 'Acciones'
+  }
+]
