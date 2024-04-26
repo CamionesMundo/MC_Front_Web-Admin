@@ -1,4 +1,4 @@
-import { LanguagePreference, UserType } from '@/types/enums'
+import { LanguagePreference, ModulesType, UserType } from '@/types/enums'
 import { useRouter } from 'next/navigation'
 
 /**
@@ -130,4 +130,55 @@ export function formatDateForInputDate (value: string) {
 export function formatNumber (numStr: string) {
   const num = parseFloat(numStr)
   return isNaN(num) ? '' : num.toFixed(2)
+}
+
+export function getPermissionName (permission: ModulesType): string {
+  switch (permission) {
+    case ModulesType.UsersManagement:
+      return 'Gestión de Usuarios'
+    case ModulesType.UsersManagementAdmins:
+      return 'Administradores'
+    case ModulesType.UsersManagementRoles:
+      return 'Roles'
+    case ModulesType.UsersManagementClients:
+      return 'Usuarios'
+    case ModulesType.PublicationsManagement:
+      return 'Gestión de Publicaciones'
+    case ModulesType.PublicationsManagementProducts:
+      return 'Gestión de Productos'
+    case ModulesType.PublicationsManagementAuctions:
+      return 'Gestión de Subastas'
+    case ModulesType.PublicationsManagementLots:
+      return 'Gestión de Lotes'
+    case ModulesType.CustomsAgents:
+      return 'Agentes aduaneros'
+    case ModulesType.AppConfig:
+      return 'Configuraciones App'
+    case ModulesType.CategoriesManagement:
+      return 'Gestión de Categorías'
+    case ModulesType.CategoriesManagementCountries:
+      return 'Países'
+    case ModulesType.CategoriesManagementCities:
+      return 'Ciudades'
+    case ModulesType.CategoriesManagementVehicleTypes:
+      return 'Tipo de vehículos'
+    case ModulesType.CategoriesManagementBrands:
+      return 'Marcas'
+    case ModulesType.CategoriesManagementModels:
+      return 'Modelos'
+    case ModulesType.CategoriesManagementSubModels:
+      return 'Sub modelos'
+    case ModulesType.ShippingManagement:
+      return 'Gestión de Envíos'
+    case ModulesType.ShippingManagementOrders:
+      return 'Pedidos'
+    case ModulesType.ShippingManagementHistory:
+      return 'Historial'
+    case ModulesType.ShippingManagementNotifications:
+      return 'Notificaciones'
+    case ModulesType.AccountConfiguration:
+      return 'Configuración de cuenta'
+    default:
+      return 'Sin nombre'
+  }
 }
