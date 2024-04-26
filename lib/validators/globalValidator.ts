@@ -39,3 +39,8 @@ export const descriptionSchema = z
   .string()
   .min(8, { message: 'Mínimo 8 caracteres' })
   .max(1000, { message: 'Máximo 1000 caracteres' })
+
+export const nameSchema = z
+  .string()
+  .min(3, { message: 'Mínimo 3 caracteres' })
+  .max(MAX_LENGTH, { message: MAX_LENGTH_MESSAGE })
