@@ -1,4 +1,4 @@
-import { CheckCircle, ChevronRight, Plus, Search, XMarkCircle } from '@/icons'
+import { ChevronRight, Plus, Search } from '@/icons'
 import { type ActionsPermissions, type ColumnsProps } from '@/types/ui/table'
 
 import {
@@ -29,7 +29,9 @@ import {
   TableUserClient,
   TableIsActive,
   TableCountry,
-  TableUserType
+  TableUserType,
+  TableCountryCity,
+  TablePort
 } from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
@@ -208,23 +210,6 @@ const CustomTable = <T extends WithId>({
       const cellValue = row[columnKey]
 
       switch (columnKey) {
-        case 'canCreate':
-        case 'canRead':
-        case 'canDelete':
-        case 'canUpdate':
-        case 'useSubmodule':
-        case 'isRestricted':
-          return (
-            <div className='flex justify-center items-center'>
-              {cellValue === true
-                ? (
-                <CheckCircle className='w-5 h-5' />
-                  )
-                : (
-                <XMarkCircle className='w-5 h-5' />
-                  )}
-            </div>
-          )
         case 'name_role':
           return <TableRole row={row} />
         case 'user':
@@ -245,6 +230,10 @@ const CustomTable = <T extends WithId>({
           return <TableCountry row={row} />
         case 'user_type':
           return <TableUserType row={row} />
+        case 'city-country':
+          return <TableCountryCity row={row} />
+        case 'port':
+          return <TablePort row={row} />
         case 'actions':
           return (
             <TableActions
@@ -318,6 +307,7 @@ const CustomTable = <T extends WithId>({
               placeholder={searchBarPlaceholder}
               startContent={<Search className='w-3 h-3 dark:text-white' />}
               value={filterValue}
+              classNames={{ clearButton: 'dark:text-white' }}
               onClear={() => {
                 onClear()
               }}
@@ -330,7 +320,7 @@ const CustomTable = <T extends WithId>({
               <Dropdown>
                 <DropdownTrigger className='hidden sm:flex'>
                   <Button
-                    className='bg-slate-300 dark:bg-default-200 text-blackText dark:text-white'
+                    className='bg-slate-300 dark:bg-default-200 dark:border dark:border-white/60 text-blackText dark:text-white'
                     endContent={
                       <ChevronRight className='w-2.5 h-2.5 rotate-90' />
                     }
@@ -359,7 +349,7 @@ const CustomTable = <T extends WithId>({
               <GenericButton
                 iconStart={<Plus className='w-3 h-3 text-white' />}
                 type='button'
-                className='text-sm bg-blackText text-white'
+                className='text-sm bg-blackText text-white dark:border dark:border-white/60'
                 label={newButtonLabel}
                 onClick={() => {
                   if (actionOnAdd !== undefined) {
