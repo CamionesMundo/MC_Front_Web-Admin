@@ -7,12 +7,22 @@ type Props = {
 }
 
 const TableRole = ({ row }: Props) => {
-  const roleName = row?.role?.name_role ?? 'Sin rol'
-  return (
-    <div className='text-center dark:text-white'>
-      {capitalize(roleName as string)}
-    </div>
-  )
+  const isRoleAdmin = row?.role !== undefined
+  if (isRoleAdmin) {
+    const roleName = row?.role?.name_role ?? 'Sin rol'
+    return (
+      <div className='text-center dark:text-white'>
+        {capitalize(roleName as string)}
+      </div>
+    )
+  } else {
+    const roleName = row?.name_role ?? 'Sin rol'
+    return (
+      <div className='text-center dark:text-white'>
+        {capitalize(roleName as string)}
+      </div>
+    )
+  }
 }
 
 export default TableRole
