@@ -1,19 +1,23 @@
 'use client'
 
-import { BackComponent } from '@/components/ui/BackComponent'
+import Roles from '@/components/features/users-management/roles/Roles'
+import { MainContainer } from '@/components/ui'
+import { useGetAllRoles } from '@/hooks/api/useRoles'
+import { useMemo } from 'react'
 
 const RolesPage = () => {
+  const { data: rolesResponse, isLoading } = useGetAllRoles()
+  const roles = useMemo(() => {
+    const usersAdmin = rolesResponse?.data?.map((role) => ({
+      ...role,
+      id: role.idrole_admin
+    }))
+    return usersAdmin
+  }, [rolesResponse])
   return (
-    <div className='w-full bg-white/70 p-2 md:p-4 rounded-lg border border-gray-500/60'>
-      <div className='w-full flex justify-start mb-2'>
-        <BackComponent title=' ' subtitle='Roles' />
-      </div>
-      <div>
-        <p className='text-xs mb-2'>
-          Gestiona en esta sección los roles y permisos para cada colaborador.
-        </p>
-      </div>
-    </div>
+    <MainContainer>
+      <Roles roles={roles ?? []} isLoading={isLoading} />
+    </MainContainer>
   )
 }
 

@@ -1,7 +1,9 @@
+import { MainContainer } from '@/components/ui'
+
 export default function Home () {
   return (
-    <main className="">
-     <h1>HOla Mundo camiones</h1>
-    </main>
+    <MainContainer>
+      <h1>HOla Mundo camiones</h1>
+    </MainContainer>
   )
 }

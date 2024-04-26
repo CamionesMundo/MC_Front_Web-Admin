@@ -1,15 +1,14 @@
 'use client'
-
 import RolesForm from '@/components/features/users-management/roles/RolesForm'
 import { MainContainer } from '@/components/ui'
 import React from 'react'
 
-const CreateRolePage = () => {
+const EditRolesPage = () => {
   return (
     <MainContainer>
-      <RolesForm />
+      <RolesForm isEditing />
     </MainContainer>
   )
 }
 
-export default CreateRolePage
+export default EditRolesPage
