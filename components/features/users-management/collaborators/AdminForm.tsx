@@ -129,7 +129,6 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
       idrole_admin: Number(role),
       photo_idgallery: null
     }
-
     try {
       if (isEditing) {
         const body: BodyUpdateAdminForm = {
@@ -264,7 +263,10 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
                 label='Contraseña'
                 placeholder='Ingresa aquí tu contraseña'
                 endContent={
-                  <Visible className='icon-input' onClick={togglePassword} />
+                  <Visible
+                    className='icon-input dark:text-white'
+                    onClick={togglePassword}
+                  />
                 }
                 error={errors?.password?.toString() ?? ''}
               />
@@ -284,8 +286,8 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
               </SelectItem>
             </CustomSelect>
           </div>
-          <div className='w-full flex justify-center mt-10'>
-            <div className='w-1/2'>
+          <div className='w-full flex justify-start mt-10'>
+            <div className='w-1/4'>
               <GenericButton
                 type='submit'
                 label={isEditing ? 'Actualizar Datos' : 'Crear Administrador'}
