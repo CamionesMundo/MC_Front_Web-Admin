@@ -1,10 +1,13 @@
-import { BASE_MC_PERMISSIONS_ROLE_URL, BASE_MC_ROLES_URL } from '@/const/base-url'
+import {
+  BASE_MC_PERMISSIONS_ROLE_URL,
+  BASE_MC_ROLES_URL
+} from '@/const/base-url'
 import { handleServerError } from '@/helpers/error'
 import mcApi from '@/lib/axios/mc-client'
 import { type GenericResponse } from '@/types/api'
 import { type BodyRoleForm } from '@/types/api/request/roles-form'
 import {
-  type PermissionCreateResponse,
+  type RolePermissionResponse,
   type RoleResponse
 } from '@/types/api/response/roles'
 import { type AxiosResponse } from 'axios'
@@ -26,11 +29,10 @@ export async function GET () {
 
 export async function POST (req: Request) {
   const body = (await req.json()) as BodyRoleForm
-  const { roleData, permissionsData } = body
-  console.log(roleData)
-  console.log(permissionsData)
+  const { roleData, permissionsData, isEditing, idRole } = body
+
   try {
-    if (roleData === undefined || permissionsData === undefined) {
+    if (permissionsData === undefined) {
       return NextResponse.json({
         statusCode: 400,
         message: 'Faltan datos necesarios',
@@ -38,24 +40,37 @@ export async function POST (req: Request) {
         error: 'Datos no válidos'
       })
     }
-    const mcInstance = await mcApi()
-    const resRoles: AxiosResponse<GenericResponse<RoleResponse>> =
-      await mcInstance.post<GenericResponse<RoleResponse>>(
-        `${BASE_MC_ROLES_URL}/create`,
-        roleData
-      )
-    const createResponse = resRoles.data
-    if (createResponse.data !== null) {
-      const idRole = createResponse.data.idrole_admin
-      console.log(idRole)
+
+    if (isEditing) {
+      const mcInstance = await mcApi()
+
       const resPermissions: AxiosResponse<
-      GenericResponse<PermissionCreateResponse[]>
-      > = await mcInstance.post<GenericResponse<PermissionCreateResponse[]>>(
+      GenericResponse<RolePermissionResponse>
+      > = await mcInstance.post<GenericResponse<RolePermissionResponse>>(
         `${BASE_MC_PERMISSIONS_ROLE_URL}/create/block/${idRole}`,
         permissionsData
       )
-      console.log(resPermissions)
       return NextResponse.json(resPermissions.data)
+    } else {
+      const mcInstance = await mcApi()
+      const resRoles: AxiosResponse<GenericResponse<RoleResponse>> =
+        await mcInstance.post<GenericResponse<RoleResponse>>(
+          `${BASE_MC_ROLES_URL}/create`,
+          roleData
+        )
+      const createResponse = resRoles.data
+      if (createResponse.data !== null) {
+        const idRoleCreated = createResponse.data.idrole_admin
+
+        const resPermissions: AxiosResponse<
+        GenericResponse<RolePermissionResponse>
+        > = await mcInstance.post<GenericResponse<RolePermissionResponse>>(
+          `${BASE_MC_PERMISSIONS_ROLE_URL}/create/block/${idRoleCreated}`,
+          permissionsData
+        )
+
+        return NextResponse.json(resPermissions.data)
+      }
     }
   } catch (error) {
     return NextResponse.json({
