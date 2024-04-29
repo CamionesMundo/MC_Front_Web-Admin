@@ -72,6 +72,11 @@ const CustomAgents = ({ agents, isLoading }: CustomAgentsProps) => {
         onDelete={() => {}}
         isLoading={isLoading}
         actionOnAdd={onCreateRole}
+        actions={{
+          useViewMore: true,
+          useEdit: true,
+          useDelete: true
+        }}
       />
     </>
   )
