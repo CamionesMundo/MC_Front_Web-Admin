@@ -41,3 +41,10 @@ export type PermissionCreateData = {
   idpermission_admin: number
   name_permission: string
 }
+
+export type RoleShortResponse = Omit<RoleResponse, 'user_count' | 'creator'>
+
+export type RolePermissionResponse = {
+  role: RoleShortResponse
+  permissions: PermissionCreateResponse[]
+}
