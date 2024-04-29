@@ -6,7 +6,7 @@ import React from 'react'
 const EditRolesPage = () => {
   return (
     <MainContainer>
-      <RolesForm isEditing />
+      <RolesForm isEditing={true} />
     </MainContainer>
   )
 }
