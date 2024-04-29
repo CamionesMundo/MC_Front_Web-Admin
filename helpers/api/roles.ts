@@ -3,6 +3,7 @@ import api from '@/lib/axios/axios-client'
 import { type GenericResponse } from '@/types/api'
 import { type BodyRoleForm } from '@/types/api/request/roles-form'
 import {
+  type RolePermissionResponse,
   type PermissionCreateResponse,
   type PermissionResponse,
   type RoleResponse
@@ -32,8 +33,7 @@ export const getAllPermissions = async () => {
 }
 
 export const createRol = async (body: BodyRoleForm) => {
-  console.log(body)
-  const res = await api.post<GenericResponse<PermissionCreateResponse[]>>(
+  const res = await api.post<GenericResponse<RolePermissionResponse>>(
     BASE_ROLES_URL,
     body
   )
@@ -41,4 +41,17 @@ export const createRol = async (body: BodyRoleForm) => {
   const { data } = res
 
   return data
+}
+
+export const getPermissionsByIdRole = async (id: number) => {
+  try {
+    const res = await api.get<GenericResponse<PermissionCreateResponse[]>>(
+      `${BASE_ROLES_URL}/id/${id}`
+    )
+
+    const { data } = res
+    return data
+  } catch (error) {
+    console.log(error)
+  }
 }
