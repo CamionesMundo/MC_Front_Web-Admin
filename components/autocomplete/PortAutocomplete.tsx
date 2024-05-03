@@ -120,6 +120,13 @@ const PortAutocomplete = ({
         selectedKey: port.idreceiving_port.toString(),
         items: list.items
       })
+    } else {
+      setFieldState({
+        inputValue: '',
+        currentPort: undefined,
+        selectedKey: '',
+        items: list.items
+      })
     }
   }, [list.items, port])
 
