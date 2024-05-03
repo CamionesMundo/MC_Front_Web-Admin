@@ -41,6 +41,11 @@ import { ReactComponent as PostalCode } from './src/PostalCode.svg'
 import { ReactComponent as Location } from './src/Location.svg'
 import { ReactComponent as EditInput } from './src/EditInput.svg'
 import { ReactComponent as Save } from './src/Save.svg'
+import { ReactComponent as Agent } from './src/Agent.svg'
+import { ReactComponent as Briefcase } from './src/Briefcase.svg'
+import { ReactComponent as Upload } from './src/Upload.svg'
+import { ReactComponent as Document } from './src/Document.svg'
+import { ReactComponent as SendFile } from './src/SendFile.svg'
 
 export {
   Visible,
@@ -85,5 +90,10 @@ export {
   PostalCode,
   Location,
   EditInput,
-  Save
+  Save,
+  Agent,
+  Briefcase,
+  Upload,
+  Document,
+  SendFile
 }
