@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const adminFormSchema = z.object({
-  name: z.string().min(6, 'Mínimo 6 caracteres'),
+  name: z.string().min(3, 'Mínimo 3 caracteres'),
   email: z.string().email('Ingrese un correo válido').optional(),
   password: z
     .string()

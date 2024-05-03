@@ -1,8 +1,10 @@
 import {
+  CITY_MESSAGE,
   MAX_LENGTH,
   MAX_LENGTH_ADDRESS,
   MAX_LENGTH_ADDRESS_MESSAGE,
-  MAX_LENGTH_MESSAGE
+  MAX_LENGTH_MESSAGE,
+  PORT_MESSAGE
 } from '@/const/other'
 import { z } from 'zod'
 import { REGEX_ALIAS_ADDRESS, REGEX_POSTAL_CODE } from './regex'
@@ -28,13 +30,13 @@ export const addressFormSchema = z.object({
   idcity: z
     .number()
     .int({
-      message: 'Ciudad no válida'
+      message: CITY_MESSAGE
     })
     .refine((id) => id > 0, { message: 'Debes seleccionar una ciudad' }),
   idReceivingPort: z
     .number()
     .int({
-      message: 'Puerto no válido'
+      message: PORT_MESSAGE
     })
     .refine((id) => id > 0, { message: 'Debes seleccionar un puerto' })
     .optional()
