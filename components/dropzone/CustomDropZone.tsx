@@ -3,8 +3,8 @@ import { Delete, Document, SendFile, Upload, Visible } from '@/icons'
 import { Spinner, Tooltip } from '@nextui-org/react'
 import React, { useEffect } from 'react'
 import { type Accept, useDropzone } from 'react-dropzone'
-import { type FilesSelected } from '../features/custom-agents/AgentFormProfile'
 import Link from 'next/link'
+import { type FilesSelected } from '@/types/store/custom-agents'
 
 type CustomDropZoneProps = {
   labelFormats?: string
