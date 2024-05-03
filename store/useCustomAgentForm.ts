@@ -6,7 +6,8 @@ import {
   type CustomAgentCompanyData,
   type CustomAgentBankData,
   type CustomAgentWorkExperienceData,
-  type CustomAgentReferencesData
+  type CustomAgentReferencesData,
+  type FilesSelected
 } from '@/types/store/custom-agents'
 import { create } from 'zustand'
 import { type AdminFormData } from './useAdminForm'
@@ -18,6 +19,10 @@ interface CountryStoreState {
 
 interface PortStoreState {
   currentPort: ReceivingPortData | null | undefined
+}
+
+interface FilesCertificateState {
+  documents: FilesSelected[]
 }
 
 interface IdGalleryState {
@@ -44,6 +49,7 @@ interface CustomAgentActions {
   updateCountry: (country: CountryListItem | undefined) => void
   updatePort: (country: ReceivingPortData | undefined) => void
   updateIdGallery: (id: number | undefined) => void
+  updateFilesCertificates: (filesSelected: FilesSelected[]) => void
   goToNextStep: () => void
   goToPreviousStep: () => void
   togglePassword: () => void
@@ -63,6 +69,9 @@ const initialStepState: StepState = {
 }
 const initialStatePassword: AgentAdminFormToggles = {
   showPassword: false
+}
+const initialStateFiles: FilesCertificateState = {
+  documents: []
 }
 const initialStateData: CustomAgentStoreState = {
   profileData: {
@@ -95,8 +104,7 @@ const initialStateData: CustomAgentStoreState = {
   },
   referencesData: {
     commercialReference: '',
-    contactReference: '',
-    contactNumberReference: ''
+    contactReference: ''
   },
   bankData: {
     bankName: '',
@@ -111,7 +119,8 @@ const initialStateData: CustomAgentStoreState = {
     endDate: '',
     workReference: '',
     workContactReference: '',
-    jobDescription: ''
+    jobDescription: '',
+    contactNumberReference: ''
   },
   adminFormData: {
     name: '',
@@ -127,6 +136,7 @@ CountryStoreState &
 PortStoreState &
 IdGalleryState &
 StepState &
+FilesCertificateState &
 AgentAdminFormToggles
 >((set) => ({
   ...initialStateData,
@@ -135,6 +145,7 @@ AgentAdminFormToggles
   ...initialIdGalleryState,
   ...initialStepState,
   ...initialStatePassword,
+  ...initialStateFiles,
   updateProfileData: (data) => {
     set((state) => ({
       ...state,
@@ -186,6 +197,12 @@ AgentAdminFormToggles
       idGallery: id
     }))
   },
+  updateFilesCertificates: (filesSelected) => {
+    set((state) => ({
+      ...state,
+      documents: filesSelected
+    }))
+  },
   goToNextStep: () => {
     set((state) => ({
       ...state,
@@ -205,7 +222,8 @@ AgentAdminFormToggles
       ...initialPortState,
       ...initialIdGalleryState,
       ...initialStepState,
-      ...initialStatePassword
+      ...initialStatePassword,
+      ...initialStateFiles
     })
   },
   togglePassword: () => {
