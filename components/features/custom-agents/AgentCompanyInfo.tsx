@@ -114,14 +114,6 @@ const AgentCompanyInfo = ({ agent }: AgentCompanyInfoProps) => {
             {agent?.contact_commercial_references ?? 'No registrado'}
           </span>
         </div>
-        <div className='flex flex-col justify-start'>
-          <span className={sectionClass}>
-            Número de contacto Ref. comercial
-          </span>
-          <span className='text-md text-default-500 text-sm'>
-            {agent?.work_experiences?.reference_contact_number ?? 'No registrado'}
-          </span>
-        </div>
       </div>
     </>
   )
