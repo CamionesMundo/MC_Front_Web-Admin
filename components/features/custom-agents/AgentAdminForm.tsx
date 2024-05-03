@@ -20,6 +20,7 @@ import {
 } from '@/types/api/request/custom-agents'
 import { useRouter } from 'next/navigation'
 import React, { type FormEvent, useEffect, useState } from 'react'
+import RulesPassword from './RulesPassword'
 
 type AgentAdminFormProps = {
   isEditing: boolean
@@ -239,24 +240,34 @@ const AgentAdminForm = ({ isEditing }: AgentAdminFormProps) => {
             error={errors?.email?.toString() ?? ''}
           />
           {!isEditing && (
-            <CustomInput
-              name='password'
-              type={showPassword ? 'text' : 'password'}
-              value={adminFormData.password}
-              onChange={(e) => {
-                handleChange(e, 'password')
-              }}
-              color={errors?.password !== undefined ? 'danger' : 'primary'}
-              label='Contraseña'
-              placeholder='Ingresa aquí tu contraseña'
-              endContent={
-                <Visible
-                  className='icon-input dark:text-white'
-                  onClick={togglePassword}
-                />
-              }
-              error={errors?.password?.toString() ?? ''}
-            />
+            <div className='flex flex-col'>
+              <CustomInput
+                name='password'
+                type={showPassword ? 'text' : 'password'}
+                value={adminFormData.password}
+                onChange={(e) => {
+                  handleChange(e, 'password')
+                }}
+                color={errors?.password !== undefined ? 'danger' : 'primary'}
+                label='Contraseña'
+                placeholder='Ingresa aquí tu contraseña'
+                endContent={
+                  <Visible
+                    className='icon-input dark:text-white'
+                    onClick={togglePassword}
+                  />
+                }
+                error={errors?.password?.toString() ?? ''}
+              />
+              <span className='text-sm mb-1 text-blackText dark:text-white mt-2'>
+                Recuerda que la contraseña debe:
+              </span>
+              <RulesPassword content='Tener una longitud mínima de 8 caracteres.' />
+              <RulesPassword content='Tener una longitud máxima de 25 caracteres.' />
+              <RulesPassword content='Contener al menos una letra mayúscula (A-Z).' />
+              <RulesPassword content='Contener al menos una letra minúscula (a-z).' />
+              <RulesPassword content='Contener al menos un número (0-9).' />
+            </div>
           )}
         </div>
         <div className='w-full flex justify-start mt-10'>
