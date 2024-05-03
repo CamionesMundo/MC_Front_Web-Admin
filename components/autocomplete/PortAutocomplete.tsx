@@ -126,7 +126,7 @@ const PortAutocomplete = ({
   return (
     <div
       className={`flex flex-col justify-center mb-4 ${
-        error !== '' ? 'mt-8' : 'mt-4'
+        error !== '' ? 'mt-4' : 'mt-4'
       }`}
     >
       <Autocomplete
@@ -156,6 +156,7 @@ const PortAutocomplete = ({
         radius='sm'
         variant='faded'
         isLoading={list.isLoading}
+        errorMessage={ error !== '' && `(*) ${error}`}
       >
         {(item) => {
           return (
@@ -165,9 +166,6 @@ const PortAutocomplete = ({
           )
         }}
       </Autocomplete>
-      {error !== '' && (
-        <span className='text-danger text-xs italic'>{`(*) Error: ${error}`}</span>
-      )}
     </div>
   )
 }

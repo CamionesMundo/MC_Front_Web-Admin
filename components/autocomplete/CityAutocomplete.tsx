@@ -152,7 +152,7 @@ const CityAutocomplete = ({
 
   return (
     <div
-      className={`flex flex-col justify-center ${error !== '' ? 'mt-4' : ''}`}
+      className={`flex flex-col justify-center ${error !== '' ? 'mt-4' : 'mt-4'}`}
     >
       <Autocomplete
         inputValue={fieldState.inputValue}
@@ -181,6 +181,7 @@ const CityAutocomplete = ({
         radius='sm'
         variant='faded'
         isLoading={list.isLoading}
+        errorMessage={error !== '' && `(*) ${error}`}
       >
         {(item) => {
           return (
@@ -190,9 +191,6 @@ const CityAutocomplete = ({
           )
         }}
       </Autocomplete>
-      {error !== '' && (
-        <span className='text-danger text-xs italic'>{`(*) Error: ${error}`}</span>
-      )}
     </div>
   )
 }

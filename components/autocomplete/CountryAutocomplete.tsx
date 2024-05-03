@@ -133,7 +133,7 @@ const CountryAutocomplete = ({
   return (
     <div
       className={`flex flex-col justify-center mb-4 ${
-        error !== '' ? 'mt-8' : 'mt-4'
+        error !== '' ? 'mt-4' : 'mt-4'
       }`}
     >
       <Autocomplete
@@ -157,12 +157,13 @@ const CountryAutocomplete = ({
             label: 'font-semibold dark:text-white'
           }
         }}
-        color='primary'
+        color={error !== '' ? 'danger' : 'primary'}
         label={'País'}
         placeholder='Seleccione'
         radius='sm'
         variant='faded'
         isLoading={list.isLoading}
+        errorMessage={error !== '' && `(*) ${error}`}
       >
         {(item) => {
           const countryCode = item.country_code.toLowerCase().trim()
@@ -184,9 +185,6 @@ const CountryAutocomplete = ({
           )
         }}
       </Autocomplete>
-      {error !== '' && (
-        <span className='text-danger text-xs italic'>{`(*) Error: ${error}`}</span>
-      )}
     </div>
   )
 }

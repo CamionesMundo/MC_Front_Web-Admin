@@ -62,12 +62,10 @@ const CustomSelect = ({
           }
         }}
         {...props}
+        errorMessage={error !== '' && `(*) ${error}`}
       >
         {children}
       </Select>
-      {error !== '' && error !== undefined && (
-        <span className='text-danger text-xs italic'>{`(*) Error: ${error}`}</span>
-      )}
     </div>
   )
 }

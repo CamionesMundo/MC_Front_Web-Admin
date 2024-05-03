@@ -63,11 +63,7 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
     }
   })
   return (
-    <div
-      className={`${
-        error !== '' ? 'mt-8' : 'mt-4'
-      } mb-4 flex flex-col justify-center flex-1`}
-    >
+    <div className={'mt-4 mb-4 flex flex-col justify-start flex-1'}>
       <Input
         variant='faded'
         color={error !== '' ? 'danger' : 'primary'}
@@ -75,7 +71,7 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
         classNames={{ ...classNames }}
         role='presentation'
         autoComplete='nope'
-        errorMessage={error !== '' && `(*) Error: ${error}`}
+        errorMessage={error !== '' && `(*) ${error}`}
       />
     </div>
   )
