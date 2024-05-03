@@ -41,6 +41,8 @@ export interface FirebaseUID {
 
 export interface FileProfiles {
   url: string
+  idfile?: number | undefined
+  name?: string | undefined
 }
 export interface UserClientResponse extends BaseUserData {}
 
