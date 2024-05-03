@@ -124,7 +124,7 @@ const CustomAgentForm = ({ isEditing = false }: CustomAgentFormProps) => {
       }
     })
   }
-  console.log(errors)
+
   const createData = () => {
     const requiredDocumentation: RequiredDocumentationRequest = {
       license_or_authorization: transformEmptyStringToNull(profileData.license),
