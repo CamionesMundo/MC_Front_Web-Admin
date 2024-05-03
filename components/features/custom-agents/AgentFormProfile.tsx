@@ -8,27 +8,21 @@ import { showToast } from '@/hooks/useToast'
 import { useCustomAgentFormStore } from '@/store/useCustomAgentForm'
 import { type BodyFile } from '@/types/api/request/files'
 import { type CustomAgentsResponse } from '@/types/api/response/custom-agents'
+import { type FilesSelected } from '@/types/store/custom-agents'
 import { Divider, Spacer } from '@nextui-org/react'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect } from 'react'
 type AgentFormProfileProps = {
   isEditing: boolean
   agent: CustomAgentsResponse | undefined
   errors: FormErrorMessages | null
 }
-export type FilesSelected = {
-  id: number | undefined
-  fileBase64: string | null
-  name: string
-  isUploaded: boolean
-  url: string | null
-}
+
 const AgentFormProfile = ({
   isEditing,
   agent,
   errors
 }: AgentFormProfileProps) => {
   const { mutateAsync: createFiles, isPending } = useCreateFilesGallery()
-  const [files, setFiles] = useState<FilesSelected[]>([])
   const {
     currentCountry,
     updateCountry,
@@ -37,60 +31,68 @@ const AgentFormProfile = ({
     profileData,
     updateProfileData,
     updateIdGallery,
-    idGallery
+    idGallery,
+    documents,
+    updateFilesCertificates
   } = useCustomAgentFormStore()
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const newImagesBase64: FilesSelected[] = []
+  console.log(idGallery)
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const newImagesBase64: FilesSelected[] = []
 
-    const promises: Array<Promise<void>> = []
+      const promises: Array<Promise<void>> = []
 
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader()
+      acceptedFiles.forEach((file) => {
+        const reader = new FileReader()
 
-      const promise = new Promise<void>((resolve, reject) => {
-        reader.onload = () => {
-          const base64File = reader.result as string
+        const promise = new Promise<void>((resolve, reject) => {
+          reader.onload = () => {
+            const base64File = reader.result as string
 
-          const data: FilesSelected = {
-            fileBase64: base64File,
-            id: file.lastModified,
-            isUploaded: false,
-            name: file.name,
-            url: null
+            const data: FilesSelected = {
+              fileBase64: base64File,
+              id: file.lastModified,
+              isUploaded: false,
+              name: file.name,
+              url: null
+            }
+            newImagesBase64.push(data)
+            resolve()
           }
-          newImagesBase64.push(data)
-          resolve()
-        }
 
-        reader.onerror = (error) => {
-          console.error('Error al leer el archivo:', error)
-          reject(error)
-        }
+          reader.onerror = (error) => {
+            console.error('Error al leer el archivo:', error)
+            reject(error)
+          }
+        })
+
+        reader.readAsDataURL(file)
+        promises.push(promise)
       })
 
-      reader.readAsDataURL(file)
-      promises.push(promise)
-    })
-
-    Promise.all(promises)
-      .then(() => {
-        setFiles(newImagesBase64)
-      })
-      .catch((error) => {
-        console.error('Error al leer los archivos:', error)
-      })
-  }, [])
+      Promise.all(promises)
+        .then(() => {
+          updateFilesCertificates(newImagesBase64)
+        })
+        .catch((error) => {
+          console.error('Error al leer los archivos:', error)
+        })
+    },
+    [updateFilesCertificates]
+  )
 
   const onDelete = useCallback(
     (currentFile: FilesSelected) => {
-      const filtered = files.filter((file) => file.name !== currentFile.name)
-      setFiles(filtered)
+      const filtered = documents.filter(
+        (file) => file.name !== currentFile.name
+      )
+      updateFilesCertificates(filtered)
     },
-    [files]
+    [documents, updateFilesCertificates]
   )
   const onUpload = useCallback(async () => {
-    const mapped = files.map((file) => ({
+    const mapped = documents.map((file) => ({
       file: file.fileBase64,
       name: file.name
     }))
@@ -110,14 +112,14 @@ const AgentFormProfile = ({
           isUploaded: true,
           url: file.url
         }))
-        setFiles(newFiles)
+        updateFilesCertificates(newFiles)
         showToast('Se subieron los archivos correctamente', 'success')
       },
       onError: (data: Error) => {
         showToast(data.message, 'error')
       }
     })
-  }, [files, createFiles, updateIdGallery])
+  }, [documents, createFiles, updateIdGallery, updateFilesCertificates])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -131,10 +133,10 @@ const AgentFormProfile = ({
   }
 
   useEffect(() => {
-    if (files.length === 0) {
+    if (documents.length === 0) {
       updateIdGallery(undefined)
     }
-  }, [files, updateIdGallery])
+  }, [documents, updateIdGallery])
 
   useEffect(() => {
     if (isEditing && agent !== undefined) {
@@ -170,7 +172,7 @@ const AgentFormProfile = ({
           }
           return mapped
         }) ?? []
-      setFiles(filesDB ?? [])
+      updateFilesCertificates(filesDB ?? [])
     }
   }, [
     isEditing,
@@ -178,7 +180,8 @@ const AgentFormProfile = ({
     updateProfileData,
     updateCountry,
     updatePort,
-    updateIdGallery
+    updateIdGallery,
+    updateFilesCertificates
   ])
   return (
     <>
@@ -407,13 +410,13 @@ const AgentFormProfile = ({
           <CustomDropZone
             onDrop={onDrop}
             isMultiple={true}
-            files={files}
+            files={documents}
             onDelete={onDelete}
             onUpload={onUpload}
             labelMaxLength=''
             label='Subir certificado'
             isUploading={isPending}
-            hasIdGallery={idGallery !== undefined && files.length > 0}
+            hasIdGallery={idGallery !== undefined && documents.length > 0}
           />
         </div>
       </div>
