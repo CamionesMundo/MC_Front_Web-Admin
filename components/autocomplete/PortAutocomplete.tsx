@@ -75,7 +75,17 @@ const PortAutocomplete = ({
 
   const filter = useFilter({ sensitivity: 'base' })
 
-  const onSelectionChange = (key: Key) => {
+  const onSelectionChange = (key: Key | null) => {
+    if (key === null) {
+      setFieldState((prevState) => ({
+        ...prevState,
+        inputValue: '',
+        selectedKey: null,
+        currentPort: undefined
+      }))
+      changePort(undefined)
+      return
+    }
     setFieldState((prevState) => {
       const selectedItem = prevState.items.find(
         (option) => option.idreceiving_port.toString() === (key as string)

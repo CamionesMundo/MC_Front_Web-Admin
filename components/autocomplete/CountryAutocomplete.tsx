@@ -68,7 +68,17 @@ const CountryAutocomplete = ({
   const filter = useFilter({ sensitivity: 'base' })
 
   const onSelectionChange = useCallback(
-    (key: Key) => {
+    (key: Key | null) => {
+      if (key === null) {
+        setFieldState((prevState) => ({
+          ...prevState,
+          inputValue: '',
+          selectedKey: null,
+          currentCountry: undefined
+        }))
+        changeCountry(undefined)
+        return
+      }
       setFieldState((prevState) => {
         const selectedItem = prevState.items.find(
           (option) => option.idcountry.toString() === (key as string)

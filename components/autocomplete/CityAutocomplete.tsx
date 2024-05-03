@@ -92,7 +92,17 @@ const CityAutocomplete = ({
 
   const filter = useFilter({ sensitivity: 'base' })
 
-  const onSelectionChange = (key: Key) => {
+  const onSelectionChange = (key: Key | null) => {
+    if (key === null) {
+      setFieldState((prevState) => ({
+        ...prevState,
+        inputValue: '',
+        selectedKey: null,
+        currentCity: undefined
+      }))
+      changeCity(undefined)
+      return
+    }
     setFieldState((prevState) => {
       const selectedItem = prevState.items.find(
         (option) => option.idcity.toString() === (key as string)

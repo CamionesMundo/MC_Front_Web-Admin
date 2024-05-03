@@ -8,6 +8,7 @@
     "start": "next start",
     "start:prod": "next start -p 5000",
     "lint": "next lint",
+    "linter": "eslint . --ext .js,.jsx,.ts,.tsx",
     "demo": "npm run build && npm run start"
   },
   "dependencies": {
