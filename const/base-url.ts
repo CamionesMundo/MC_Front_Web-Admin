@@ -18,6 +18,7 @@ const BASE_MC_PERMISSIONS_URL = `${BASE_MC_AUTH_URL}/permissions`
 const BASE_MC_PERMISSIONS_ROLE_URL = `${BASE_MC_AUTH_URL}/permissions-roles`
 const BASE_MC_AGENTS_URL = `${BASE_MC_CORE_URL}/customs-agent`
 export {
+  BASE_ADMIN_API,
   BASE_ADMIN_URL,
   BASE_MC_ADMIN_URL,
   BASE_MC_AUTH_URL,
