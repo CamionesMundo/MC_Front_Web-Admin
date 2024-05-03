@@ -182,3 +182,21 @@ export function getPermissionName (permission: ModulesType): string {
       return 'Sin nombre'
   }
 }
+
+export function transformEmptyStringToNull (value: string): string | null {
+  if (value === '') {
+    return null
+  } else {
+    return value
+  }
+}
+
+export function formatFullDate (dateString: string | null | undefined): string {
+  if (dateString === null || dateString === undefined) {
+    return 'No registrado'
+  }
+  const date = new Date(dateString)
+  const options = { day: '2-digit', month: 'long', year: 'numeric' } as const
+  const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date)
+  return `${formattedDate.slice(0, -4)} ${formattedDate.slice(-4)}`
+}
