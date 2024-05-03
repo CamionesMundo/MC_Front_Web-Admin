@@ -61,3 +61,11 @@ export type CustomAgentWorkExperienceData = {
   jobDescription: string
   contactNumberReference: string
 }
+
+export type FilesSelected = {
+  id: number | undefined
+  fileBase64: string | null
+  name: string
+  isUploaded: boolean
+  url: string | null
+}
