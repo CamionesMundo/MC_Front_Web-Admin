@@ -10,7 +10,7 @@ import { type RequestUpdateAdminForm } from '@/types/api/request'
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import { toast } from 'sonner'
+import { showToast } from '../useToast'
 
 export const useGetAllAdmins = () => {
   return useQuery({
@@ -42,7 +42,7 @@ export const useCreateAdmin = () => {
       }
     },
     onError: (data: Error) => {
-      toast.error(data.message)
+      showToast(data.message, 'error')
     }
   })
 }
@@ -72,7 +72,7 @@ export const useUpdateAdmin = () => {
       }
     },
     onError: (data: Error) => {
-      toast.error(data.message)
+      showToast(data.message, 'error')
     }
   })
 }
@@ -99,7 +99,7 @@ export const useUpdateImageProfile = () => {
       }
     },
     onError: (data: Error) => {
-      toast.error(data.message)
+      showToast(data.message, 'error')
     }
   })
 }
