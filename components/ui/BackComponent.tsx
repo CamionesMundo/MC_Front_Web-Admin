@@ -6,6 +6,7 @@ type BackComponentProps = {
   title: string
   subtitle: string
   onAction?: () => void
+  useGoBack?: boolean
 }
 
 /**
@@ -13,8 +14,14 @@ type BackComponentProps = {
  * @param title The title to display.
  * @param subtitle The subtitle to display.
  * @param onAction Callback function to execute an action on button click.
+ * @param useGoBack Flag to control whether clicking the button calls the navigation back function.
  */
-const BackComponent = ({ title, subtitle, onAction }: BackComponentProps) => {
+const BackComponent = ({
+  title,
+  subtitle,
+  onAction,
+  useGoBack = true
+}: BackComponentProps) => {
   /**
    * Hook to handle navigating back to the previous page.
    */
@@ -24,7 +31,9 @@ const BackComponent = ({ title, subtitle, onAction }: BackComponentProps) => {
       <div
         className=' bg-transparent border-black/50 dark:border-white/50 border-1 w-10 h-10 flex justify-center items-center rounded-lg hover:cursor-pointer hover:opacity-100 opacity-85'
         onClick={() => {
-          handleGoBack()
+          if (useGoBack) {
+            handleGoBack()
+          }
           if (onAction !== undefined) {
             onAction()
           }
