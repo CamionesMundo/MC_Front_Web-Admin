@@ -4,11 +4,7 @@ import { Search } from '@/icons'
 import api from '@/lib/axios/axios-client'
 import { type GenericResponse } from '@/types/api'
 import { type UserResponse } from '@/types/api/response/auth'
-import {
-  Autocomplete,
-  AutocompleteItem,
-  Avatar
-} from '@nextui-org/react'
+import { Autocomplete, AutocompleteItem, Avatar } from '@nextui-org/react'
 import { useFilter } from '@react-aria/i18n'
 import { useAsyncList } from '@react-stately/data'
 import React, { useState, type Key, useEffect } from 'react'
@@ -64,7 +60,18 @@ const AdminsAutocomplete = ({
 
   const filter = useFilter({ sensitivity: 'base' })
 
-  const onSelectionChange = (key: Key) => {
+  const onSelectionChange = (key: Key | null) => {
+    if (key === null) {
+      setFieldState((prevState) => ({
+        ...prevState,
+        inputValue: '',
+        selectedKey: null,
+        currentAdmin: undefined
+      }))
+      changeAdmin(undefined)
+      return
+    }
+
     setFieldState((prevState) => {
       const selectedItem = prevState.items.find(
         (option) => option.iduser_admin.toString() === (key as string)
