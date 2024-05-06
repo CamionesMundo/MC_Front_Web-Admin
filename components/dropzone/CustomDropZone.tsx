@@ -58,18 +58,18 @@ const CustomDropZone = ({
       {files.length === 0 && (
         <div
           {...getRootProps()}
-          className='dropzone border-dashed border-2 border-[#c7c7c7] dark:hover:border-white p-3 rounded-md bg-slate-100 hover:bg-slate-200 hover:cursor-pointer mt-3 flex-1'
+          className='dropzone border-dashed border-2 border-[#c7c7c7] dark:border-gray-500 dark:hover:border-white p-3 rounded-md bg-slate-100 dark:bg-darkBg hover:bg-slate-200 hover:cursor-pointer mt-3 flex-1'
         >
           <input {...getInputProps()} />
           {isDragActive
             ? (
             <div className='flex flex-col gap-1 items-center justify-center text-center'>
               <div className='flex flex-row gap-2 justify-center items-center text-center w-full'>
-                <span className=' text-sm font-bold text-blackText'>
+                <span className=' text-sm font-bold text-blackText dark:text-white/80'>
                   {labelOnDrop}
                 </span>
                 <div className='w-6 h-6'>
-                  <Upload className='w-full h-full text-blackText' />
+                  <Upload className='w-full h-full text-blackText dark:text-white/80' />
                 </div>
               </div>
               <div>
@@ -81,11 +81,11 @@ const CustomDropZone = ({
             : (
             <div className='flex flex-col gap-1 items-center justify-center text-center'>
               <div className='flex flex-row gap-2 justify-center items-center text-center w-full'>
-                <span className=' text-sm font-bold text-blackText'>
+                <span className=' text-sm font-bold text-blackText dark:text-white/80'>
                   {label}
                 </span>
                 <div className='w-6 h-6'>
-                  <Upload className='w-full h-full text-blackText' />
+                  <Upload className='w-full h-full text-blackText dark:text-white/80' />
                 </div>
               </div>
               <div>
