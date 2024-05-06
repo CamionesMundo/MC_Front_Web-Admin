@@ -6,6 +6,30 @@ import { type Accept, useDropzone } from 'react-dropzone'
 import Link from 'next/link'
 import { type FilesSelected } from '@/types/store/custom-agents'
 
+/**
+ * The `CustomDropZone` component provides a user interface for uploading files via drag and drop or file selection.
+ *
+ * Props:
+ * @param {string} [labelFormats='Formato permitido: PDF'] - Optional label indicating the allowed file formats.
+ * @param {string} [labelMaxLength='Max. 5mb'] - Optional label indicating the maximum file size.
+ * @param {string} [labelOnDrop='Arrastra tus archivos aquí'] - Optional label displayed when files are dragged over the drop zone.
+ * @param {string} [label='Subir Archivo adjunto'] - Label displayed when no files are selected.
+ * @param {(acceptedFiles: File[]) => void} onDrop - Callback function invoked when files are dropped or selected.
+ * @param {boolean} [isMultiple=true] - Boolean indicating whether multiple files can be uploaded at once.
+ * @param {Accept | undefined} [typeFiles={'application/pdf': []}] - Allowed file types to be uploaded.
+ * @param {FilesSelected[]} files - Array containing information about currently selected files.
+ * @param {(currentFile: FilesSelected) => void} onDelete - Callback function invoked when a file is deleted.
+ * @param {() => void} onUpload - Callback function invoked when the upload button is clicked.
+ * @param {boolean} [isUploading=false] - Boolean indicating whether files are currently being uploaded.
+ * @param {boolean} [hasIdGallery=false] - Boolean indicating whether the component has an ID gallery.
+ *
+ * Behavior:
+ * - Allows for drag and drop or file selection for uploading files.
+ * - Displays file information and actions (delete, view) for each selected file.
+ * - Supports uploading multiple files at once.
+ * - Displays upload progress when files are being uploaded.
+ * - Shows appropriate error messages for invalid file formats or sizes.
+ */
 type CustomDropZoneProps = {
   labelFormats?: string
   labelMaxLength?: string
