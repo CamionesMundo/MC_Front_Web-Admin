@@ -77,7 +77,6 @@ import { type WithId } from '@/types/api/response/auth'
 
 type CustomTableProps<T extends WithId> = {
   columns: ColumnsProps[]
-  data: T[]
   filteredItems: T[]
   filterValue: string
   handleSearch: (value: string) => void
@@ -106,7 +105,6 @@ type CustomTableProps<T extends WithId> = {
 
 const CustomTable = <T extends WithId>({
   columns,
-  data,
   filteredItems,
   filterValue,
   handleSearch,
