@@ -131,7 +131,6 @@ const Admins = ({ admins, isLoading }: Props) => {
         </p>
       </div>
       <CustomTable<AdminDataType>
-        data={admins}
         filteredItems={filteredItems}
         filterValue={filterValue}
         handleSearch={onSearchChange}

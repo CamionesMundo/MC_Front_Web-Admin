@@ -60,7 +60,6 @@ const Roles = ({ roles, isLoading }: RolesProps) => {
         </p>
       </div>
       <CustomTable<RoleDataType>
-        data={roles}
         filteredItems={filteredItems}
         filterValue={filterValue}
         handleSearch={onSearchChange}

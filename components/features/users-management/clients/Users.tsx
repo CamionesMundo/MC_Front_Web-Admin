@@ -116,7 +116,6 @@ const Users = ({ clients, isLoading }: UsersProps) => {
         </p>
       </div>
       <CustomTable<ClientDataType>
-        data={clients}
         filteredItems={filteredItems}
         filterValue={filterValue}
         handleSearch={onSearchChange}

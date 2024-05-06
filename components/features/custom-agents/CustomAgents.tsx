@@ -76,7 +76,6 @@ const CustomAgents = ({ agents, isLoading }: CustomAgentsProps) => {
         </p>
       </div>
       <CustomTable<AgentDataType>
-        data={agents}
         filteredItems={filteredItems}
         filterValue={filterValue}
         handleSearch={onSearchChange}
