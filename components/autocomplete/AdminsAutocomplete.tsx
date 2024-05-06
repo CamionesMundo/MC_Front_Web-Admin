@@ -9,6 +9,24 @@ import { useFilter } from '@react-aria/i18n'
 import { useAsyncList } from '@react-stately/data'
 import React, { useState, type Key, useEffect } from 'react'
 
+/**
+ * The `AdminsAutocomplete` component provides a user interface for selecting administrators
+ * via an autocomplete field. This component fetches the list of administrators from the API
+ * and allows for dynamic selection by filtering based on user input.
+ *
+ * Props:
+ * @param {UserResponse | null | undefined} currentAdmin - The currently selected administrator, if any.
+ * @param {(admin: UserResponse | undefined) => void} changeAdmin - Callback function that is invoked when a new administrator is selected.
+ * @param {string} [error] - Optional error message to display in the component in case of an error during the operation.
+ *
+ * Behavior:
+ * - Utilizes `useAsyncList` to manage asynchronous loading and handling of the administrator list.
+ * - Filters available administrators based on user input.
+ * - Allows for clear selection and display of a previously selected administrator.
+ * - Displays appropriate error messages in case of errors during selection or data loading.
+ *
+ * This component is useful in forms where administrator selection is required.
+ */
 type AdminsAutocompleteProps = {
   currentAdmin: UserResponse | null | undefined
   changeAdmin: (admin: UserResponse | undefined) => void
