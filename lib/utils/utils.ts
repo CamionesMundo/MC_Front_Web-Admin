@@ -127,11 +127,21 @@ export function formatDateForInputDate (value: string) {
   return new Date(year, month, day)
 }
 
+/**
+ * Formats a numeric string into a number format with two decimal places.
+ * @param numStr - The numeric string to format.
+ * @returns The formatted numeric string with two decimal places, or an empty string if the input is not a valid number.
+ */
 export function formatNumber (numStr: string) {
   const num = parseFloat(numStr)
   return isNaN(num) ? '' : num.toFixed(2)
 }
 
+/**
+ * Gets the name of a permission based on the module code.
+ * @param permission - The module code for the permission.
+ * @returns The name of the permission as a string.
+ */
 export function getPermissionName (permission: ModulesType): string {
   switch (permission) {
     case ModulesType.UsersManagement:
@@ -183,6 +193,11 @@ export function getPermissionName (permission: ModulesType): string {
   }
 }
 
+/**
+ * Transforms an empty string into null.
+ * @param value - The value to transform.
+ * @returns The original string if not empty, otherwise, returns null.
+ */
 export function transformEmptyStringToNull (value: string): string | null {
   if (value === '') {
     return null
@@ -191,6 +206,11 @@ export function transformEmptyStringToNull (value: string): string | null {
   }
 }
 
+/**
+ * Formats a full date string into a localized date format.
+ * @param dateString - The date string to format.
+ * @returns The formatted date string in a localized format "day of Month of Year".
+ */
 export function formatFullDate (dateString: string | null | undefined): string {
   if (dateString === null || dateString === undefined) {
     return 'No registrado'
