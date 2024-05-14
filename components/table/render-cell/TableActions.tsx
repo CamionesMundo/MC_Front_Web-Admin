@@ -60,7 +60,7 @@ const TableActions = ({ onViewMore, onEdit, onDelete, id, actions }: Props) => {
         </Tooltip>
       )}
       {actions.useDelete && (
-        <Tooltip color='danger' content='Eliminar'>
+        <Tooltip color='danger' content={actions?.labelDelete !== undefined ? actions.labelDelete : 'Eliminar'}>
           <span
             className='text-lg text-danger cursor-pointer active:opacity-50'
             onClick={() => {
@@ -69,7 +69,13 @@ const TableActions = ({ onViewMore, onEdit, onDelete, id, actions }: Props) => {
               }
             }}
           >
-            <Delete className='w-4 h-4' />
+            {actions.iconDelete !== undefined
+              ? (
+                  actions.iconDelete
+                )
+              : (
+              <Delete className='w-4 h-4' />
+                )}
           </span>
         </Tooltip>
       )}
