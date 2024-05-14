@@ -62,6 +62,7 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
       helperWrapper: ` ${props.disabled === true ? 'cursor-not-allowed' : ''}`
     }
   })
+
   return (
     <div className={'mt-4 mb-4 flex flex-col justify-start flex-1'}>
       <Input
@@ -72,6 +73,7 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
         role='presentation'
         autoComplete='nope'
         errorMessage={error !== '' && `(*) ${error}`}
+        isInvalid={error !== ''}
       />
     </div>
   )

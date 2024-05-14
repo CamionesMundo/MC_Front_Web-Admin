@@ -173,7 +173,8 @@ const PortAutocomplete = ({
         radius='sm'
         variant='faded'
         isLoading={list.isLoading}
-        errorMessage={ error !== '' && `(*) ${error}`}
+        errorMessage={error !== '' && `(*) ${error}`}
+        isInvalid={error !== ''}
       >
         {(item) => {
           return (
