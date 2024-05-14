@@ -72,6 +72,22 @@ enum ModulesType {
   AccountConfiguration = 'account_configuration'
 }
 
+enum LotStatus {
+  Active = 'active',
+  InProgress = 'progress',
+  Finished = 'finished'
+}
+
+enum PaymentType {
+  CreditCard = 'Credit Card',
+  BankDeposit = 'Deposito bancario'
+}
+
+export enum TypeAuctionStatus {
+  Active = 'active',
+  InProgress = 'in progress',
+  Pending = 'pending'
+}
 export {
   UserType,
   Sex,
@@ -79,5 +95,7 @@ export {
   LanguagePreference,
   AddressType,
   AppParametersType,
-  ModulesType
+  ModulesType,
+  LotStatus,
+  PaymentType
 }
