@@ -46,6 +46,7 @@ import { ReactComponent as Briefcase } from './src/Briefcase.svg'
 import { ReactComponent as Upload } from './src/Upload.svg'
 import { ReactComponent as Document } from './src/Document.svg'
 import { ReactComponent as SendFile } from './src/SendFile.svg'
+import { ReactComponent as StarFilled } from './src/StarFilled.svg'
 
 export {
   Visible,
@@ -95,5 +96,6 @@ export {
   Briefcase,
   Upload,
   Document,
-  SendFile
+  SendFile,
+  StarFilled
 }
