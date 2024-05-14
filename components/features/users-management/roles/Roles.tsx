@@ -13,7 +13,6 @@ type RolesProps = {
 
 const Roles = ({ roles, isLoading }: RolesProps) => {
   const router = useRouter()
-  console.log(roles)
   const [filterValue, setFilterValue] = useState('')
 
   const hasSearchFilter = Boolean(filterValue)
