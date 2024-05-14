@@ -6,6 +6,8 @@ const BASE_PARAMETER_URL = `${BASE_ADMIN_API}/app-config`
 const BASE_ROLES_URL = `${BASE_ADMIN_API}/roles`
 const BASE_PERMISSIONS_URL = `${BASE_ADMIN_API}/permissions`
 const BASE_AGENTS_URL = `${BASE_ADMIN_API}/custom-agents`
+const BASE_LOTS_URL = `${BASE_ADMIN_API}/lots`
+const BASE_AUCTIONS_URL = `${BASE_ADMIN_API}/auctions`
 const BASE_MC_AUTH_URL = '/auth/admin'
 const BASE_MC_CORE_URL = '/core'
 const BASE_MC_ADMIN_URL = `${BASE_MC_AUTH_URL}/users`
@@ -17,6 +19,9 @@ const BASE_MC_ROLES_URL = `${BASE_MC_AUTH_URL}/roles`
 const BASE_MC_PERMISSIONS_URL = `${BASE_MC_AUTH_URL}/permissions`
 const BASE_MC_PERMISSIONS_ROLE_URL = `${BASE_MC_AUTH_URL}/permissions-roles`
 const BASE_MC_AGENTS_URL = `${BASE_MC_CORE_URL}/customs-agent`
+const BASE_MC_LOT_URL = `${BASE_MC_CORE_URL}/lot/admin`
+const BASE_MC_AUCTIONS_URL = `${BASE_MC_CORE_URL}/publications/auctions`
+
 export {
   BASE_ADMIN_API,
   BASE_ADMIN_URL,
@@ -36,5 +41,9 @@ export {
   BASE_MC_PERMISSIONS_ROLE_URL,
   BASE_MC_AGENTS_URL,
   BASE_MC_PERMISSIONS_URL,
-  BASE_AGENTS_URL
+  BASE_AGENTS_URL,
+  BASE_MC_LOT_URL,
+  BASE_LOTS_URL,
+  BASE_MC_AUCTIONS_URL,
+  BASE_AUCTIONS_URL
 }
