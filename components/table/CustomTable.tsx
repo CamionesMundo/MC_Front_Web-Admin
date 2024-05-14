@@ -15,11 +15,12 @@ import {
   DropdownTrigger,
   Button,
   DropdownMenu,
-  DropdownItem
+  DropdownItem,
+  type TableProps
 } from '@nextui-org/react'
 import React, { type ReactNode, useCallback, useMemo, useState } from 'react'
 import { Loader } from '../ui/Loader'
-import { capitalize, parseIsoDate } from '@/lib/utils/utils'
+import { capitalize } from '@/lib/utils/utils'
 import { GenericButton } from '../buttons'
 import { cn } from '@/lib/clsx/clsx'
 import {
@@ -31,7 +32,16 @@ import {
   TableCountry,
   TableUserType,
   TableCountryCity,
-  TablePort
+  TablePort,
+  TableTypeLot,
+  TableIsoDate,
+  TableLotUser,
+  TableLotStatus,
+  TableAuctionTitle,
+  TableAuctionStatus,
+  TableCreationAuction,
+  TableLotTransmission,
+  TableBasePrice
 } from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
@@ -78,8 +88,8 @@ import { type WithId } from '@/types/api/response/auth'
 type CustomTableProps<T extends WithId> = {
   columns: ColumnsProps[]
   filteredItems: T[]
-  filterValue: string
-  handleSearch: (value: string) => void
+  filterValue?: string
+  handleSearch?: (value: string) => void
   isLoading?: boolean
   emptyLabel?: string
   totalLabel?: string
@@ -101,7 +111,16 @@ type CustomTableProps<T extends WithId> = {
   showBottomContent?: boolean
   filterContent?: ReactNode | undefined | null
   actions?: ActionsPermissions
-}
+  useMultipleSelection?: boolean
+  useCustomPagination?: boolean
+  customPagination?: ReactNode | undefined | null
+  totalRows?: number
+  onChangeSelectedRows?: (selected: T[]) => void
+  totalData?: T[]
+  useSelection?: boolean
+  useScroll?: boolean
+  usePage?: boolean
+} & TableProps
 
 const CustomTable = <T extends WithId>({
   columns,
@@ -132,7 +151,17 @@ const CustomTable = <T extends WithId>({
     useViewMore: false,
     useEdit: true,
     useDelete: true
-  }
+  },
+  useMultipleSelection = false,
+  useCustomPagination = false,
+  customPagination,
+  totalRows = 0,
+  onChangeSelectedRows,
+  totalData,
+  useSelection = false,
+  useScroll = false,
+  usePage = true,
+  ...props
 }: CustomTableProps<T>) => {
   /**
    * Wrapper class name for styling purposes.
@@ -151,7 +180,7 @@ const CustomTable = <T extends WithId>({
    * Component state for managing the current page.
    */
   const [page, setPage] = useState(1)
-  const [rowsPerPage, setRowsPerPage] = useState<number>(5)
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10)
 
   /**
    * Memoized header columns based on visible columns selection.
@@ -168,11 +197,17 @@ const CustomTable = <T extends WithId>({
    * Memoized items to display on the current page.
    */
   const items = useMemo(() => {
+    if (!usePage) {
+      return filteredItems
+    }
+    if (useCustomPagination) {
+      return filteredItems
+    }
     const start = (page - 1) * rowsPerPage
     const end = start + rowsPerPage
 
     return filteredItems.slice(start, end)
-  }, [page, filteredItems, rowsPerPage])
+  }, [page, filteredItems, rowsPerPage, useCustomPagination, usePage])
 
   /**
    * Total number of pages based on filtered items and rows per page.
@@ -185,17 +220,23 @@ const CustomTable = <T extends WithId>({
   const onSearchChange = useCallback(
     (value: string) => {
       if (value !== undefined) {
-        handleSearch(value)
+        if (handleSearch !== undefined) {
+          handleSearch(value)
+        }
         setPage(1)
       } else {
-        handleSearch('')
+        if (handleSearch !== undefined) {
+          handleSearch('')
+        }
       }
     },
     [handleSearch]
   )
 
   const onClear = useCallback(() => {
-    handleSearch('')
+    if (handleSearch !== undefined) {
+      handleSearch('')
+    }
     setPage(1)
   }, [handleSearch])
 
@@ -213,11 +254,8 @@ const CustomTable = <T extends WithId>({
         case 'user':
           return <TableUser row={row} />
         case 'updatedAt':
-          return (
-            <div className='text-center dark:text-white'>
-              {parseIsoDate((row.updatedAt.toString() as string) ?? '')}
-            </div>
-          )
+        case 'transmission_date':
+          return <TableIsoDate row={row} />
         case 'status':
           return <TableIsActive row={row} />
         case 'user_client':
@@ -232,6 +270,22 @@ const CustomTable = <T extends WithId>({
           return <TableCountryCity row={row} />
         case 'port':
           return <TablePort row={row} />
+        case 'type_lot':
+          return <TableTypeLot />
+        case 'lot_user':
+          return <TableLotUser row={row} />
+        case 'lot_status':
+          return <TableLotStatus row={row} />
+        case 'lot_transmission':
+          return <TableLotTransmission row={row} />
+        case 'auction_title':
+          return <TableAuctionTitle row={row} />
+        case 'base_price':
+          return <TableBasePrice row={row} />
+        case 'creation_auction':
+          return <TableCreationAuction row={row} />
+        case 'auction_status':
+          return <TableAuctionStatus row={row} />
         case 'actions':
           return (
             <TableActions
@@ -367,7 +421,8 @@ const CustomTable = <T extends WithId>({
         >
           {showTotalRegister && (
             <span className='text-default-400 text-small'>
-              Total {filteredItems.length} {totalLabel}
+              Total {useCustomPagination ? totalRows : filteredItems.length}{' '}
+              {totalLabel}
             </span>
           )}
           {showFilesPerPage && (
@@ -403,7 +458,9 @@ const CustomTable = <T extends WithId>({
     totalLabel,
     useAddButton,
     useSearchBar,
-    filteredItems.length
+    filteredItems.length,
+    useCustomPagination,
+    totalRows
   ])
 
   const bottomContent = useMemo(() => {
@@ -443,22 +500,42 @@ const CustomTable = <T extends WithId>({
       </div>
     )
   }, [isLoading, page, pages, onNextPage, onPreviousPage, onChangePage])
+
+  const renderPagination = () => {
+    if (useCustomPagination) {
+      if (!isLoading) {
+        return customPagination
+      } else {
+        return undefined
+      }
+    } else {
+      if (showBottomContent && !isLoading && filteredItems.length > 0) {
+        return bottomContent
+      } else {
+        return undefined
+      }
+    }
+  }
   return (
     <>
       <Table
         aria-label='Componente de tabla personalizada'
         classNames={{
+          base: `${useScroll ? 'h-auto' : ''}`,
           th: ['text-center text-white bg-blackText/90'],
           wrapper: [classWrapper]
         }}
+        selectionMode={
+          useSelection ? (useMultipleSelection ? 'multiple' : 'single') : 'none'
+        }
+        selectionBehavior={useMultipleSelection ? 'toggle' : 'replace'}
         isHeaderSticky
         color={'primary'}
         topContent={showTopContent ? topContent : undefined}
         topContentPlacement='outside'
         bottomContentPlacement='outside'
-        bottomContent={
-          showBottomContent && !isLoading ? bottomContent : undefined
-        }
+        bottomContent={renderPagination()}
+        {...props}
       >
         <TableHeader columns={headerColumns}>
           {(column) => (
