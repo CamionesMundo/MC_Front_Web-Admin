@@ -220,3 +220,61 @@ export function formatFullDate (dateString: string | null | undefined): string {
   const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date)
   return `${formattedDate.slice(0, -4)} ${formattedDate.slice(-4)}`
 }
+
+export function isSameDate (dateString: string) {
+  const currentDate = new Date()
+
+  const dbDate = new Date(dateString)
+
+  const isSame =
+    currentDate.getFullYear() === dbDate.getFullYear() &&
+    currentDate.getMonth() === dbDate.getMonth() &&
+    currentDate.getDate() === dbDate.getDate()
+  return isSame
+}
+
+export function formatPrice (number: number): string {
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+  }).format(number)
+
+  return formattedPrice
+}
+
+export function calculateWeeksOfAntiquity (date: string): number {
+  const currentDate = new Date()
+  const givenDate = new Date(date)
+
+  // Calculate the difference in milliseconds between the two dates
+  const differenceInMilliseconds = currentDate.getTime() - givenDate.getTime()
+
+  // Convert the difference in milliseconds to weeks
+  const weeksOfAntiquity = Math.floor(
+    differenceInMilliseconds / (1000 * 60 * 60 * 24 * 7)
+  )
+
+  return weeksOfAntiquity
+}
+
+export function convertISOToLocalAndFormat (isoString: string) {
+  // Create a Date object from the ISO 8601 string
+
+  const utcDate = new Date(isoString)
+
+  // Get the time zone offset in minutes
+  const offsetMinutes = utcDate.getTimezoneOffset()
+
+  // Adjust the UTC date by adding the offset in minutes
+  const localDate = new Date(utcDate.getTime() + offsetMinutes * 60000)
+  // Get the local time in hours and minutes
+  const localHours = localDate.getHours()
+  const localMinutes = localDate.getMinutes()
+
+  // Format the local time as a string in the desired format ('HH:mm')
+  const formattedTime = `${localHours < 10 ? '0' : ''}${localHours}:${
+    localMinutes < 10 ? '0' : ''
+  }${localMinutes}`
+  return formattedTime
+}
