@@ -2,32 +2,148 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.group[data-focus-visible=true].group-data-\[focus-visible\=true\]\:ring-offset-2{
+  outline-offset: 0 !important;
 }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.expand-h{   
+  
+  transition: grid-template-rows 0.5s ease-out ;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+  
+  .input-class {
+    @apply my-4
+  }
+  .icon-input{
+    @apply w-5 h-5 text-blackText hover:text-blackText/65 transition-colors mb-2 hover:cursor-pointer
+  }
+
+  .bg-radial{
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(65, 74, 83, 0.6),rgba(177, 177, 184, 0.3));
+  }
+  .bg-radial-dark{
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%,rgba(65, 74, 83, 0.6),rgb(38 38 38));
+  }
+  .bg-global-background{
+    background-color: hsl(0,0%,0%,1);
+  }
+  .menu-height{
+    height: calc(100% - 112px)!important;
+  }
+  .sidebar-height{
+    height: calc(100vh - 64px );
+    overflow: hidden;
+  }
+  .truck-animation{
+    animation: speeder 1.5s linear infinite;
+  }  
+  
+  .velocity>span:nth-child(1),
+  .velocity>span:nth-child(2),
+  .velocity>span:nth-child(3),
+  .velocity>span:nth-child(4){
+    width: 10px;
+    height: 1px;
+    /* background: #000; */
+    position: absolute;
+    animation: fazer1 .5s linear infinite;
+  }
+  .velocity>span:nth-child(2){
+    top: 3px;
+    animation: fazer2 .4s linear infinite;
+  }
+  .velocity>span:nth-child(3){
+    top: 1px;
+    animation: fazer3 .4s linear infinite;
+    animation-delay: -1s;
+  }
+  .velocity>span:nth-child(4) {
+    top: 4px;
+    animation: fazer4 1s linear infinite;
+    animation-delay: -1s;
+  }
+  @keyframes fazer1 {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -30px;
+      opacity: 0;
+    }
+  }
+  @keyframes fazer2 {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -40px;
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fazer3 {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -15px;
+      opacity: 0;
+    }
+  }
+  
+  @keyframes fazer4 {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -60px;
+      opacity: 0;
+    }
+  }
+  @keyframes speeder {
+    0% {
+      transform: translate(2px, 1px) rotate(0deg);
+    }
+    10% {
+      transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+      transform: translate(-1px, 0px) rotate(1deg);
+    }
+    30% {
+      transform: translate(1px, 2px) rotate(0deg);
+    }
+    40% {
+      transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+      transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+      transform: translate(-1px, 1px) rotate(0deg);
+    }
+    70% {
+      transform: translate(2px, 1px) rotate(-1deg);
+    }
+    80% {
+      transform: translate(-1px, -0px) rotate(1deg);
+    }
+    90% {
+      transform: translate(1px, 0px) rotate(0deg);
+    }
+    100% {
+      transform: translate(1px, -1px) rotate(-1deg);
+    }
+  }
+
+  .bg-input-white{
+    background-color: white !important;
+  }
+  
+  
 }

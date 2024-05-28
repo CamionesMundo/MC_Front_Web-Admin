@@ -5,24 +5,50 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",    
+    "start": "next start",
     "start:prod": "next start -p 5000",
-    "lint": "next lint"
+    "lint": "next lint",
+    "linter": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "demo": "npm run build && npm run start"
   },
   "dependencies": {
+    "@newhighsco/next-plugin-svgr": "3.0.125",
+    "@nextui-org/react": "^2.2.10",
+    "@react-aria/i18n": "^3.10.2",
+    "@react-stately/data": "^3.11.2",
+    "@tanstack/react-query": "^5.28.6",
+    "@tanstack/react-query-devtools": "^5.28.14",
+    "axios": "^1.6.8",
+    "clsx": "^2.1.0",
+    "framer-motion": "^10.2.4",
+    "next": "14.1.4",
+    "next-auth": "^4.24.7",
+    "next-themes": "^0.3.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.1.0"
+    "react-dropzone": "^14.2.3",
+    "sonner": "^1.4.41",
+    "tailwind-merge": "^2.2.2",
+    "zod": "^3.22.4",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
     "autoprefixer": "^10.0.1",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.1.4",
+    "eslint-config-standard-with-typescript": "^43.0.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-n": "^16.6.2",
+    "eslint-plugin-promise": "^6.1.1",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8",
+    "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3.3.0",
-    "eslint": "^8",
-    "eslint-config-next": "14.1.0"
+    "typescript": "^5.4.3"
   }
 }
