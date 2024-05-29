@@ -37,3 +37,12 @@ export const shipmentsManagement = [
   },
   { label: 'Notificaciones ', href: '/shipments-management/notify' }
 ]
+
+export const paymentsManagement = [
+  { label: 'Gestión de pagos', href: '/payments-management/payments' },
+  {
+    label: 'Cobros por penalidad',
+    href: '/payments-management/penalty-charges'
+  },
+  { label: 'Gestión de retiros ', href: '/payments-management/withdrawal' }
+]
