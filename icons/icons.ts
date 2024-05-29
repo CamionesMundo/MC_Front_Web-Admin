@@ -47,6 +47,12 @@ import { ReactComponent as Upload } from './src/Upload.svg'
 import { ReactComponent as Document } from './src/Document.svg'
 import { ReactComponent as SendFile } from './src/SendFile.svg'
 import { ReactComponent as StarFilled } from './src/StarFilled.svg'
+import { ReactComponent as Radio } from './src/Radio.svg'
+import { ReactComponent as Truck } from './src/Truck.svg'
+import { ReactComponent as Mileage } from './src/Mileage.svg'
+import { ReactComponent as Gift } from './src/Gift.svg'
+import { ReactComponent as Refresh } from './src/Refresh.svg'
+import { ReactComponent as Payment } from './src/Payment.svg'
 
 export {
   Visible,
@@ -97,5 +103,11 @@ export {
   Upload,
   Document,
   SendFile,
-  StarFilled
+  StarFilled,
+  Radio,
+  Truck,
+  Mileage,
+  Gift,
+  Refresh,
+  Payment
 }
