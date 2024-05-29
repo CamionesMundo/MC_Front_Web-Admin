@@ -28,15 +28,15 @@ const TableCountryCity = ({ row }: Props) => {
       </div>
     )
   } else {
-    const countryCode = row.country.country_code.toLowerCase().trim()
+    const countryCode = row.country?.country_code.toLowerCase().trim()
     return (
       <div className='text-center dark:text-white flex flex-row gap-2'>
         <Avatar
-          alt={`Bandera de ${row.country.country_name}`}
+          alt={`Bandera de ${row.country?.country_name}`}
           className='w-6 h-6'
           src={`https://flagcdn.com/${countryCode}.svg`}
         />
-        <span>{`${row.country.country_name}`}</span>
+        <span>{`${row.country?.country_name}`}</span>
       </div>
     )
   }

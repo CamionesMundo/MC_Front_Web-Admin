@@ -41,10 +41,19 @@ import {
   TableAuctionStatus,
   TableCreationAuction,
   TableLotTransmission,
-  TableBasePrice
+  TableBasePrice,
+  TablePosition,
+  TablePaymentStatus,
+  TablePaymentType,
+  TableConfirmationDate,
+  TablePaymentDate,
+  TableConfirmationUser
 } from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
+import { TableAuctionDescription } from './render-cell/TableAuctionDescription'
+import { type PaymentsDataType } from '@/types/api/response/payments'
+import { type ClientDataType } from '@/types/api/response/user'
 
 /**
  * The `CustomTable` component is a reusable table component with various customization options
@@ -99,6 +108,9 @@ type CustomTableProps<T extends WithId> = {
   onViewMore?: (id: number) => void
   onEdit?: (id: number) => void
   onDelete?: (id: number) => void
+  onChangeStatusRow?: (row: ClientDataType) => void
+  onConfirmPayment?: (row: PaymentsDataType) => void
+  onDetailPayment?: ((row: PaymentsDataType) => void) | undefined
   useRounded?: boolean
   useSearchBar?: boolean
   searchBarPlaceholder?: string
@@ -136,6 +148,9 @@ const CustomTable = <T extends WithId>({
   onViewMore,
   onEdit,
   onDelete,
+  onConfirmPayment,
+  onDetailPayment,
+  onChangeStatusRow,
   useRounded = true,
   useSearchBar = true,
   searchBarPlaceholder = 'Buscar',
@@ -245,9 +260,8 @@ const CustomTable = <T extends WithId>({
    */
   const renderCell = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (row: any, columnKey: any) => {
+    (row: any, columnKey: any, index: number) => {
       const cellValue = row[columnKey]
-
       switch (columnKey) {
         case 'name_role':
           return <TableRole row={row} />
@@ -257,7 +271,7 @@ const CustomTable = <T extends WithId>({
         case 'transmission_date':
           return <TableIsoDate row={row} />
         case 'status':
-          return <TableIsActive row={row} />
+          return <TableIsActive row={row} onChangeStatusRow={onChangeStatusRow}/>
         case 'user_client':
           return <TableUserClient row={row} />
         case 'full_name':
@@ -267,7 +281,11 @@ const CustomTable = <T extends WithId>({
         case 'user_type':
           return <TableUserType row={row} />
         case 'city-country':
-          return <TableCountryCity row={row} />
+          return (
+            <TableCountryCity
+              row={row.idlot_queue !== undefined ? row.publication : row}
+            />
+          )
         case 'port':
           return <TablePort row={row} />
         case 'type_lot':
@@ -279,21 +297,46 @@ const CustomTable = <T extends WithId>({
         case 'lot_transmission':
           return <TableLotTransmission row={row} />
         case 'auction_title':
-          return <TableAuctionTitle row={row} />
+          return (
+            <TableAuctionTitle
+              row={row.idlot_queue !== undefined ? row.publication : row}
+            />
+          )
         case 'base_price':
-          return <TableBasePrice row={row} />
+          return (
+            <TableBasePrice
+              row={row.idlot_queue !== undefined ? row.publication : row}
+            />
+          )
         case 'creation_auction':
           return <TableCreationAuction row={row} />
         case 'auction_status':
           return <TableAuctionStatus row={row} />
+        case 'position':
+          return <TablePosition row={row} index={index} />
+        case 'auction_description':
+          return <TableAuctionDescription row={row} />
+        case 'payment_status':
+          return <TablePaymentStatus row={row} />
+        case 'typePayment':
+          return <TablePaymentType row={row} />
+        case 'confirmation_date':
+          return <TableConfirmationDate row={row} />
+        case 'payment_date':
+          return <TablePaymentDate row={row} />
+        case 'confirmation_user':
+          return <TableConfirmationUser row={row} />
         case 'actions':
           return (
             <TableActions
               onViewMore={onViewMore}
               onEdit={onEdit}
               onDelete={onDelete}
+              onConfirmPayment={onConfirmPayment}
+              onDetailPayment={onDetailPayment}
               id={row.id}
               actions={actions}
+              row={row}
             />
           )
         default:
@@ -304,7 +347,7 @@ const CustomTable = <T extends WithId>({
           )
       }
     },
-    [onEdit, onDelete, actions, onViewMore]
+    [onEdit, onDelete, actions, onViewMore, onConfirmPayment, onDetailPayment, onChangeStatusRow]
   )
 
   /**
@@ -558,10 +601,10 @@ const CustomTable = <T extends WithId>({
             </div>
           }
         >
-          {items.map((row) => (
+          {items.map((row, index) => (
             <TableRow key={row.id}>
               {(columnKey) => (
-                <TableCell>{renderCell(row, columnKey)}</TableCell>
+                <TableCell>{renderCell(row, columnKey, index)}</TableCell>
               )}
             </TableRow>
           ))}

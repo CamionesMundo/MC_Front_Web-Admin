@@ -11,14 +11,14 @@ const TableIsoDate = ({ row }: Props) => {
 
   if (isLot) {
     return (
-      <div className='text-center dark:text-white'>
+      <div className='text-center dark:text-white w-44'>
         {parseIsoDate((row.transmission_date.toString() as string) ?? '')}
       </div>
     )
   } else {
     return (
-      <div className='text-center dark:text-white'>
-        {parseIsoDate((row.updatedAt.toString() as string) ?? '')}
+      <div className='text-center dark:text-white w-44'>
+        {parseIsoDate((row.updatedAt?.toString() as string) ?? '')}
       </div>
     )
   }

@@ -10,7 +10,7 @@ type Props = {
 
 const TableCreationAuction = ({ row }: Props) => {
   const data = row as AuctionsResponse
-  const weeks = calculateWeeksOfAntiquity(data.createdAt.toString())
+  const weeks = calculateWeeksOfAntiquity(data.createdAt?.toString())
   const getClass = () => {
     if (weeks <= 2) {
       return 'text-success'
@@ -22,11 +22,11 @@ const TableCreationAuction = ({ row }: Props) => {
       return 'text-red-600'
     }
   }
-  const isActive = data.auction.payment_status ?? false
+  const isActive = data.auction?.payment_status ?? false
   const starClass = getClass()
   return (
     <div className='text-center text-black dark:text-white flex items-center gap-2 justify-center'>
-      {formatFullDate(data.createdAt.toString())}
+      {formatFullDate(data.createdAt?.toString())}
       {isActive && <StarFilled className={`w-4 h-4 ${starClass}`} />}
     </div>
   )

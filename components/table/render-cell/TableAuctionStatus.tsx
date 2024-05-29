@@ -9,7 +9,8 @@ type Props = {
 const TableAuctionStatus = ({ row }: Props) => {
   const data = row as AuctionsResponse
   const getStatus = () => {
-    const status = data.auction.type_status.type_name
+    const status = data.auction?.type_status.type_name
+
     if (status === TypeAuctionStatus.Active) {
       return 'Activo'
     }

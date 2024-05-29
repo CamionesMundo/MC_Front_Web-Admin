@@ -10,8 +10,8 @@ type Props = {
 const TableBasePrice = ({ row }: Props) => {
   const data = row as AuctionsResponse
   return (
-    <div className='text-center text-black dark:text-white'>{`USD ${formatPrice(
-      Number(data.vehicle.sale_price)
+    <div className='text-center text-black dark:text-white w-36'>{`USD ${formatPrice(
+      Number(data.vehicle?.sale_price)
     )}`}</div>
   )
 }
