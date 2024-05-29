@@ -10,8 +10,9 @@ const FilterSelect = ({ children, ...props }: FilterSelectProps) => {
     <Select
       labelPlacement={'outside-left'}
       classNames={{
-        trigger: 'bg-slate-300 dark:bg-default-200 text-blackText dark:text-white',
-        base: 'items-center'
+        trigger:
+          'bg-slate-300 dark:bg-default-200 text-blackText dark:text-white',
+        base: 'items-center text-blackText'
       }}
       {...props}
     >
