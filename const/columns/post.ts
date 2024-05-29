@@ -59,3 +59,26 @@ export const auctionsColumns = [
     display: 'Acciones'
   }
 ]
+
+export const auctionsQueueColumns = [
+  {
+    key: 'auction_title',
+    display: 'ID/ Título'
+  },
+  {
+    key: 'auction_description',
+    display: 'Descripción'
+  },
+  {
+    key: 'city-country',
+    display: 'País'
+  },
+  {
+    key: 'base_price',
+    display: 'Precio Base'
+  },
+  {
+    key: 'position',
+    display: 'Orden'
+  }
+]
