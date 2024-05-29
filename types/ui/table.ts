@@ -11,4 +11,6 @@ export type ActionsPermissions = {
   useDelete: boolean
   iconDelete?: ReactNode | undefined
   labelDelete?: string | undefined
+  labelEditingDisabled?: string
+  isPaymentActions?: boolean
 }
