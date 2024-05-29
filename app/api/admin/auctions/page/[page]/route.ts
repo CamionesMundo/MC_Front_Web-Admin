@@ -12,8 +12,8 @@ export async function GET (req: NextRequest) {
   const isOnlyActives = req.nextUrl.searchParams.get('isOnlyActives')
   const useOnlyActives = isOnlyActives === 'true'
   const url = useOnlyActives
-    ? `${BASE_MC_AUCTIONS_URL}/all?page=${page}&pageSize=10&typeStatus=20`
-    : `${BASE_MC_AUCTIONS_URL}/all?page=${page}&pageSize=10`
+    ? `${BASE_MC_AUCTIONS_URL}/admin/all?page=${page}&pageSize=5&typeStatus=20`
+    : `${BASE_MC_AUCTIONS_URL}/admin/all?page=${page}&pageSize=5`
   try {
     const mcInstance = await mcApi()
 
