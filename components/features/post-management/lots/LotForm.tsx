@@ -452,7 +452,6 @@ const LotForm = ({ isEditing = false }: LotFormProps) => {
                 onChangeSelectedRows={updateSelectedRows}
                 totalData={totalData}
                 useSelection
-                // disabledKeys={selectedKeys}
                 selectedKeys={selectedKeys}
                 onSelectionChange={
                   isEditing ? handleSelectionOnEdit : handleSelection

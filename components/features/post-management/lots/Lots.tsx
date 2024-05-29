@@ -154,7 +154,7 @@ const Lots = ({
         }}
         filterContent={filterLotButton}
         usePage={false}
-        bottomContent={isLoading ? null : bottomContent}
+        customPagination={isLoading ? null : bottomContent}
         useCustomPagination={true}
         totalRows={totalRows}
       />

@@ -179,7 +179,6 @@ const Payments = ({
       <CustomTable<PaymentsDataType>
         filteredItems={filteredItems}
         filterValue={filterValue}
-        bottomContent={isLoading ? null : bottomContent}
         handleSearch={onSearchChange}
         columns={paymentsColumns}
         emptyLabel={isLoading ? '' : 'No tienes ninguna orden de pago creada'}
@@ -199,6 +198,7 @@ const Payments = ({
         }}
         totalRows={totalRows}
         useCustomPagination={true}
+        customPagination={isLoading ? null : bottomContent}
         filterContent={filterPaymentStatusButton}
       />
       <CustomModal
