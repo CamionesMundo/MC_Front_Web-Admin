@@ -4,7 +4,7 @@ import { Tab, Tabs, type TabsProps } from '@nextui-org/react'
 type CustomTabsProps = {
   tabs: TabItem[]
 } & TabsProps
-const CustomTabs = ({ tabs }: CustomTabsProps) => {
+const CustomTabs = ({ tabs, ...props }: CustomTabsProps) => {
   return (
     <div className='w-full flex flex-col justify-center'>
       <Tabs
@@ -17,6 +17,7 @@ const CustomTabs = ({ tabs }: CustomTabsProps) => {
           tabContent:
             'group-data-[selected=true]:text-black text-black/80 dark:text-white/80 dark:group-data-[selected=true]:text-white'
         }}
+        {...props}
       >
         {tabs.map((tab) => (
           <Tab key={tab.key} title={tab.title}>
