@@ -127,7 +127,6 @@ type CustomTableProps<T extends WithId> = {
   useCustomPagination?: boolean
   customPagination?: ReactNode | undefined | null
   totalRows?: number
-  onChangeSelectedRows?: (selected: T[]) => void
   totalData?: T[]
   useSelection?: boolean
   useScroll?: boolean
@@ -171,7 +170,6 @@ const CustomTable = <T extends WithId>({
   useCustomPagination = false,
   customPagination,
   totalRows = 0,
-  onChangeSelectedRows,
   totalData,
   useSelection = false,
   useScroll = false,
