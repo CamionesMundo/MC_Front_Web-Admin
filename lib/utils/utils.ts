@@ -1,4 +1,12 @@
-import { LanguagePreference, ModulesType, UserType } from '@/types/enums'
+import { NO_REGISTER } from '@/const/other'
+import { type PublicationAuction } from '@/types/api/response/publication'
+import {
+  CheckListStatus,
+  LanguagePreference,
+  ModulesType,
+  TypeAuctionStatus,
+  UserType
+} from '@/types/enums'
 import { useRouter } from 'next/navigation'
 
 /**
@@ -277,4 +285,47 @@ export function convertISOToLocalAndFormat (isoString: string) {
     localMinutes < 10 ? '0' : ''
   }${localMinutes}`
   return formattedTime
+}
+
+export function getCheckListStatus (status: CheckListStatus | undefined) {
+  if (status === undefined || status === null) {
+    return NO_REGISTER
+  }
+  if (status === CheckListStatus.NoApplicable) {
+    return 'No aplicable'
+  }
+  if (status === CheckListStatus.Good) {
+    return 'Bueno'
+  }
+  if (status === CheckListStatus.Regular) {
+    return 'Regular'
+  }
+  if (status === CheckListStatus.Bad) {
+    return 'Malo'
+  }
+  return status
+}
+
+export function getStatusAuctionLot (data: PublicationAuction | undefined) {
+  if (data === undefined) return 'Sin estado'
+  const status = data.type_status.type_name
+  if (status === TypeAuctionStatus.Active) {
+    return 'Activo'
+  }
+  if (status === TypeAuctionStatus.InProgress) {
+    return 'En progreso'
+  }
+
+  if (status === TypeAuctionStatus.Pending) {
+    return 'Pendiente'
+  }
+
+  if (status === TypeAuctionStatus.Awarded) {
+    return 'Adjudicado'
+  }
+
+  if (status === TypeAuctionStatus.NoBidder) {
+    return 'Sin postor'
+  }
+  return 'Sin estado'
 }
