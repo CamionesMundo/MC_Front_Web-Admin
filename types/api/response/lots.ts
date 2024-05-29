@@ -2,7 +2,9 @@ import {
   type PaymentType,
   type LanguagePreference,
   type LotStatus,
-  type TypeAuctionStatus
+  type TypeAuctionStatus,
+  type BidStatus,
+  type LotTransmissionStatus
 } from '@/types/enums'
 import {
   type UserResponse,
@@ -10,6 +12,12 @@ import {
   type CountryListItem,
   type WithId
 } from '.'
+
+export type LotsResponse = {
+  lots: LotResponse[]
+  totalRows: number
+  totalPages: number
+}
 
 export type LotResponse = {
   idlot: number
@@ -151,6 +159,7 @@ export type VehicleResponse = {
   year_vehicle: string
   idvehicle_general_condition: number
   idvehicle_fuel: number
+  horsepower: string | null
   idvehicle_colors: number
   video: number | null
   idcity: number
@@ -171,6 +180,9 @@ export type VehicleResponse = {
   gift_galleries: Galleries | null
   documentation_galleries: Galleries | null
   check_list: CheckList | null
+  vehicle_description: string | null
+  mileage: string | null
+  vin: string | null
 }
 
 export type CheckList = {
@@ -291,7 +303,7 @@ export type VehicleSubtypeClass = {
 }
 
 export type Lot = LotResponse & {
-  lot_queues: LotQueues[]
+  lot_queues: LotQueueInfo[]
 }
 
 export type LotFullDataResponse = {
@@ -302,10 +314,9 @@ export type LotInformation = {
   lot_total: number
   missing: number
   sold: number
-  no_bidder: number
 }
 
-export type LotQueues = {
+export type LotQueueResponse = {
   idlot_queue: number
   order: number
   idlot: number
@@ -313,5 +324,36 @@ export type LotQueues = {
   idpublication: number
   createdAt: Date
   updatedAt: Date
+  start_auction?: boolean
+}
+
+export type LotQueueInfo = LotQueueResponse & {
   publication: AuctionsResponse
+}
+
+export type LotQueueDataType = LotQueueInfo & WithId
+
+export type BidAuctionResponse = Omit<BidResponse, 'vehicle_id' | 'user'> & {
+  award_date?: Date
+  assignment_status?: BidStatus | null
+  user: BidAuctionUser
+}
+
+export type BidAuctionUser = BidUser & {
+  country: CountryListItem
+}
+
+export type BidSocket = {
+  auctionId: number
+  currentPrice: number
+}
+
+export type AuctionEndResponse = {
+  auctionId: number
+  winner_id: number
+  message: string
+}
+
+export type TransmissionStatusLot = {
+  status: LotTransmissionStatus
 }
