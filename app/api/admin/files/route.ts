@@ -36,11 +36,6 @@ export async function POST (req: Request) {
     }
     return NextResponse.json(res.data)
   } catch (error) {
-    return NextResponse.json({
-      statusCode: 500,
-      message: null,
-      data: null,
-      error: handleServerError(error)
-    })
+    return handleServerError(error)
   }
 }

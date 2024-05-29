@@ -28,12 +28,7 @@ export async function GET (req: NextRequest) {
     return NextResponse.json(res.data)
   } catch (error) {
     console.log(error)
-    return NextResponse.json({
-      statusCode: 500,
-      message: null,
-      data: null,
-      error: handleServerError(error)
-    })
+    return handleServerError(error)
   }
 }
 

@@ -3,16 +3,23 @@ import { handleServerError } from '@/helpers/error'
 import mcApi from '@/lib/axios/mc-client'
 import { type GenericResponse } from '@/types/api'
 import { type BodyLotForm } from '@/types/api/request/lots'
-import { type LotResponse } from '@/types/api/response/lots'
+import { type LotsResponse, type LotResponse } from '@/types/api/response/lots'
 import { type AxiosResponse } from 'axios'
-import { NextResponse } from 'next/server'
+import { type NextRequest, NextResponse } from 'next/server'
 
-export async function GET () {
+export async function GET (request: NextRequest) {
+  const { searchParams } = new URL(request.url)
+  const status = searchParams.get('status')
+  const page = searchParams.get('page')
+  const url =
+    status !== 'default'
+      ? `${BASE_MC_LOT_URL}?page=${page}&pageSize=10&status=${status}`
+      : `${BASE_MC_LOT_URL}?page=${page}&pageSize=10`
   try {
     const mcInstance = await mcApi()
 
-    const res: AxiosResponse<GenericResponse<LotResponse[]>> =
-      await mcInstance.get<GenericResponse<LotResponse[]>>(BASE_MC_LOT_URL)
+    const res: AxiosResponse<GenericResponse<LotsResponse>> =
+      await mcInstance.get<GenericResponse<LotsResponse>>(url)
 
     return NextResponse.json(res.data)
   } catch (error) {
@@ -29,11 +36,6 @@ export async function POST (req: Request) {
       await mcInstance.post<GenericResponse<LotResponse>>(BASE_MC_LOT_URL, body)
     return NextResponse.json(res.data)
   } catch (error) {
-    return NextResponse.json({
-      statusCode: 500,
-      message: null,
-      data: null,
-      error: handleServerError(error)
-    })
+    return handleServerError(error)
   }
 }
