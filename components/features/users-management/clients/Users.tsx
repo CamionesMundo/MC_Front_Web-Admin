@@ -5,7 +5,8 @@ import { BackComponent } from '@/components/ui/BackComponent'
 import { clientColumns } from '@/const/columns/users'
 import {
   type UserAppType,
-  type ClientDataType
+  type ClientDataType,
+  type UserClientResponse
 } from '@/types/api/response/user'
 import { UserType } from '@/types/enums'
 import { SelectItem, useDisclosure } from '@nextui-org/react'
@@ -13,6 +14,10 @@ import { useRouter } from 'next/navigation'
 import { type ChangeEvent, useState, useCallback, useMemo } from 'react'
 import ClientDetails from './ClientDetails'
 import { Edit } from '@/icons'
+import ModalStatus from '@/components/modal/ModalStatus'
+import { useActiveStatusAppUser } from '@/hooks/api/useClients'
+import { type GenericResponse } from '@/types/api'
+import { showToast } from '@/hooks/useToast'
 
 type UsersProps = {
   clients: ClientDataType[]
@@ -31,10 +36,22 @@ const dataUserTypes: UserAppType[] = [
 ]
 const Users = ({ clients, isLoading }: UsersProps) => {
   const router = useRouter()
+  const {
+    mutateAsync: activeOrInactive,
+    isPending: isLoadingActiveOrInactive
+  } = useActiveStatusAppUser()
   const [filterValue, setFilterValue] = useState('')
   const [selectedType, setSelectedType] = useState<string>('')
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isOpenModalStatus,
+    onOpen: onOpenModalStatus,
+    onClose: onCloseModalStatus
+  } = useDisclosure()
   const [currentIdUser, setCurrentIdUser] = useState<number | null>(null)
+  const [currentUserSelected, setCurrentUserSelected] = useState<
+  ClientDataType | undefined
+  >(undefined)
   const hasSearchFilter = Boolean(filterValue)
   const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setSelectedType(e.target.value)
@@ -75,6 +92,10 @@ const Users = ({ clients, isLoading }: UsersProps) => {
     }
   }, [])
 
+  const onClickSwitch = (row: ClientDataType) => {
+    setCurrentUserSelected(row)
+    onOpenModalStatus()
+  }
   const filterTypeButton = useMemo(() => {
     return (
       <div className=' w-48'>
@@ -103,7 +124,36 @@ const Users = ({ clients, isLoading }: UsersProps) => {
   const gotoEditUser = (id: number) => {
     router.push(`/users-management/clients/edit/id/${id}`)
   }
+  const isActive = useMemo(() => {
+    if (currentUserSelected !== undefined) {
+      return currentUserSelected.active ?? false
+    }
+    return false
+  }, [currentUserSelected])
 
+  const handleChangeSwitch = async () => {
+    await handleActiveOrInactiveUser()
+    onCloseModalStatus()
+  }
+  const handleActiveOrInactiveUser = async () => {
+    if (currentUserSelected !== undefined) {
+      await activeOrInactive(
+        { id: currentUserSelected?.iduser ?? 0, active: !isActive },
+        {
+          onSuccess: (
+            data: GenericResponse<UserClientResponse> | undefined
+          ) => {
+            if (data?.error !== undefined) {
+              showToast(data.message, 'error')
+            } else {
+              showToast(data?.message ?? '', 'success')
+              router.refresh()
+            }
+          }
+        }
+      )
+    }
+  }
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -129,6 +179,7 @@ const Users = ({ clients, isLoading }: UsersProps) => {
           .filter((key) => key !== 'updatedAt')}
         onEdit={onEditClient}
         onViewMore={handleOnMoreDetails}
+        onChangeStatusRow={onClickSwitch}
         onDelete={() => {}}
         isLoading={isLoading}
         filterContent={filterTypeButton}
@@ -160,6 +211,31 @@ const Users = ({ clients, isLoading }: UsersProps) => {
       >
         <ClientDetails currentIdUser={currentIdUser} />
       </CustomModal>
+      <ModalStatus
+        isOpen={isOpenModalStatus}
+        onClose={onCloseModalStatus}
+        isLoading={isLoadingActiveOrInactive}
+        action={async () => {
+          await handleChangeSwitch()
+        }}
+        actionLabel={isActive ? 'Desactivar' : 'Activar'}
+        title={isActive ? 'Desactivar Usuario' : 'Activar Usuario'}
+        description={
+          <p className='text-black/80 dark:text-white text-sm'>
+            {`Estas a un paso de ${
+              isActive ? 'desactivar' : 'activar'
+            } al usuario`}
+            <span className='font-bold text-blackText dark:text-white'>{` ${currentUserSelected?.username}`}</span>
+            {'. Si estas seguro que deseas hacerlo, presiona en el botón'}
+            <span
+              className={`font-bold ${
+                isActive ? 'text-red-700' : 'text-green-700'
+              }`}
+            >{` ${isActive ? 'DESACTIVAR' : 'ACTIVAR'}`}</span>
+            {' para continuar'}
+          </p>
+        }
+      />
     </>
   )
 }
