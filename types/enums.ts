@@ -44,7 +44,8 @@ enum AppParametersType {
   CustomAgentDescription = 12,
   TimeOfMarginForPayment = 13,
   SupportContactNumber = 14,
-  DefaultAdmin = 15
+  DefaultAdmin = 15,
+  TimeBetweenBids = 16
 }
 
 enum ModulesType {
@@ -86,8 +87,28 @@ enum PaymentType {
 export enum TypeAuctionStatus {
   Active = 'active',
   InProgress = 'in progress',
-  Pending = 'pending'
+  Pending = 'pending',
+  Awarded = 'awarded',
+  NoBidder = 'no bidder'
 }
+
+enum CheckListStatus {
+  NoApplicable = 'no_applicable',
+  Good = 'good',
+  Regular = 'regular',
+  Bad = 'bad'
+}
+
+enum BidStatus {
+  Winner = 'winner',
+  Penalized = 'penalized'
+}
+
+enum LotTransmissionStatus {
+  Offline = 'OFFLINE',
+  Online = 'ONLINE'
+}
+
 export {
   UserType,
   Sex,
@@ -97,5 +118,8 @@ export {
   AppParametersType,
   ModulesType,
   LotStatus,
-  PaymentType
+  PaymentType,
+  CheckListStatus,
+  BidStatus,
+  LotTransmissionStatus
 }
