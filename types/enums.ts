@@ -109,6 +109,17 @@ enum LotTransmissionStatus {
   Online = 'ONLINE'
 }
 
+enum AuctionType {
+  Determined = 14,
+  Auctioneer = 13
+}
+
+enum PublicationType {
+  PostVehicle = 6,
+  Rent = 7,
+  Auction = 8
+}
+
 export {
   UserType,
   Sex,
@@ -121,5 +132,7 @@ export {
   PaymentType,
   CheckListStatus,
   BidStatus,
-  LotTransmissionStatus
+  LotTransmissionStatus,
+  AuctionType,
+  PublicationType
 }
