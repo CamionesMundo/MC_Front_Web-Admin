@@ -1,14 +1,11 @@
-import { Divider, Spacer, Tab, Tabs, useDisclosure } from '@nextui-org/react'
-import TabDescription from './TabDescription'
-import TabCharacteristics from './TabCharacteristics'
+import { Divider, Spacer, useDisclosure } from '@nextui-org/react'
 import { Loader } from '@/components/ui/Loader'
 import { GenericButton } from '@/components'
-import { Gift, Radio, Refresh } from '@/icons'
-import ImageGallery from 'react-image-gallery'
+import { Radio, Refresh } from '@/icons'
+
 import 'react-image-gallery/styles/css/image-gallery.css'
 import HeaderPublication from './HeaderPublication'
 import ReactPlayer from 'react-player'
-import TabCheckList from './TabCheckList'
 import SocketComponent from './SocketComponent'
 import { useLiveTransmissionStore } from '@/store/useLiveTransmission'
 import { useAuctionState } from '@/hooks/transmission/useAuctionState'
@@ -19,6 +16,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { useGetTransmissionStatus } from '@/hooks/api/useLots'
 import { LotTransmissionStatus } from '@/types/enums'
 import CustomModal from '@/components/modal/CustomModal'
+import Gallery from './Gallery'
+import TabsPublication from './TabsPublication'
 
 type TransmissionProps = {
   codeLot: number
@@ -183,51 +182,14 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
               <>
                 <div className='grid grid-cols-2 gap-x-3 mb-3'>
                   <div className='mt-2'>
-                    <HeaderPublication />
-                    <div className='bg-slate-100 w-full'>
-                      <div className=' h-52 w-full bg-slate-700'>
-                        <ReactPlayer
-                          url={principalVideoUrl}
-                          controls
-                          width='100%'
-                          height='100%'
-                          playing={isPlaying}
-                          loop
-                          muted
-                          onReady={handleReady}
-                        />
-                      </div>
-                      <div className='grid grid-cols-4 h-36 w-full'>
-                        {giftsGallery.length > 0 && (
-                          <div
-                            className='col-span-2 relative overflow-hidden h-36'
-                            id='gallery-gift'
-                          >
-                            <div className='absolute top-0 left-0 w-full bg-secondary h-6 z-50 flex flex-row gap-2 items-center px-3'>
-                              <Gift className='w-4 h-4' />
-                              <span className='font-semibold text-xs'>
-                                Regalos
-                              </span>
-                            </div>
-                            <ImageGallery
-                              items={giftsGallery}
-                              showThumbnails={false}
-                              showPlayButton={false}
-                            />
-                          </div>
-                        )}
-                        <div
-                          id='gallery-pub'
-                          className='col-span-2 overflow-hidden h-36'
-                        >
-                          <ImageGallery
-                            items={imagesGallery}
-                            showThumbnails={false}
-                            showPlayButton={false}
-                          />
-                        </div>
-                      </div>
-                    </div>
+                    <HeaderPublication publication={publication} />
+                    <Gallery
+                      giftsGallery={giftsGallery}
+                      handleReady={handleReady}
+                      imagesGallery={imagesGallery}
+                      isPlaying={isPlaying}
+                      principalVideoUrl={principalVideoUrl}
+                    />
                   </div>
                   <div>
                     <div className='flex flex-row gap-3 mt-3 justify-center'>
@@ -276,48 +238,12 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                     />
                   </div>
                 </div>
-                <div className='flex w-full flex-col'>
-                  <Tabs
-                    size='sm'
-                    radius='full'
-                    aria-label='Tab de Detalles de publicación'
-                    color='primary'
-                    classNames={{
-                      cursor: 'bg-blue-100 border border-primary text-primary',
-                      tab: 'text-primary ',
-                      tabContent:
-                        'group-data-[selected=true]:text-primary group-data-[selected=true]:font-semibold'
-                    }}
-                    selectedKey={selected}
-                    onSelectionChange={handleSelectionChange}
-                  >
-                    <Tab key='description' title='Descripción General'>
-                      <TabDescription publication={publication} />
-                    </Tab>
-                    <Tab key='specifications' title='Características'>
-                      <TabCharacteristics publication={publication} />
-                    </Tab>
-
-                    {publication?.vehicle.check_list !== null && (
-                      <Tab key='list' title='Check List del Producto'>
-                        <TabCheckList publication={publication} />
-                      </Tab>
-                    )}
-                    {giftsGallery.length > 0 && (
-                      <Tab key='gifts' title='Regalos'>
-                        <div className='flex flex-col'>
-                          <span className='font-semibold text-sm text-zinc-800'>
-                            {'Descripción del Regalo'}
-                          </span>
-                          <p className='text-sm text-black/70'>
-                            {publication?.vehicle.gift_description ??
-                              'Sin descripción'}
-                          </p>
-                        </div>
-                      </Tab>
-                    )}
-                  </Tabs>
-                </div>
+                <TabsPublication
+                  publication={publication}
+                  giftsGallery={giftsGallery}
+                  selected={selected}
+                  handleSelectionChange={handleSelectionChange}
+                />
               </>
             )}
           </>
