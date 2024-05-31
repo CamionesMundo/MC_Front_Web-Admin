@@ -1,5 +1,9 @@
-import { type CheckListStatus } from '@/types/enums'
-import { type CityListItem, type CountryListItem } from '.'
+import {
+  type PublicationType,
+  type AuctionType,
+  type CheckListStatus
+} from '@/types/enums'
+import { type WithId, type CityListItem, type CountryListItem } from '.'
 
 export type PublicationResponse = {
   idpublication: number
@@ -9,21 +13,25 @@ export type PublicationResponse = {
   active: boolean
   rate_star: number | null
   iduser: number | null
-  type_publication: number | null
+  type_publication: PublicationType | null
   idlikes: number | null
   idfavorites: number | null
   idshares: number | null
   publication_code: string | null
   order_made: null
   draft: boolean
-  promotion: null
+  promotion: boolean | null
   id_lots: null
   createdAt: Date
   updatedAt: Date
   vehicle: PublicationVehicle
   auction: PublicationAuction
+  lot?: LotAuction | null
 }
-
+export type LotAuction = {
+  idlot: number
+  lot_code: string
+}
 export type PublicationAuction = {
   idauctions: number
   start_date: Date
@@ -37,7 +45,7 @@ export type PublicationAuction = {
   mechanical_inspection_amount: string
   service_fee_amount: string
   payment_type: string
-  type_auction: number
+  type_auction: AuctionType
   payment_status: boolean
   idtype_status: number
   createdAt: Date
@@ -348,3 +356,24 @@ export type VehicleSubtypeClass = {
   vehicle_types?: VehicleSubtypeClass
   image?: string
 }
+
+export type AuctionsFiltersResponse = {
+  publications: PublicationResponse[]
+  totalRows: number
+  totalPages: number
+}
+
+export type AuctionFilterDataType = PublicationResponse & WithId
+
+export type PublicationFiltersResponse = {
+  publications: GeneralPublicationResponse[]
+  totalRows: number
+  totalPages: number
+}
+
+export type GeneralPublicationResponse = Omit<
+PublicationResponse,
+'updatedAt' | 'auction' | 'lot'
+>
+
+export type GeneralPublicationDataType = GeneralPublicationResponse & WithId
