@@ -1,11 +1,16 @@
 import { formatPrice } from '@/lib/utils/utils'
-import { useLiveTransmissionStore } from '@/store/useLiveTransmission'
+import { type PublicationResponse } from '@/types/api/response/publication'
 import { Avatar } from '@nextui-org/react'
 import React, { useMemo } from 'react'
 
-const HeaderPublication = () => {
-  const { publication } = useLiveTransmissionStore()
-
+type HeaderPublicationProps = {
+  publication: PublicationResponse | undefined
+  isTransmission?: boolean
+}
+const HeaderPublication = ({
+  publication,
+  isTransmission = true
+}: HeaderPublicationProps) => {
   const countryCode = useMemo(() => {
     return (
       publication?.vehicle?.city?.country.country_code.toLowerCase().trim() ??
@@ -17,7 +22,9 @@ const HeaderPublication = () => {
   const cityName = publication?.vehicle?.city?.city_name ?? ''
   const publicationCode = publication?.publication_code ?? ''
   const title = publication?.vehicle.name_vehicle
-  const price = publication?.auction.starting_price
+  const price = isTransmission
+    ? publication?.auction.starting_price
+    : publication?.vehicle.sale_price
   return (
     <>
       <div className='flex flex-row gap-4'>
