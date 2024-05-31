@@ -5,13 +5,12 @@ type Props = {
   row: any
 }
 const TableAuctionDescription = ({ row }: Props) => {
-  const description =
-    row?.publication?.vehicle?.vehicle_description ?? 'Sin descripción'
+  const description = row?.vehicle?.vehicle_description ?? 'Sin descripción'
   const lengthDescription = description?.length
   return (
     <div
-      className={`text-sm ${
-        lengthDescription > 45
+      className={`text-sm max-w-44 ${
+        lengthDescription > 35
           ? ' whitespace-nowrap overflow-hidden overflow-ellipsis'
           : ''
       }`}

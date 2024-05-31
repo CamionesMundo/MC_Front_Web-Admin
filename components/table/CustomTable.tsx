@@ -47,13 +47,21 @@ import {
   TablePaymentType,
   TableConfirmationDate,
   TablePaymentDate,
-  TableConfirmationUser
+  TableConfirmationUser,
+  TableAuctionType,
+  TableLotCode,
+  TableAuctionEndDate,
+  TableTypePublication,
+  TableCreationDate,
+  TablePublicationStatus,
+  TablePromotion
 } from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
 import { TableAuctionDescription } from './render-cell/TableAuctionDescription'
 import { type PaymentsDataType } from '@/types/api/response/payments'
 import { type ClientDataType } from '@/types/api/response/user'
+import { type GeneralPublicationDataType } from '@/types/api/response/publication'
 
 /**
  * The `CustomTable` component is a reusable table component with various customization options
@@ -109,6 +117,7 @@ type CustomTableProps<T extends WithId> = {
   onEdit?: (id: number) => void
   onDelete?: (id: number) => void
   onChangeStatusRow?: (row: ClientDataType) => void
+  onChangePublicationStatus?: (row: GeneralPublicationDataType) => void
   onConfirmPayment?: (row: PaymentsDataType) => void
   onDetailPayment?: ((row: PaymentsDataType) => void) | undefined
   useRounded?: boolean
@@ -150,6 +159,7 @@ const CustomTable = <T extends WithId>({
   onConfirmPayment,
   onDetailPayment,
   onChangeStatusRow,
+  onChangePublicationStatus,
   useRounded = true,
   useSearchBar = true,
   searchBarPlaceholder = 'Buscar',
@@ -268,8 +278,12 @@ const CustomTable = <T extends WithId>({
         case 'updatedAt':
         case 'transmission_date':
           return <TableIsoDate row={row} />
+        case 'createdAt':
+          return <TableCreationDate row={row} />
         case 'status':
-          return <TableIsActive row={row} onChangeStatusRow={onChangeStatusRow}/>
+          return (
+            <TableIsActive row={row} onChangeStatusRow={onChangeStatusRow} />
+          )
         case 'user_client':
           return <TableUserClient row={row} />
         case 'full_name':
@@ -313,6 +327,7 @@ const CustomTable = <T extends WithId>({
         case 'position':
           return <TablePosition row={row} index={index} />
         case 'auction_description':
+        case 'publication_description':
           return <TableAuctionDescription row={row} />
         case 'payment_status':
           return <TablePaymentStatus row={row} />
@@ -324,6 +339,23 @@ const CustomTable = <T extends WithId>({
           return <TablePaymentDate row={row} />
         case 'confirmation_user':
           return <TableConfirmationUser row={row} />
+        case 'auction_type':
+          return <TableAuctionType row={row} />
+        case 'lot_code_auction':
+          return <TableLotCode row={row} />
+        case 'auction_end_date':
+          return <TableAuctionEndDate row={row} />
+        case 'type_publication':
+          return <TableTypePublication row={row} />
+        case 'publication_status':
+          return (
+            <TablePublicationStatus
+              row={row}
+              onChangePublicationStatus={onChangePublicationStatus}
+            />
+          )
+        case 'promotion':
+          return <TablePromotion row={row} />
         case 'actions':
           return (
             <TableActions
@@ -345,7 +377,16 @@ const CustomTable = <T extends WithId>({
           )
       }
     },
-    [onEdit, onDelete, actions, onViewMore, onConfirmPayment, onDetailPayment, onChangeStatusRow]
+    [
+      onEdit,
+      onDelete,
+      actions,
+      onViewMore,
+      onConfirmPayment,
+      onDetailPayment,
+      onChangeStatusRow,
+      onChangePublicationStatus
+    ]
   )
 
   /**

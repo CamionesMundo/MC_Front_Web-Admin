@@ -21,6 +21,15 @@ const TableAuctionStatus = ({ row }: Props) => {
     if (status === TypeAuctionStatus.Pending) {
       return 'Pendiente'
     }
+
+    if (status === TypeAuctionStatus.Awarded) {
+      return 'Adjudicado'
+    }
+
+    if (status === TypeAuctionStatus.NoBidder) {
+      return 'Sin postor'
+    }
+
     return 'Sin estado'
   }
   return (
