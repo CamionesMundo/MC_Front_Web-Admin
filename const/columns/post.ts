@@ -82,3 +82,81 @@ export const auctionsQueueColumns = [
     display: 'Orden'
   }
 ]
+
+export const auctionsFiltersColumns = [
+  {
+    key: 'auction_title',
+    display: 'ID/ Titulo'
+  },
+  {
+    key: 'auction_description',
+    display: 'Descripción'
+  },
+  {
+    key: 'city-country',
+    display: 'País'
+  },
+  {
+    key: 'base_price',
+    display: 'Precio Base'
+  },
+  {
+    key: 'auction_type',
+    display: 'Tipo'
+  },
+  {
+    key: 'lot_code_auction',
+    display: 'Lote'
+  },
+  {
+    key: 'auction_end_date',
+    display: 'Fecha cierre'
+  },
+  {
+    key: 'auction_status',
+    display: 'Estado'
+  },
+  {
+    key: 'actions',
+    display: 'Acciones'
+  }
+]
+
+export const publicationsFiltersColumns = [
+  {
+    key: 'auction_title',
+    display: 'ID/ Titulo'
+  },
+  {
+    key: 'publication_description',
+    display: 'Descripción'
+  },
+  {
+    key: 'city-country',
+    display: 'País'
+  },
+  {
+    key: 'base_price',
+    display: 'Precio Base'
+  },
+  {
+    key: 'type_publication',
+    display: 'Tipo'
+  },
+  {
+    key: 'createdAt',
+    display: 'Fecha de creación'
+  },
+  {
+    key: 'promotion',
+    display: 'Extra'
+  },
+  {
+    key: 'publication_status',
+    display: 'Activo'
+  },
+  {
+    key: 'actions',
+    display: 'Acciones'
+  }
+]
