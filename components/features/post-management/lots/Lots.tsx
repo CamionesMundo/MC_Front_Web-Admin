@@ -49,14 +49,13 @@ const Lots = ({
   totalRows
 }: LotsProps) => {
   const router = useRouter()
-
   const [filterValue, setFilterValue] = useState('')
   const hasSearchFilter = Boolean(filterValue)
-  const onCreateRole = () => {
+  const onCreateLot = () => {
     router.push('/post-management/lots/create')
   }
 
-  const onEditRole = (id: number) => {
+  const onEditLot = (id: number) => {
     router.push(`/post-management/lots/edit/id/${id}`)
   }
   const onSearchChange = useCallback((value: string) => {
@@ -142,10 +141,10 @@ const Lots = ({
         totalLabel='lotes'
         initialVisibleColumns={columns.map((column) => column.key)}
         newButtonLabel={'Nuevo Lote'}
-        onEdit={onEditRole}
+        onEdit={onEditLot}
         onDelete={() => {}}
         isLoading={isLoading}
-        actionOnAdd={onCreateRole}
+        actionOnAdd={onCreateLot}
         actions={{
           useDelete: true,
           useEdit: true,
