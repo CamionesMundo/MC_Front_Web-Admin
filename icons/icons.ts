@@ -53,6 +53,7 @@ import { ReactComponent as Mileage } from './src/Mileage.svg'
 import { ReactComponent as Gift } from './src/Gift.svg'
 import { ReactComponent as Refresh } from './src/Refresh.svg'
 import { ReactComponent as Payment } from './src/Payment.svg'
+import { ReactComponent as Publication } from './src/Publication.svg'
 
 export {
   Visible,
@@ -109,5 +110,6 @@ export {
   Mileage,
   Gift,
   Refresh,
-  Payment
+  Payment,
+  Publication
 }
