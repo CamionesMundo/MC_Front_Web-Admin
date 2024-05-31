@@ -42,7 +42,7 @@ export type DataToEmit = {
   seconds: number
 }
 
-type ImagesUrl = {
+export type ImagesUrl = {
   original: string
 }
 
