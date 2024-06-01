@@ -24,6 +24,9 @@ const Auctions = ({
   const onCreateLot = () => {
     router.push('/post-management/lots/create')
   }
+  const onViewAuctionDetails = (id: number) => {
+    router.push(`/post-management/auctions/publication/id/${id}`)
+  }
   const onSearchChange = useCallback((value: string) => {
     if (value !== undefined) {
       setFilterValue(value)
@@ -70,7 +73,7 @@ const Auctions = ({
         initialVisibleColumns={auctionsFiltersColumns
           .map((column) => column.key)
           .filter((key) => key !== 'auction_description')}
-        onViewMore={() => {}}
+        onViewMore={onViewAuctionDetails}
         onDelete={() => {}}
         onEdit={() => {}}
         newButtonLabel='Crear Lote Subasta'
