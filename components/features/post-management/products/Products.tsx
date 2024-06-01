@@ -44,7 +44,7 @@ const Products = ({
   >(undefined)
 
   const onViewPostDetails = (id: number) => {
-    router.push(`/post-management/products/publication/id/${id}`)
+    router.push(`/post-management/post/publication/id/${id}`)
   }
 
   const onSearchChange = useCallback((value: string) => {
