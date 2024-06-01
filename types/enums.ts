@@ -89,7 +89,8 @@ export enum TypeAuctionStatus {
   InProgress = 'in progress',
   Pending = 'pending',
   Awarded = 'awarded',
-  NoBidder = 'no bidder'
+  NoBidder = 'no bidder',
+  UnderReview = 'under review'
 }
 
 enum CheckListStatus {
