@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactPlayer from 'react-player'
 import ImageGallery from 'react-image-gallery'
-import { Gift } from '@/icons'
+import { Gift, NoImage, NoVideo } from '@/icons'
 import { type ImagesUrl } from '@/store/useLiveTransmission'
 
 type GalleryProps = {
@@ -20,7 +20,7 @@ const Gallery = ({
   imagesGallery
 }: GalleryProps) => {
   return (
-    <div className='bg-slate-100 w-full'>
+    <div className='bg-slate-200 w-full'>
       {principalVideoUrl !== '' && (
         <div className=' h-52 w-full bg-slate-700'>
           <ReactPlayer
@@ -33,6 +33,14 @@ const Gallery = ({
             muted
             onReady={handleReady}
           />
+        </div>
+      )}
+      {principalVideoUrl === '' && (
+        <div className='w-full h-52 bg-zinc-300 rounded-t-lg grid place-content-center'>
+          <div className='flex flex-col items-center text-default-500'>
+            <NoVideo className='w-5 h-5' />
+            <span>No tiene videos</span>
+          </div>
         </div>
       )}
       <div className='grid grid-cols-4 h-36 w-full'>
@@ -50,6 +58,14 @@ const Gallery = ({
               showThumbnails={false}
               showPlayButton={false}
             />
+          </div>
+        )}
+        {giftsGallery.length === 0 && (
+          <div className='h-36 col-span-2 grid place-content-center'>
+            <div className='flex flex-col items-center text-default-500'>
+              <NoImage className='w-5 h-5' />
+              <span>No tiene Regalos</span>
+            </div>
           </div>
         )}
         <div id='gallery-pub' className='col-span-2 overflow-hidden h-36'>
