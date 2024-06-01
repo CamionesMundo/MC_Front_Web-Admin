@@ -54,6 +54,8 @@ import { ReactComponent as Gift } from './src/Gift.svg'
 import { ReactComponent as Refresh } from './src/Refresh.svg'
 import { ReactComponent as Payment } from './src/Payment.svg'
 import { ReactComponent as Publication } from './src/Publication.svg'
+import { ReactComponent as NoImage } from './src/NoImage.svg'
+import { ReactComponent as NoVideo } from './src/NoVideo.svg'
 
 export {
   Visible,
@@ -111,5 +113,7 @@ export {
   Gift,
   Refresh,
   Payment,
-  Publication
+  Publication,
+  NoImage,
+  NoVideo
 }
