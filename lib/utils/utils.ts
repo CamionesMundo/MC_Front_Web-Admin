@@ -327,5 +327,9 @@ export function getStatusAuctionLot (data: PublicationAuction | undefined) {
   if (status === TypeAuctionStatus.NoBidder) {
     return 'Sin postor'
   }
+
+  if (status === TypeAuctionStatus.UnderReview) {
+    return 'En revisión'
+  }
   return 'Sin estado'
 }

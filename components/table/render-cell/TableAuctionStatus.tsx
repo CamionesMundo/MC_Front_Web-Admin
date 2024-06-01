@@ -30,6 +30,10 @@ const TableAuctionStatus = ({ row }: Props) => {
       return 'Sin postor'
     }
 
+    if (status === TypeAuctionStatus.UnderReview) {
+      return 'En revisión'
+    }
+
     return 'Sin estado'
   }
   return (
