@@ -8,7 +8,7 @@ export const usersManagement = [
 ]
 
 export const postManagement = [
-  { label: 'Gestión de productos', href: '/post-management/products' },
+  { label: 'Gestión de publicaciones', href: '/post-management/post' },
   {
     label: 'Gestión de subastas',
     href: '/post-management/auctions'
