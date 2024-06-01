@@ -2,6 +2,9 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import { type NextAuthOptions } from 'next-auth'
 import { type GenericResponse } from '@/types/api'
 import { type UserDataResponse } from '@/types/api/response/auth'
+import mcApi from '../axios/mc-client'
+import { type AxiosResponse } from 'axios'
+import { BASE_MC_ADMIN_URL } from '@/const/base-url'
 
 const authOptions: NextAuthOptions = {
   providers: [
@@ -24,33 +27,33 @@ const authOptions: NextAuthOptions = {
           password: string
         }
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/admin/users/login`,
-          {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: { 'Content-Type': 'application/json' }
-          }
-        )
+        try {
+          const mcInstance = await mcApi()
+          const res: AxiosResponse<GenericResponse<UserDataResponse>> =
+            await mcInstance.post<GenericResponse<UserDataResponse>>(
+              `${BASE_MC_ADMIN_URL}/login`,
+              { email, password }
+            )
 
-        if (!res.ok) {
+          const loginData = res.data.data
+
+          if (res.data.error !== undefined) {
+            throw new Error(res.data.message)
+          }
+
+          return {
+            id: loginData.user.iduser_admin.toString(),
+            email: loginData.user.email,
+            profileImg: loginData.user.file_profile?.url ?? '',
+            role: loginData.user.role.name_role,
+            token: loginData.token,
+            name: loginData.user.name_user
+          }
+        } catch (error) {
+          console.log(error)
           throw new Error(
             'Error en la autenticación. Por favor, intente de nuevo.'
           )
-        }
-        const response = (await res.json()) as GenericResponse<UserDataResponse>
-
-        if (response.error !== undefined) {
-          throw new Error(response.message)
-        }
-        const loginData = response.data
-        return {
-          id: loginData.user.iduser_admin.toString(),
-          email: loginData.user.email,
-          profileImg: loginData.user.file_profile?.url ?? '',
-          role: loginData.user.role.name_role,
-          token: loginData.token,
-          name: loginData.user.name_user
         }
       }
     })
