@@ -1,54 +1,43 @@
 'use client'
 import Products from '@/components/features/post-management/products/Products'
+import CustomPagination from '@/components/table/pagination/CustomPagination'
 import { MainContainer } from '@/components/ui'
 import { useGetAllGeneralPublications } from '@/hooks/api/usePublications'
 import useAsyncPagination from '@/hooks/pagination/useAsyncPagination'
-import { Button, Pagination } from '@nextui-org/react'
-import { useQueryClient } from '@tanstack/react-query'
-import React, { useEffect, useMemo, useState } from 'react'
+import useQueryParams from '@/hooks/useQueryParams'
+import React, { useEffect, useMemo } from 'react'
 
 const ProductsPage = () => {
-  const queryClient = useQueryClient()
-  const [currentPage, setCurrentPage] = useState<number>(1)
+  const { queryParams } = useQueryParams()
 
   const {
     data: publicationsResponse,
     isLoading,
-    isRefetching,
     refetch
   } = useGetAllGeneralPublications({
-    page: currentPage
+    page: Number(queryParams.get('page')),
+    pageSize: Number(queryParams.get('pageSize')),
+    query: queryParams.get('query') ?? '',
+    startDate: queryParams.get('startDate') ?? undefined,
+    endDate: queryParams.get('endDate') ?? undefined
   })
 
   const publications = useMemo(() => {
-    const publications = publicationsResponse?.data?.publications.map((publication) => ({
-      ...publication,
-      id: publication.idpublication
-    }))
+    const publications = publicationsResponse?.data?.publications.map(
+      (publication) => ({
+        ...publication,
+        id: publication.idpublication
+      })
+    )
     return publications
   }, [publicationsResponse])
 
-  const totalPages = useMemo(() => {
-    if (publicationsResponse !== undefined) {
-      return publicationsResponse.data.totalPages
-    }
-    return undefined
-  }, [publicationsResponse])
-
-  const totalRows = useMemo(() => {
-    if (publicationsResponse !== undefined) {
-      return publicationsResponse.data.totalRows
-    }
-    return undefined
-  }, [publicationsResponse])
-
   const { page, onNextPage, onPreviousPage, onChangePage } = useAsyncPagination(
-    { totalPages: totalPages ?? 0 }
+    { totalPages: publicationsResponse?.data?.totalPages ?? 0 }
   )
 
   useEffect(() => {
-    if (totalPages !== undefined) {
-      setCurrentPage(page)
+    if (queryParams !== undefined) {
       refetch()
         .then()
         .catch((error) => {
@@ -58,53 +47,24 @@ const ProductsPage = () => {
           )
         })
     }
-  }, [page, totalPages, refetch, queryClient])
-
-  const bottomContent = useMemo(() => {
-    return (
-      <div className='py-2 px-2 flex justify-end items-center'>
-        <Pagination
-          isCompact
-          showControls
-          showShadow
-          color='primary'
-          classNames={{
-            cursor: 'bg-blackText '
-          }}
-          page={page}
-          total={totalPages ?? 0}
-          isDisabled={isLoading}
-          onChange={onChangePage}
-        />
-        <div className='hidden sm:flex w-[30%] justify-end gap-2'>
-          <Button
-            isDisabled={totalPages === 1 || isLoading}
-            size='sm'
-            variant='flat'
-            onPress={onPreviousPage}
-          >
-            Anterior
-          </Button>
-          <Button
-            isDisabled={totalPages === 1 || isLoading}
-            size='sm'
-            variant='flat'
-            onPress={onNextPage}
-          >
-            Siguiente
-          </Button>
-        </div>
-      </div>
-    )
-  }, [isLoading, page, totalPages, onNextPage, onPreviousPage, onChangePage])
+  }, [queryParams, refetch])
 
   return (
     <MainContainer>
       <Products
         products={publications ?? []}
-        isLoading={isLoading || isRefetching}
-        bottomContent={bottomContent}
-        totalRows={totalRows ?? 0}
+        isLoading={isLoading}
+        bottomContent={
+          <CustomPagination
+            page={page}
+            totalPages={publicationsResponse?.data?.totalPages ?? 0}
+            isLoading={isLoading}
+            onChangePage={onChangePage}
+            onNextPage={onNextPage}
+            onPreviousPage={onPreviousPage}
+          />
+        }
+        totalRows={publicationsResponse?.data.totalRows ?? 0}
       />
     </MainContainer>
   )
