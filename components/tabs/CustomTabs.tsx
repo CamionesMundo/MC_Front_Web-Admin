@@ -11,7 +11,7 @@ const CustomTabs = ({ tabs, ...props }: CustomTabsProps) => {
         aria-label='Options'
         classNames={{
           tabList:
-            'gap-6 w-fit relative p-1.5 bg-primary/20 dark:bg-gray-700 flex justify-center',
+            'gap-6 md:w-fit relative p-1.5 bg-primary/20 dark:bg-gray-700 flex md:justify-center',
           cursor: 'w-full bg-gray-400 dark:bg-primary',
           tab: 'max-w-fit px-4 h-auto',
           tabContent:
