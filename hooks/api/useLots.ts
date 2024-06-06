@@ -16,12 +16,30 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { showToast } from '../useToast'
-import { type BodyUpdateLotForm } from '@/types/api/request/lots'
+import {
+  type LotsFilter,
+  type BodyUpdateLotForm
+} from '@/types/api/request/lots'
 
-export const useGetAllLots = (status: string, page: number) => {
+export const useGetAllLots = ({
+  page,
+  pageSize,
+  status,
+  query,
+  startDate,
+  endDate
+}: LotsFilter) => {
   return useQuery({
     queryKey: ['lots', status, page],
-    queryFn: async () => await getAllLots(status, page)
+    queryFn: async () =>
+      await getAllLots({
+        page,
+        pageSize,
+        status,
+        query,
+        startDate,
+        endDate
+      })
   })
 }
 

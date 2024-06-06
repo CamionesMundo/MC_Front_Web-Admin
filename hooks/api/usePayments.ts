@@ -1,13 +1,23 @@
 import { getAllPayments, updatePaymentStatus } from '@/helpers/api/payments'
-import { type BodyPayments } from '@/types/api/request/payments'
+import {
+  type PaymentsFilter,
+  type BodyPayments
+} from '@/types/api/request/payments'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { showToast } from '../useToast'
 
-export const useGetAllPayments = ({ page }: { page: number }) => {
+export const useGetAllPayments = ({
+  page,
+  pageSize,
+  query,
+  startDate,
+  endDate
+}: PaymentsFilter) => {
   return useQuery({
     queryKey: ['payment-orders', page],
-    queryFn: async () => await getAllPayments({ page })
+    queryFn: async () =>
+      await getAllPayments({ page, pageSize, query, startDate, endDate })
   })
 }
 

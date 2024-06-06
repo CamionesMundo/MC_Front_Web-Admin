@@ -8,7 +8,11 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { showToast } from '../useToast'
-import { type BodyActivePublication } from '@/types/api/request/publication'
+import {
+  type ParamsFilter,
+  type BodyActivePublication,
+  type ParamsPostFilter
+} from '@/types/api/request/publication'
 
 export const useGetPublicationById = (id: number) => {
   return useQuery({
@@ -26,17 +30,47 @@ export const useGetBidAuctionsById = (id: number) => {
   })
 }
 
-export const useGetAllAuctionsPublications = ({ page }: { page: number }) => {
+export const useGetAllAuctionsPublications = ({
+  page,
+  pageSize,
+  query,
+  typeStatus,
+  typeAuction,
+  startDate,
+  endDate
+}: ParamsFilter) => {
   return useQuery({
     queryKey: ['publications-auctions', page],
-    queryFn: async () => await getAllAuctionsPublications({ page })
+    queryFn: async () =>
+      await getAllAuctionsPublications({
+        page,
+        pageSize,
+        query,
+        typeStatus,
+        typeAuction,
+        startDate,
+        endDate
+      })
   })
 }
 
-export const useGetAllGeneralPublications = ({ page }: { page: number }) => {
+export const useGetAllGeneralPublications = ({
+  page,
+  pageSize,
+  startDate,
+  endDate,
+  query
+}: ParamsPostFilter) => {
   return useQuery({
     queryKey: ['publications-general', page],
-    queryFn: async () => await getAllGeneralPublications({ page })
+    queryFn: async () =>
+      await getAllGeneralPublications({
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        query
+      })
   })
 }
 
