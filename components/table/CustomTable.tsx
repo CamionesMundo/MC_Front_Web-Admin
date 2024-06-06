@@ -140,6 +140,11 @@ type CustomTableProps<T extends WithId> = {
   useSelection?: boolean
   useScroll?: boolean
   usePage?: boolean
+  customSearchBar?: ReactNode | undefined | null
+  useCustomSearchBar?: boolean
+  useCustomPageSize?: boolean
+  customPageSize?: ReactNode | undefined | null
+  useFilterInNewRow?: boolean
 } & TableProps
 
 const CustomTable = <T extends WithId>({
@@ -184,6 +189,11 @@ const CustomTable = <T extends WithId>({
   useSelection = false,
   useScroll = false,
   usePage = true,
+  customSearchBar,
+  useCustomSearchBar = false,
+  useCustomPageSize = false,
+  customPageSize,
+  useFilterInNewRow = false,
   ...props
 }: CustomTableProps<T>) => {
   /**
@@ -435,24 +445,29 @@ const CustomTable = <T extends WithId>({
           })}
         >
           {useSearchBar && (
-            <Input
-              isClearable
-              className='w-full sm:max-w-[44%]'
-              placeholder={searchBarPlaceholder}
-              startContent={<Search className='w-3 h-3 dark:text-white' />}
-              value={filterValue}
-              classNames={{ clearButton: 'dark:text-white' }}
-              onClear={() => {
-                onClear()
-              }}
-              onValueChange={onSearchChange}
-            />
+            <>
+              {!useCustomSearchBar && (
+                <Input
+                  isClearable
+                  className='w-full sm:max-w-[44%]'
+                  placeholder={searchBarPlaceholder}
+                  startContent={<Search className='w-3 h-3 dark:text-white' />}
+                  value={filterValue}
+                  classNames={{ clearButton: 'dark:text-white', inputWrapper: 'dark:border dark:border-white/60' }}
+                  onClear={() => {
+                    onClear()
+                  }}
+                  onValueChange={onSearchChange}
+                />
+              )}
+              {useCustomSearchBar && customSearchBar}
+            </>
           )}
-          <div className='flex w-full md:w-auto md:justify-normal items-center justify-center gap-3'>
-            {filterContent !== undefined && filterContent}
+          <div className='flex w-full md:w-auto md:justify-normal md:flex-row flex-col items-center justify-center gap-3'>
+            {filterContent !== undefined && !useFilterInNewRow && filterContent}
             {showColumnsButton && (
               <Dropdown>
-                <DropdownTrigger className='hidden sm:flex'>
+                <DropdownTrigger className='w-full md:w-auto mt-1 md:mt-0 flex'>
                   <Button
                     className='bg-slate-300 dark:bg-default-200 dark:border dark:border-white/60 text-blackText dark:text-white'
                     endContent={
@@ -483,7 +498,7 @@ const CustomTable = <T extends WithId>({
               <GenericButton
                 iconStart={<Plus className='w-3 h-3 text-white' />}
                 type='button'
-                className='text-sm bg-blackText text-white dark:border dark:border-white/60'
+                className='w-full md:w-auto text-sm bg-blackText text-white dark:border dark:border-white/60'
                 label={newButtonLabel}
                 onClick={() => {
                   if (actionOnAdd !== undefined) {
@@ -493,6 +508,9 @@ const CustomTable = <T extends WithId>({
               />
             )}
           </div>
+        </div>
+        <div className='flex flex-col md:flex-row md:justify-end gap-3 w-full'>
+          {filterContent !== undefined && useFilterInNewRow && filterContent}
         </div>
         <div
           className={cn('flex items-center', {
@@ -508,17 +526,22 @@ const CustomTable = <T extends WithId>({
             </span>
           )}
           {showFilesPerPage && (
-            <label className='flex items-center text-default-400 text-small'>
-              Filas por página:
-              <select
-                className='bg-transparent outline-none text-default-400 text-small'
-                onChange={onRowsPerPageChange}
-              >
-                <option value='5'>5</option>
-                <option value='10'>10</option>
-                <option value='15'>15</option>
-              </select>
-            </label>
+            <>
+              {!useCustomPageSize && (
+                <label className='flex items-center text-default-400 text-small'>
+                  Filas por página:
+                  <select
+                    className='bg-transparent outline-none text-default-400 text-small'
+                    onChange={onRowsPerPageChange}
+                  >
+                    <option value='5'>5</option>
+                    <option value='10'>10</option>
+                    <option value='15'>15</option>
+                  </select>
+                </label>
+              )}
+              {useCustomPageSize && customPageSize}
+            </>
           )}
         </div>
       </div>
@@ -542,7 +565,12 @@ const CustomTable = <T extends WithId>({
     useSearchBar,
     filteredItems.length,
     useCustomPagination,
-    totalRows
+    totalRows,
+    useCustomSearchBar,
+    customSearchBar,
+    customPageSize,
+    useCustomPageSize,
+    useFilterInNewRow
   ])
 
   const bottomContent = useMemo(() => {
