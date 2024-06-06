@@ -310,8 +310,8 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
               }}
               color={errors?.role !== undefined ? 'danger' : 'primary'}
               error={errors?.role?.toString() ?? ''}
-                label='Rol'
-                isLoading={isLoadingRoles}
+              label='Rol'
+              isLoading={isLoadingRoles}
             >
               {roles.map((r) => (
                 <SelectItem key={r.idrole_admin} value={r.idrole_admin}>
@@ -320,8 +320,8 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
               ))}
             </CustomSelect>
           </div>
-          <div className='w-full flex justify-start mt-10'>
-            <div className='w-1/4'>
+          <div className='w-full flex justify-center md:justify-start mt-10'>
+            <div className='md:w-1/4 w-full'>
               <GenericButton
                 type='submit'
                 label={isEditing ? 'Actualizar Datos' : 'Crear Administrador'}

@@ -15,7 +15,7 @@ const OfferItem = ({
   price
 }: OfferItemProps) => {
   return (
-    <div className='flex justify-between'>
+    <div className='flex justify-between dark:text-white'>
       <div className='flex flex-row gap-2 items-center'>
         <Avatar
           alt={`Bandera de ${countryName}`}

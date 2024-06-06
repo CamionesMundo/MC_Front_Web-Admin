@@ -160,7 +160,7 @@ const TabCharacteristics = ({ publication }: TabCharacteristicsProps) => {
 
   return (
     <div>
-      <div className='grid grid-cols-2 gap-x-6'>
+      <div className='grid md:grid-cols-2 gap-x-6 dark:text-white'>
         <div className='flex flex-col mb-3'>
           <h1 className='font-semibold text-blackText dark:text-white'>
             {'Especificaciones del vehículo'}
@@ -282,7 +282,6 @@ const TabCharacteristics = ({ publication }: TabCharacteristicsProps) => {
           />
           <ItemCheckValue title='Garantía' value={VEHICLE_WARRANTY} />
         </div>
-
       </div>
     </div>
   )

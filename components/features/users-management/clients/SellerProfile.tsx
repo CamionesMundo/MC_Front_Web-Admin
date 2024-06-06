@@ -50,26 +50,20 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
       <div className='w-full grid md:grid-cols-2 lg:grid-cols-3 mt-2 gap-3'>
         {client?.seller?.type_seller === UserType.Business && (
           <div className='flex flex-col justify-center'>
-            <span className={sectionClass}>
-              Numero de RUT
-            </span>
+            <span className={sectionClass}>Numero de RUT</span>
             <span className='text-md text-default-500 text-sm'>
               {client?.seller?.number_rut ?? 'No registrado'}
             </span>
           </div>
         )}
         <div className='flex flex-col justify-center'>
-          <span className={sectionClass}>
-            Sitio web
-          </span>
+          <span className={sectionClass}>Sitio web</span>
           <span className='text-md text-default-500 text-sm'>
             {client?.seller?.website ?? 'No registrado'}
           </span>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className={sectionClass}>
-            Estado de aprobación
-          </span>
+          <span className={sectionClass}>Estado de aprobación</span>
           <div className='flex flex-row gap-2 items-center'>
             <Tooltip content='Aprobar / Desaprobar' color='foreground'>
               <div className='flex items-center'>
@@ -98,9 +92,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </div>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className={sectionClass}>
-            Whatsapp asociado
-          </span>
+          <span className={sectionClass}>Whatsapp asociado</span>
           <span className='text-sm text-default-500'>
             <Chip
               color={
@@ -114,9 +106,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </span>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className={sectionClass}>
-            Tipo de Vendedor
-          </span>
+          <span className={sectionClass}>Tipo de Vendedor</span>
           <span className='text-md text-default-500 text-sm'>
             {getUserType(client?.seller?.type_seller ?? 0)}
           </span>
@@ -124,9 +114,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
         {client?.seller?.type_seller === UserType.Business && (
           <>
             <div className='flex flex-col justify-center'>
-              <span className={sectionClass}>
-                Nombre de la compañía
-              </span>
+              <span className={sectionClass}>Nombre de la compañía</span>
               <span className='text-sm text-default-500'>
                 {client?.seller?.company_name ?? 'No registrado'}
               </span>
@@ -140,9 +128,7 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
               </span>
             </div>
             <div className='flex flex-col justify-center'>
-              <span className={sectionClass}>
-                Teléfono de la compañía
-              </span>
+              <span className={sectionClass}>Teléfono de la compañía</span>
               <span className='text-sm text-default-500'>
                 {client?.seller?.company_phone ?? 'No registrado'}
               </span>
@@ -150,17 +136,13 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
           </>
         )}
         <div className='flex flex-col justify-center'>
-          <span className={sectionClass}>
-            Fecha de Creación
-          </span>
+          <span className={sectionClass}>Fecha de Creación</span>
           <span className='text-sm text-default-500'>
             {parseIsoDate(client?.seller?.createdAt.toString())}
           </span>
         </div>
         <div className='flex flex-col justify-center'>
-          <span className={sectionClass}>
-            Ultima actualización
-          </span>
+          <span className={sectionClass}>Ultima actualización</span>
           <span className='text-sm text-default-500'>
             {parseIsoDate(client?.seller?.updatedAt.toString())}
           </span>
@@ -170,11 +152,9 @@ const SellerProfile = ({ client }: SellerProfileProps) => {
         <Divider />
       </div>
       <div className='mt-3'>
-        <span className={sectionClass}>
-          Verificación de Identidad
-        </span>
+        <span className={sectionClass}>Verificación de Identidad</span>
       </div>
-      <div className='w-full flex flex-row gap-3 mt-2'>
+      <div className='w-full md:flex md:flex-row grid grid-cols-2 gap-3 mt-2'>
         {picturesVerification.map((picture) => (
           <div
             key={picture.idfile}

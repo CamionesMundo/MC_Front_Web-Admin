@@ -172,7 +172,7 @@ const NewAddressForm = ({
   return (
     <div>
       <div className='w-full flex fle-row justify-between px-2 items-center'>
-        <span className='text-blackText font-semibold'>
+        <span className='text-blackText dark:text-white font-semibold'>
           Creando Nueva dirección
         </span>
 

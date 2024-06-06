@@ -1,5 +1,8 @@
 import { CustomInput, CustomSelect, GenericButton } from '@/components'
-import { handleValidationFormErrors, type FormErrorMessages } from '@/helpers/error'
+import {
+  handleValidationFormErrors,
+  type FormErrorMessages
+} from '@/helpers/error'
 import { useUpdateAdmin } from '@/hooks/api/useAdmins'
 import { showToast } from '@/hooks/useToast'
 import { adminFormSchema } from '@/lib/validators/adminFormValidator'
@@ -134,7 +137,7 @@ const Account = () => {
         </div>
 
         <div className='w-full flex justify-start mt-10'>
-          <div className='w-1/4'>
+          <div className='md:w-1/4'>
             <GenericButton
               type='submit'
               label={'Guardar Datos'}
@@ -150,7 +153,7 @@ const Account = () => {
       <h1 className='font-semibold text-blackText dark:text-white'>
         Solicitar cambio de contraseña
       </h1>
-      <div className='w-1/4 mt-3'>
+      <div className='md:w-1/4 mt-3'>
         <GenericButton type='button' label={'Solicitar '} />
       </div>
     </div>

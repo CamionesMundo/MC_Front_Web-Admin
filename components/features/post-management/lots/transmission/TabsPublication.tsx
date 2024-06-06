@@ -27,7 +27,8 @@ const TabsPublication = ({
         aria-label='Tab de Detalles de publicación'
         color='primary'
         classNames={{
-          cursor: 'bg-blue-100 border border-primary text-primary',
+          cursor:
+            'bg-blue-100 dark:bg-zinc-400 border border-primary text-primary',
           tab: 'text-primary ',
           tabContent:
             'group-data-[selected=true]:text-primary group-data-[selected=true]:font-semibold'
@@ -49,11 +50,11 @@ const TabsPublication = ({
         )}
         {giftsGallery.length > 0 && (
           <Tab key='gifts' title='Regalos'>
-            <div className='flex flex-col'>
-              <span className='font-semibold text-sm text-zinc-800'>
+            <div className='flex flex-col dark:text-white'>
+              <span className='font-semibold text-sm text-zinc-800 dark:text-white'>
                 {'Descripción del Regalo'}
               </span>
-              <p className='text-sm text-black/70'>
+              <p className='text-sm text-black/70 dark:text-white'>
                 {publication?.vehicle.gift_description ?? 'Sin descripción'}
               </p>
             </div>

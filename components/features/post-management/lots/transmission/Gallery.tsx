@@ -20,7 +20,7 @@ const Gallery = ({
   imagesGallery
 }: GalleryProps) => {
   return (
-    <div className='bg-slate-200 w-full'>
+    <div className='bg-slate-200 dark:bg-zinc-600 w-full'>
       {principalVideoUrl !== '' && (
         <div className=' h-52 w-full bg-slate-700'>
           <ReactPlayer
@@ -36,7 +36,7 @@ const Gallery = ({
         </div>
       )}
       {principalVideoUrl === '' && (
-        <div className='w-full h-52 bg-zinc-300 rounded-t-lg grid place-content-center'>
+        <div className='w-full h-52 bg-zinc-300 dark:bg-zinc-700 rounded-t-lg grid place-content-center'>
           <div className='flex flex-col items-center text-default-500'>
             <NoVideo className='w-5 h-5' />
             <span>No tiene videos</span>
@@ -49,7 +49,7 @@ const Gallery = ({
             className='col-span-2 relative overflow-hidden h-36'
             id='gallery-gift'
           >
-            <div className='absolute top-0 left-0 w-full bg-secondary h-6 z-50 flex flex-row gap-2 items-center px-3'>
+            <div className='absolute top-0 left-0 w-full bg-secondary text-black h-6 z-50 flex flex-row gap-2 items-center px-3'>
               <Gift className='w-4 h-4' />
               <span className='font-semibold text-xs'>Regalos</span>
             </div>

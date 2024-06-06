@@ -10,10 +10,10 @@ type ProfileCardProps = {
 
 const ProfileCard = ({ typeAccount, client }: ProfileCardProps) => {
   return (
-    <div className='flex flew-row gap-3 items-center'>
-      <div className='w-20 h-20'>
+    <div className='w-full md:w-auto flex flew-row gap-2 items-center'>
+      <div className='md:w-[70px] w-16 h-16 md:h-[70px] '>
         <Avatar
-          className='w-20 h-20 text-large'
+          className='md:w-[70px] w-16 h-16 md:h-[70px] text-large'
           src={client?.file_profiles?.url ?? ''}
         />
       </div>
@@ -46,7 +46,9 @@ const ProfileCard = ({ typeAccount, client }: ProfileCardProps) => {
             </Chip>
           </div>
         </div>
-        <span className='text-large'>{client?.username}</span>
+        <span className='text-large dark:text-white'>
+          {client?.username ?? 'Sin Registro'}
+        </span>
         {typeAccount}
       </div>
     </div>

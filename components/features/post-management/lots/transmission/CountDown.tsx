@@ -15,7 +15,7 @@ const CountDown = ({
   secondsPercent
 }: CountDownProps) => {
   return (
-    <div className='flex flex-row items-center gap-6 justify-start'>
+    <div className='flex flex-row items-center gap-6 justify-start dark:text-white'>
       <div className='relative'>
         <CircularProgress
           aria-label='Cargando...'

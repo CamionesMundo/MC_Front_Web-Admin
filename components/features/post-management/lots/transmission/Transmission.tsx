@@ -108,20 +108,20 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
       )}
       {publication !== undefined && (
         <>
-          <div className='grid grid-cols-3 gap-3'>
+          <div className='grid md:grid-cols-3 gap-3 md:mb-0 mb-4'>
             <div className='col-span-1'>
               <p className='text-sm text-default-600 dark:text-white pt-2'>
                 Recuerda siempre{' '}
                 <span className='font-semibold'>
-                  INICIAR el Streaming desde tu OBS STUDIO
+                  {'INICIAR el Streaming desde tu OBS STUDIO '}
                 </span>
                 para que todos los usuarios puedan ver la transmisión En vivo de
                 subastas en la aplicación
               </p>
             </div>
-            <div className='grid grid-cols-6 col-span-2'>
-              <div className='flex flex-col col-span-2'>
-                <span className='font-semibold text-center pt-2 text-lg'>{`ID SUBASTA: #${codeLot}`}</span>
+            <div className='grid grid-cols-1 md:grid-cols-6 col-span-1 md:col-span-2'>
+              <div className='flex flex-col col-span-2 gap-3 md:gap-0'>
+                <span className='font-semibold text-center pt-2 text-lg dark:text-white'>{`ID SUBASTA: #${codeLot}`}</span>
                 <GenericButton
                   type='button'
                   label={'Actualizar stream'}
@@ -136,7 +136,7 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                   }
                 />
               </div>
-              <div className='col-span-4 w-5/6 h-40 mx-auto'>
+              <div className='md:col-span-4 w-full md:w-5/6 h-40 md:mx-auto md:mt-0 mt-4'>
                 {isOnline && (
                   <ReactPlayer
                     url='https://50275799e5a0.us-east-1.playback.live-video.net/api/video/v1/us-east-1.339712782868.channel.SIV9qpv5k4AR.m3u8'
@@ -163,7 +163,7 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
           </div>
           <Spacer />
           <Spacer />
-          <h1 className='font-semibold text-black/80 dark:text-white'>
+          <h1 className='md:block hidden font-semibold text-black/80 dark:text-white'>
             {'Vehículos en pantalla'}
             <span className=' text-cyan-600 font-semibold'>
               {' (en tiempo real)'}
@@ -180,8 +180,19 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
             )}
             {!isLoadingCurrentPublication && (
               <>
-                <div className='grid grid-cols-2 gap-x-3 mb-3'>
-                  <div className='mt-2'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-x-3 mb-3'>
+                  <div className='mt-2 order-2 md:order-1'>
+                    <div className='md:hidden block mt-3 mb-2'>
+                      <h1 className=' font-semibold text-black/80 dark:text-white'>
+                        {'Vehículos en pantalla'}
+                        <span className=' text-cyan-600 font-semibold'>
+                          {' (en tiempo real)'}
+                        </span>
+                      </h1>
+                      <Spacer />
+                      <Divider />
+                      <Spacer />
+                    </div>
                     <HeaderPublication publication={publication} />
                     <Gallery
                       giftsGallery={giftsGallery}
@@ -191,16 +202,16 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                       principalVideoUrl={principalVideoUrl}
                     />
                   </div>
-                  <div>
-                    <div className='flex flex-row gap-3 mt-3 justify-center'>
+                  <div className='order-1 md:order-2'>
+                    <div className='flex flex-col md:flex-row gap-3 mt-4 md:mt-3 justify-center'>
                       <GenericButton
                         type='button'
-                        label='Iniciar Subasta'
+                        label='Iniciar Pujas'
                         color='default'
                         className={
                           disabledInitAuctionButton
-                            ? 'cursor-not-allowed'
-                            : 'bg-green-700 text-white font-semibold'
+                            ? 'cursor-not-allowed w-full'
+                            : 'bg-green-700 text-white font-semibold w-full'
                         }
                         onClick={handleInitAuction}
                         isLoading={isPendingStart}
@@ -212,8 +223,8 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                         color='default'
                         className={
                           disableUnlinkButton
-                            ? 'cursor-not-allowed'
-                            : 'bg-gray-500 text-white font-semibold'
+                            ? 'cursor-not-allowed w-full'
+                            : 'bg-gray-500 text-white font-semibold w-full'
                         }
                         onClick={handleUnlinkAuction}
                         isLoading={isLoadingDelete}
@@ -224,8 +235,8 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                         label={isLast ? 'Finalizar Lote' : 'Siguiente Subasta'}
                         className={
                           !disabledNextButton
-                            ? 'text-capitalize bg-blue-800 text-white font-bold'
-                            : 'cursor-not-allowed'
+                            ? 'text-capitalize bg-blue-800 text-white font-bold w-full'
+                            : 'cursor-not-allowed w-full'
                         }
                         onClick={isLast ? handleFinishLot : handleNextAuction}
                         isLoading={isLoadingNextButton}

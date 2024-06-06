@@ -28,9 +28,9 @@ const LastOfferCard = ({ item }: LastOfferCardProps) => {
     return null
   }
   return (
-    <div className='grid grid-cols-4 border border-zinc-300 rounded-lg px-3 py-2 w-full'>
-      <div className='col-span-3'>
-        <div className='flex  flex-row gap-2 items-center mt-2'>
+    <div className='grid grid-cols-1 md:grid-cols-4 dark:text-white border border-zinc-300 rounded-lg px-3 py-2 w-full'>
+      <div className='md:col-span-3 col-span-1'>
+        <div className='flex flex-row justify-center md:justify-start gap-2 items-center mt-2'>
           <Avatar
             icon={<Hammer className='md:w-3.5 md:h-3.5 w-3 h-3' />}
             size={'md'}
@@ -40,7 +40,9 @@ const LastOfferCard = ({ item }: LastOfferCardProps) => {
             }}
           />
           <div className='flex flex-col gap-0'>
-            <span className='text-xs text-zinc-700'>Última oferta</span>
+            <span className='text-xs text-zinc-700 dark:text-white'>
+              Última oferta
+            </span>
             <div className='flex flex-row gap-2 items-center'>
               <Avatar
                 alt={`Bandera de ${item?.user.country?.country_name}`}
@@ -55,8 +57,8 @@ const LastOfferCard = ({ item }: LastOfferCardProps) => {
           </div>
         </div>
       </div>
-      <div className='col-span-1 flex justify-end items-end'>
-        <span className='md:text-base text-sm font-semibold'>
+      <div className='md:col-span-1 md:mt-0 mt-2 flex justify-center md:justify-end items-end'>
+        <span className='md:text-base font-semibold'>
           {formatPrice(Number(item?.amount))}
         </span>
       </div>

@@ -13,15 +13,23 @@ type SocketComponentProps = {
   isLoadingTotalCount: boolean
 }
 
-const SocketComponent = ({
-  isLoadingTotalCount
-}: SocketComponentProps) => {
-  const { currentAuctionId, count, secondsPercent, currentBid, publication, hasWinner, isAuctionFinished } = useLiveTransmissionStore()
+const SocketComponent = ({ isLoadingTotalCount }: SocketComponentProps) => {
+  const {
+    currentAuctionId,
+    count,
+    secondsPercent,
+    currentBid,
+    publication,
+    hasWinner,
+    isAuctionFinished
+  } = useLiveTransmissionStore()
   const startingPrice = Number(publication?.auction.starting_price)
   const auctionStatus = getStatusAuctionLot(publication?.auction)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [initialAmount, setInitialAmount] = useState(0)
-  const { data: response, refetch } = useGetBidAuctionsById(currentAuctionId ?? 0)
+  const { data: response, refetch } = useGetBidAuctionsById(
+    currentAuctionId ?? 0
+  )
   const { data: amountResponse, isLoading: isLoadingAmount } =
     useGetAmountBid(startingPrice)
 
@@ -77,8 +85,8 @@ const SocketComponent = ({
     }
   }, [currentBid, lastOffer, startingPrice])
   return (
-    <div className=' w-[450px] mx-auto'>
-      <div className='mt-5 flex flex-row justify-between items-center px-12 my-3'>
+    <div className=' md:w-[450px] mx-auto'>
+      <div className='mt-5 flex flex-col md:flex-row justify-between items-center px-12 my-3'>
         {!isLoadingTotalCount && (
           <CountDown
             countryName={lastOffer?.user.country?.country_name}
@@ -90,7 +98,7 @@ const SocketComponent = ({
           />
         )}
         {isLoadingTotalCount && <div></div>}
-        <div className='flex-col'>
+        <div className='flex-col dark:text-white'>
           <div className='flex justify-between w-full gap-5'>
             <span>Mínimo</span>
             <span>{formatPrice(startingPrice)}</span>
@@ -105,8 +113,8 @@ const SocketComponent = ({
           </div>
         </div>
       </div>
-      <div className='flex justify-between items-center mt-2 px-4 mx-auto'>
-        <div className='p-2 border rounded-lg border-zinc-300 ml-12'>
+      <div className='flex md:flex-row flex-col gap-4 md:gap-0 dark:text-white justify-center md:justify-between items-center mt-2 px-4 mx-auto'>
+        <div className='p-2 border rounded-lg border-zinc-300 md:ml-12'>
           {formatPrice(initialAmount + amountIncreaseBid)}
         </div>
 
@@ -115,10 +123,10 @@ const SocketComponent = ({
           <span className='text-cyan-600'>{auctionStatus}</span>
         </div>
       </div>
-      <div className='mt-5 px-4'>
+      <div className='mt-5 px-4 dark:text-white'>
         <span className='font-semibold'> Últimas ofertas</span>
       </div>
-      <div className='flex flex-col mt-4 px-4'>
+      <div className='flex flex-col mt-4 md:px-4'>
         {lastOffer !== undefined && <LastOfferCard item={lastOffer} />}
 
         {restOffers?.length > 0 && (
@@ -136,7 +144,9 @@ const SocketComponent = ({
             ))}
             {historyBids?.length > 3 && (
               <div className='w-full flex justify-center items-center mt-1'>
-                <Button variant='ghost' onClick={onOpen}>Cargar más</Button>
+                <Button variant='ghost' onClick={onOpen}>
+                  Cargar más
+                </Button>
               </div>
             )}
           </div>

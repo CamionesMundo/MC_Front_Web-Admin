@@ -16,7 +16,7 @@ const Queue = () => {
       <Spacer />
       <Divider />
       <Spacer />
-      <div className='grid w-3/4'>
+      <div className='md:grid md:w-3/4'>
         <CustomTable<LotQueueDataType>
           filteredItems={awaitingQueue}
           topContent={false}

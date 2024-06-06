@@ -203,9 +203,9 @@ const ProductDetail = ({ id }: ProductDetailProps) => {
         <>
           <Divider />
 
-          <div className='grid grid-cols-2 gap-x-4 mt-2'>
-            <div className='flex flex-col'>
-              <span className='font-semibold text-lg'>{`Lote #${publication?.publication_code}`}</span>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-x-4 mt-2'>
+            <div className='flex flex-col order-2 md:order-1'>
+              <span className='font-semibold text-lg dark:text-white'>{`Lote #${publication?.publication_code}`}</span>
               <div className='shadow-lg h-full rounded-lg'>
                 <Gallery
                   handleReady={handleReady}
@@ -216,26 +216,26 @@ const ProductDetail = ({ id }: ProductDetailProps) => {
                 />
               </div>
             </div>
-            <div className='flex flex-col gap-4 p-2 ml-4 mt-1'>
+            <div className='flex flex-col gap-4 p-0 md:ml-4 mt-1 order-1 md:order-2'>
               {isLoading && (
                 <div className='align-middle text-center h-40 flex justify-center items-center w-full'>
                   <Loader />
                 </div>
               )}
               {!isLoading && (
-                <div className=' w-80 flex flex-row justify-between border border-default-200 rounded-lg p-4 mt-4 shadow-lg'>
+                <div className=' w-full md:w-80 flex flex-row justify-between border border-default-200 rounded-lg p-4 mt-4 shadow-lg'>
                   <ProfileCard client={user} typeAccount={typeAccount} />
                   <Tooltip content='Editar usuario' color='primary'>
                     <div
-                      className='p-2 hover:bg-zinc-200 rounded-full h-fit hover:cursor-pointer'
+                      className='p-2 md:bg-none bg-default-200 hover:bg-zinc-200 rounded-full h-fit hover:cursor-pointer'
                       onClick={onEditUser}
                     >
-                      <Edit className='w-4 h-4' />
+                      <Edit className='w-4 h-4 dark:text-white' />
                     </div>
                   </Tooltip>
                 </div>
               )}
-              <div className='w-80 border border-default-200 rounded-lg p-4 shadow-lg'>
+              <div className='w-full md:w-80 border border-default-200 rounded-lg p-4 shadow-lg'>
                 <>
                   <div className='flex flex-row gap-4'>
                     <div className='text-start text-default-500 dark:text-white flex flex-row gap-2 justify-start items-center'>
@@ -256,7 +256,7 @@ const ProductDetail = ({ id }: ProductDetailProps) => {
                   <h1 className='font-bold text-black/80 dark:text-white'>
                     {dataPublicationCard.title}
                   </h1>
-                  <span className=''>
+                  <span className='dark:text-white'>
                     {dataPublicationCard.price !== undefined
                       ? formatPrice(Number(dataPublicationCard.price))
                       : 'Precio Inicial No Registrado'}
@@ -290,7 +290,7 @@ const ProductDetail = ({ id }: ProductDetailProps) => {
               </div>
             </div>
           </div>
-          <div className='mt-4'>
+          <div className='mt-4 px-2 md:px-0'>
             <TabsPublication
               publication={publication}
               giftsGallery={giftImages}

@@ -122,13 +122,13 @@ const TabCheckList = ({ publication }: TabCheckListProps) => {
   )
   return (
     <>
-      <div className='flex flex-col mb-3'>
+      <div className='flex flex-col mb-3 dark:text-white'>
         <h1 className='font-semibold text-blackText dark:text-white'>
           {'Check List del Producto'}
         </h1>
         <Divider />
         <Spacer />
-        <div className='grid grid-cols-2 gap-x-10'>
+        <div className='grid md:grid-cols-2 gap-x-10'>
           <ItemInfo title='Estado del motor' value={ENGINE_STATUS} />
           <ItemInfo title='Estado de transmisión' value={TRANSMISSION_STATUS} />
           <ItemInfo

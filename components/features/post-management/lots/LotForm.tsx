@@ -369,7 +369,7 @@ const LotForm = ({ isEditing = false }: LotFormProps) => {
               </div>
             </div>
 
-            <div className='w-1/2'>
+            <div className='md:mt-0 mt-4 md:w-1/2'>
               <GenericButton
                 onClick={handleSubmit}
                 type='button'
@@ -396,7 +396,7 @@ const LotForm = ({ isEditing = false }: LotFormProps) => {
               <Divider />
               <Spacer />
               <Spacer />
-              <div className='grid grid-cols-2 mt-3 mb-3'>
+              <div className='grid md:grid-cols-2 mt-3 mb-3'>
                 <div className='flex flex-col'>
                   <h1 className='font-semibold text-blackText dark:text-white'>
                     Selección de Vehículos
@@ -408,7 +408,7 @@ const LotForm = ({ isEditing = false }: LotFormProps) => {
                 </div>
                 <div className='col-span-1 flex justify-end'>
                   {isEditing && (
-                    <div className='w-1/2'>
+                    <div className='w-full md:mt-0 mt-4 md:w-1/2'>
                       <GenericButton
                         onClick={handleSubmit}
                         type='button'
