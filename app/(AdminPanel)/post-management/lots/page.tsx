@@ -2,10 +2,11 @@
 import Lots from '@/components/features/post-management/lots/Lots'
 import CustomPagination from '@/components/table/pagination/CustomPagination'
 import { MainContainer } from '@/components/ui'
+import { Loader } from '@/components/ui/Loader'
 import { useGetAllLots } from '@/hooks/api/useLots'
 import useAsyncPagination from '@/hooks/pagination/useAsyncPagination'
 import useQueryParams from '@/hooks/useQueryParams'
-import { useEffect, useMemo } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 
 const LotsPage = () => {
   const { queryParams } = useQueryParams()
@@ -69,4 +70,18 @@ const LotsPage = () => {
   )
 }
 
-export default LotsPage
+const LotsPageWrapper = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className='align-middle text-center h-40 flex justify-center items-center w-full'>
+          <Loader />
+        </div>
+      }
+    >
+      <LotsPage />
+    </Suspense>
+  )
+}
+
+export default LotsPageWrapper

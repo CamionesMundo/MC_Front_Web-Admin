@@ -2,10 +2,11 @@
 import Payments from '@/components/features/payments-management/payments/Payments'
 import CustomPagination from '@/components/table/pagination/CustomPagination'
 import { MainContainer } from '@/components/ui'
+import { Loader } from '@/components/ui/Loader'
 import { useGetAllPayments } from '@/hooks/api/usePayments'
 import useAsyncPagination from '@/hooks/pagination/useAsyncPagination'
 import useQueryParams from '@/hooks/useQueryParams'
-import { useEffect, useMemo } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 
 const PaymentsPage = () => {
   const { queryParams } = useQueryParams()
@@ -69,4 +70,18 @@ const PaymentsPage = () => {
   )
 }
 
-export default PaymentsPage
+const PaymentsPageWrapper = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className='align-middle text-center h-40 flex justify-center items-center w-full'>
+          <Loader />
+        </div>
+      }
+    >
+      <PaymentsPage />
+    </Suspense>
+  )
+}
+
+export default PaymentsPageWrapper

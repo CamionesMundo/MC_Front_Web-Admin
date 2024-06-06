@@ -3,11 +3,12 @@
 import Users from '@/components/features/users-management/clients/Users'
 import CustomPagination from '@/components/table/pagination/CustomPagination'
 import { MainContainer } from '@/components/ui'
+import { Loader } from '@/components/ui/Loader'
 import { handleClientError } from '@/helpers/error'
 import { useGetAllAppUsers } from '@/hooks/api/useClients'
 import useAsyncPagination from '@/hooks/pagination/useAsyncPagination'
 import useQueryParams from '@/hooks/useQueryParams'
-import { useEffect, useMemo } from 'react'
+import { Suspense, useEffect, useMemo } from 'react'
 
 const ClientsPage = () => {
   const { queryParams } = useQueryParams()
@@ -70,4 +71,18 @@ const ClientsPage = () => {
   )
 }
 
-export default ClientsPage
+const ClientsPageWrapper = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className='align-middle text-center h-40 flex justify-center items-center w-full'>
+          <Loader />
+        </div>
+      }
+    >
+      <ClientsPage />
+    </Suspense>
+  )
+}
+
+export default ClientsPageWrapper

@@ -2,10 +2,11 @@
 import Auctions from '@/components/features/post-management/auctions/Auctions'
 import CustomPagination from '@/components/table/pagination/CustomPagination'
 import { MainContainer } from '@/components/ui'
+import { Loader } from '@/components/ui/Loader'
 import { useGetAllAuctionsPublications } from '@/hooks/api/usePublications'
 import useAsyncPagination from '@/hooks/pagination/useAsyncPagination'
 import useQueryParams from '@/hooks/useQueryParams'
-import React, { useEffect, useMemo } from 'react'
+import React, { Suspense, useEffect, useMemo } from 'react'
 
 const AuctionsPage = () => {
   const { queryParams } = useQueryParams()
@@ -70,4 +71,18 @@ const AuctionsPage = () => {
   )
 }
 
-export default AuctionsPage
+const AuctionsPageWrapper = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className='align-middle text-center h-40 flex justify-center items-center w-full'>
+          <Loader />
+        </div>
+      }
+    >
+      <AuctionsPage />
+    </Suspense>
+  )
+}
+
+export default AuctionsPageWrapper

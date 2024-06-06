@@ -2,10 +2,11 @@
 import Products from '@/components/features/post-management/products/Products'
 import CustomPagination from '@/components/table/pagination/CustomPagination'
 import { MainContainer } from '@/components/ui'
+import { Loader } from '@/components/ui/Loader'
 import { useGetAllGeneralPublications } from '@/hooks/api/usePublications'
 import useAsyncPagination from '@/hooks/pagination/useAsyncPagination'
 import useQueryParams from '@/hooks/useQueryParams'
-import React, { useEffect, useMemo } from 'react'
+import React, { Suspense, useEffect, useMemo } from 'react'
 
 const ProductsPage = () => {
   const { queryParams } = useQueryParams()
@@ -70,4 +71,18 @@ const ProductsPage = () => {
   )
 }
 
-export default ProductsPage
+const ProductsPageWrapper = () => {
+  return (
+    <Suspense
+      fallback={
+        <div className='align-middle text-center h-40 flex justify-center items-center w-full'>
+          <Loader />
+        </div>
+      }
+    >
+      <ProductsPage />
+    </Suspense>
+  )
+}
+
+export default ProductsPageWrapper
