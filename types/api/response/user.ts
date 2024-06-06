@@ -44,6 +44,11 @@ export interface FileProfiles {
   idfile?: number | undefined
   name?: string | undefined
 }
+export type UserListResponse = {
+  users: UserClientResponse[]
+  totalPages: number
+  totalRows: number
+}
 export interface UserClientResponse extends BaseUserData {}
 
 export type ClientDataType = UserClientResponse & WithId
