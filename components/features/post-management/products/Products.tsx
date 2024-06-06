@@ -1,15 +1,20 @@
+import AsyncRangePicker from '@/components/inputs/AsyncRangePicker'
+import SearchBar from '@/components/inputs/SearchBar'
 import ModalStatus from '@/components/modal/ModalStatus'
+import CustomPageSize from '@/components/selects/CustomPageSize'
 import CustomTable from '@/components/table/CustomTable'
 import { BackComponent } from '@/components/ui/BackComponent'
 import { publicationsFiltersColumns } from '@/const/columns/post'
 import { useActiveStatusPublication } from '@/hooks/api/usePublications'
+import useQueryParams from '@/hooks/useQueryParams'
 import { showToast } from '@/hooks/useToast'
+import { ClearFilter } from '@/icons'
 import { type GenericResponse } from '@/types/api'
 import {
   type GeneralPublicationResponse,
   type GeneralPublicationDataType
 } from '@/types/api/response/publication'
-import { useDisclosure } from '@nextui-org/react'
+import { Button, useDisclosure } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import React, { useState, type ReactNode, useCallback, useMemo } from 'react'
 
@@ -27,12 +32,11 @@ const Products = ({
   totalRows
 }: AuctionsProps) => {
   const router = useRouter()
+  const { setQueryParams } = useQueryParams()
   const {
     mutateAsync: activeOrInactive,
     isPending: isLoadingActiveOrInactive
   } = useActiveStatusPublication()
-  const [filterValue, setFilterValue] = useState('')
-  const hasSearchFilter = Boolean(filterValue)
   const {
     isOpen: isOpenModalStatus,
     onOpen: onOpenModalStatus,
@@ -47,31 +51,15 @@ const Products = ({
     router.push(`/post-management/post/publication/id/${id}`)
   }
 
-  const onSearchChange = useCallback((value: string) => {
-    if (value !== undefined) {
-      setFilterValue(value)
-    } else {
-      setFilterValue('')
-    }
-  }, [])
   const filteredItems = useMemo(() => {
     if (products !== undefined) {
-      let filtered = products?.length > 0 ? [...products] : []
-
-      if (hasSearchFilter) {
-        filtered = filtered.filter((item) =>
-          item.vehicle.name_vehicle
-            .toString()
-            .toLowerCase()
-            .includes(filterValue.toLowerCase())
-        )
-      }
+      const filtered = products?.length > 0 ? [...products] : []
 
       return filtered
     }
 
     return []
-  }, [products, filterValue, hasSearchFilter])
+  }, [products])
 
   const onClickSwitch = (row: GeneralPublicationDataType) => {
     setCurrentPostSelected(row)
@@ -110,6 +98,40 @@ const Products = ({
       )
     }
   }
+
+  const handleClearFilters = useCallback(() => {
+    setQueryParams({
+      page: 1,
+      pageSize: 10,
+      query: undefined,
+      startDate: undefined,
+      endDate: undefined
+    })
+
+    router.refresh()
+  }, [setQueryParams, router])
+
+  const filterPostButtons = useMemo(() => {
+    return (
+      <div className='w-full md:w-auto flex flex-col md:flex-row gap-6 items-center'>
+        <div className=' max-w-80 w-full'>
+          <AsyncRangePicker />
+        </div>
+        <div className='w-full md:w-fit'>
+          <Button
+            startContent={
+              <ClearFilter className='w-4 h-4 text-blackText dark:text-white' />
+            }
+            onClick={handleClearFilters}
+            className='w-full md:w-fit dark:border dark:border-white/60'
+          >
+            Limpiar filtros
+          </Button>
+        </div>
+      </div>
+    )
+  }, [handleClearFilters])
+
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -123,8 +145,6 @@ const Products = ({
       </div>
       <CustomTable<GeneralPublicationDataType>
         filteredItems={filteredItems}
-        filterValue={filterValue}
-        handleSearch={onSearchChange}
         columns={publicationsFiltersColumns}
         emptyLabel={isLoading ? '' : 'No tienes ninguna publicación creada'}
         totalLabel='publicaciones'
@@ -148,7 +168,16 @@ const Products = ({
         totalRows={totalRows}
         useCustomPagination={true}
         customPagination={isLoading ? null : bottomContent}
-        showFilesPerPage={false}
+        useCustomSearchBar={true}
+        customSearchBar={
+          <SearchBar
+            searchBarPlaceholder='Buscar por ID publicación, título, país'
+            styles='w-full flex-1'
+          />
+        }
+        useCustomPageSize={true}
+        customPageSize={<CustomPageSize />}
+        filterContent={filterPostButtons}
       />
       <ModalStatus
         isOpen={isOpenModalStatus}
