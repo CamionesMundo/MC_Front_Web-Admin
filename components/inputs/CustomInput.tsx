@@ -27,12 +27,12 @@ const CustomInput = ({ name, error, ...props }: CustomInputProps) => {
     classNames: {
       input: `text-blackText placeholder:text-blackText/50 dark:placeholder:text-white/60 ${
         props.disabled === true
-          ? 'cursor-not-allowed text-blackText/50 dark:text-black/70'
+          ? 'cursor-not-allowed text-blackText/50 dark:text-zinc-400'
           : 'dark:text-white'
       }`,
       label: `font-semibold ${
         props.disabled === true
-          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200 dark:bg-gray-700 dark:text-black-600'
+          ? 'cursor-not-allowed bg-gray-200 hover:bg-gray-200 dark:bg-gray-700 dark:text-zinc-400'
           : 'dark:text-white'
       }`,
       inputWrapper: `border ${
