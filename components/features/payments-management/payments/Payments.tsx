@@ -1,10 +1,18 @@
-import { CustomInput, FilterSelect, GenericButton } from '@/components'
+import { CustomInput, GenericButton } from '@/components'
+import AsyncRangePicker from '@/components/inputs/AsyncRangePicker'
+import SearchBar from '@/components/inputs/SearchBar'
 import CustomModal from '@/components/modal/CustomModal'
+import CustomPageSize from '@/components/selects/CustomPageSize'
+import FilterButtonSelection, {
+  type OptionsFilterProps
+} from '@/components/selects/FilterButtonSelection'
 import CustomTable from '@/components/table/CustomTable'
 import { BackComponent } from '@/components/ui/BackComponent'
 import { paymentsColumns } from '@/const/columns/payments'
 import { useUpdatePaymentStatus } from '@/hooks/api/usePayments'
+import useQueryParams from '@/hooks/useQueryParams'
 import { showToast } from '@/hooks/useToast'
+import { ClearFilter } from '@/icons'
 import { parseIsoDate } from '@/lib/utils/utils'
 import { type GenericResponse } from '@/types/api'
 import { type BodyPayments } from '@/types/api/request/payments'
@@ -12,7 +20,8 @@ import {
   type PaymentsDataType,
   type PaymentStatusResponse
 } from '@/types/api/response/payments'
-import { Image, SelectItem, useDisclosure } from '@nextui-org/react'
+import { Button, Image, useDisclosure } from '@nextui-org/react'
+import { useRouter } from 'next/navigation'
 import React, { type ReactNode, useCallback, useMemo, useState } from 'react'
 
 type PaymentsProps = {
@@ -22,12 +31,7 @@ type PaymentsProps = {
   totalRows: number
 }
 
-type PaymentStatusData = {
-  key: string
-  display: string
-}
-
-const dataPaymentStatus: PaymentStatusData[] = [
+const dataPaymentStatus: OptionsFilterProps[] = [
   {
     key: 'paid',
     display: 'Pagado'
@@ -47,42 +51,24 @@ const Payments = ({
   bottomContent,
   totalRows
 }: PaymentsProps) => {
+  const router = useRouter()
+  const { setQueryParams } = useQueryParams()
   const { mutateAsync: updateStatus, isPending } = useUpdatePaymentStatus()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [filterValue, setFilterValue] = useState('')
   const [comment, setComment] = useState('')
   const [isDetail, setIsDetail] = useState(false)
   const [currentOrder, setCurrentOrder] = useState<
   PaymentsDataType | undefined
   >(undefined)
 
-  const hasSearchFilter = Boolean(filterValue)
-
-  const onSearchChange = useCallback((value: string) => {
-    if (value !== undefined) {
-      setFilterValue(value)
-    } else {
-      setFilterValue('')
-    }
-  }, [])
   const filteredItems = useMemo(() => {
     if (payments !== undefined) {
-      let filtered = payments?.length > 0 ? [...payments] : []
-
-      if (hasSearchFilter) {
-        filtered = filtered.filter((item) =>
-          item.idpayment_order
-            .toString()
-            .toLowerCase()
-            .includes(filterValue.toLowerCase())
-        )
-      }
-
+      const filtered = payments?.length > 0 ? [...payments] : []
       return filtered
     }
 
     return []
-  }, [payments, filterValue, hasSearchFilter])
+  }, [payments])
 
   const handleConfirmPayment = (row: PaymentsDataType) => {
     setCurrentOrder(row)
@@ -90,7 +76,7 @@ const Payments = ({
   }
 
   const handleSubmitConfirmPayment = useCallback(async () => {
-    if (comment === '' || comment.length < 1) {
+    if (comment === '' || comment.trim().length < 1) {
       showToast(
         'El comentario es obligatorio y al menos tener 1 caracter',
         'warning'
@@ -141,29 +127,48 @@ const Payments = ({
     setIsDetail(false)
   }
 
-  const filterPaymentStatusButton = useMemo(() => {
+  const handleClearFilters = useCallback(() => {
+    setQueryParams({
+      page: 1,
+      pageSize: 10,
+      query: undefined,
+      startDate: undefined,
+      endDate: undefined
+    })
+
+    router.refresh()
+  }, [setQueryParams, router])
+
+  const filterPaymentButtons = useMemo(() => {
     return (
-      <div className=' w-48'>
-        <FilterSelect
-          labelPlacement={'outside-left'}
-          aria-label='Status'
-          placeholder='Filtrar por:'
-          classNames={{
-            trigger:
-              'bg-slate-300 text-blackText dark:bg-default-200 dark:text-white',
-            base: 'items-center text-blackText'
-          }}
-          disabled={isLoading}
-        >
-          {dataPaymentStatus.map((lot) => (
-            <SelectItem key={lot.key} value={lot.key}>
-              {lot.display}
-            </SelectItem>
-          ))}
-        </FilterSelect>
+      <div className='flex flex-col md:flex-row gap-6 items-center'>
+        <div className='w-full md:max-w-96 md:w-full'>
+          <AsyncRangePicker label='Fecha Pago:' />
+        </div>
+        <div className=' md:max-w-60 w-full'>
+          <FilterButtonSelection
+            labelPlacement={'outside-left'}
+            ariaLabel='Status'
+            label='Status: '
+            placeholder='Filtrar por:'
+            options={dataPaymentStatus}
+            isLoading={isLoading}
+          />
+        </div>
+        <div className='w-full md:w-fit'>
+          <Button
+            startContent={
+              <ClearFilter className='w-4 h-4 text-blackText dark:text-white' />
+            }
+            onClick={handleClearFilters}
+            className='w-full md:w-fit dark:border dark:border-white/60'
+          >
+            Limpiar filtros
+          </Button>
+        </div>
       </div>
     )
-  }, [isLoading])
+  }, [isLoading, handleClearFilters])
 
   return (
     <>
@@ -178,8 +183,6 @@ const Payments = ({
       </div>
       <CustomTable<PaymentsDataType>
         filteredItems={filteredItems}
-        filterValue={filterValue}
-        handleSearch={onSearchChange}
         columns={paymentsColumns}
         emptyLabel={isLoading ? '' : 'No tienes ninguna orden de pago creada'}
         totalLabel='órdenes de pago'
@@ -199,7 +202,17 @@ const Payments = ({
         totalRows={totalRows}
         useCustomPagination={true}
         customPagination={isLoading ? null : bottomContent}
-        filterContent={filterPaymentStatusButton}
+        useCustomSearchBar={true}
+        customSearchBar={
+          <SearchBar
+            searchBarPlaceholder='Buscar por #Orden, ID publicación, tipo'
+            styles='w-full flex-1'
+          />
+        }
+        useCustomPageSize={true}
+        customPageSize={<CustomPageSize />}
+        filterContent={filterPaymentButtons}
+        useFilterInNewRow={true}
       />
       <CustomModal
         titleModal={isDetail ? 'Detalles del pago' : 'Confirmar pago'}
@@ -281,7 +294,7 @@ const Payments = ({
             <div className='w-full justify-center flex'>
               <GenericButton
                 type='button'
-                className='bg-cyan-700 text-white'
+                className='md:w-auto w-full bg-cyan-700 text-white'
                 label={'Confirmar'}
                 onClick={handleSubmitConfirmPayment}
                 isLoading={isPending}
