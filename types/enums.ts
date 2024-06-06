@@ -107,7 +107,7 @@ enum BidStatus {
 
 enum LotTransmissionStatus {
   Offline = 'OFFLINE',
-  Online = 'ONLINE'
+  Online = 'LIVE'
 }
 
 enum AuctionType {
