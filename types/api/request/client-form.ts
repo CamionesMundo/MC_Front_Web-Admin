@@ -52,3 +52,10 @@ export type BodyAddress = {
   id: number | undefined // on Create is idUser, on Edit is id Address.
   data: DataAddress
 }
+
+export type UserFilter = {
+  page: number
+  pageSize: number
+  query: string
+  userType: number
+}

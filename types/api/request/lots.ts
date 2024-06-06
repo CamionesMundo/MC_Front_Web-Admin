@@ -19,3 +19,12 @@ export type BodyUpdateLotForm = {
   id: number
   data: BodyLotForm
 }
+
+export type LotsFilter = {
+  page: number
+  pageSize: number
+  status: string
+  query: string
+  startDate: string | undefined
+  endDate: string | undefined
+}
