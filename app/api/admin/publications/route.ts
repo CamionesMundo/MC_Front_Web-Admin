@@ -9,11 +9,28 @@ import { type NextRequest, NextResponse } from 'next/server'
 export async function GET (req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const page = searchParams.get('page')
+  const pageSize = searchParams.get('pageSize')
+  const searchTerm = searchParams.get('query')
+  const startDate = searchParams.get('startDate')
+  const endDate = searchParams.get('endDate')
 
   const queryParams = new URLSearchParams()
 
   if (page !== null && page !== '') queryParams.set('page', page)
-  queryParams.set('pageSize', '10')
+  if (pageSize !== null && pageSize !== '') {
+    queryParams.set('pageSize', pageSize)
+  }
+  if (searchTerm !== null && searchTerm !== '') {
+    queryParams.set('searchTerm', searchTerm)
+  }
+
+  if (startDate !== null && startDate !== '') {
+    queryParams.set('startDate', startDate)
+  }
+
+  if (endDate !== null && endDate !== '') {
+    queryParams.set('endDate', endDate)
+  }
 
   try {
     const mcInstance = await mcApi()

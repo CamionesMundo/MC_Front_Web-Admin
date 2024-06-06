@@ -9,12 +9,36 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 export async function GET (request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  const status = searchParams.get('status')
   const page = searchParams.get('page')
+  const pageSize = searchParams.get('pageSize')
+  const status = searchParams.get('status')
+  const searchTerm = searchParams.get('query')
+  const startDate = searchParams.get('startDate')
+  const endDate = searchParams.get('endDate')
+  const queryParams = new URLSearchParams()
+
+  if (page !== null && page !== '') queryParams.set('page', page)
+  if (pageSize !== null && pageSize !== '') {
+    queryParams.set('pageSize', pageSize)
+  }
+  if (status !== null && status !== '' && status !== 'default') {
+    queryParams.set('status', status)
+  }
+
+  if (searchTerm !== null && searchTerm !== '') {
+    queryParams.set('searchTerm', searchTerm)
+  }
+
+  if (startDate !== null && startDate !== '') {
+    queryParams.set('startDate', startDate)
+  }
+
+  if (endDate !== null && endDate !== '') {
+    queryParams.set('endDate', endDate)
+  }
   const url =
-    status !== 'default'
-      ? `${BASE_MC_LOT_URL}?page=${page}&pageSize=10&status=${status}`
-      : `${BASE_MC_LOT_URL}?page=${page}&pageSize=10`
+  `${BASE_MC_LOT_URL}?${queryParams.toString()}`
+
   try {
     const mcInstance = await mcApi()
 
