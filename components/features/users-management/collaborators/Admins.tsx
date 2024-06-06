@@ -97,7 +97,7 @@ const Admins = ({ admins, isLoading }: Props) => {
    */
   const filterRolButton = useMemo(() => {
     return (
-      <div className=' w-48'>
+      <div className='w-full md:w-48'>
         <FilterSelect
           labelPlacement={'outside-left'}
           aria-label='Rol'
@@ -106,7 +106,7 @@ const Admins = ({ admins, isLoading }: Props) => {
           onChange={handleSelectionChange}
           classNames={{
             trigger:
-              'bg-slate-300 text-blackText dark:bg-default-200 dark:text-white',
+              'bg-slate-300 text-blackText dark:bg-default-200 dark:text-white dark:border dark:border-white/60',
             base: 'items-center'
           }}
         >
