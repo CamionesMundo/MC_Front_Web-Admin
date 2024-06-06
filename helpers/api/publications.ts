@@ -1,7 +1,11 @@
 import { BASE_PUBLICATIONS_URL } from '@/const/base-url'
 import api from '@/lib/axios/axios-client'
 import { type GenericResponse } from '@/types/api'
-import { type BodyActivePublication } from '@/types/api/request/publication'
+import {
+  type ParamsFilter,
+  type BodyActivePublication,
+  type ParamsPostFilter
+} from '@/types/api/request/publication'
 import { type BidAuctionResponse } from '@/types/api/response/lots'
 import {
   type PublicationFiltersResponse,
@@ -37,14 +41,33 @@ export const getBidsAuctionsById = async (id: number) => {
 }
 
 export const getAllAuctionsPublications = async ({
-  page
-}: {
-  page: number
-}) => {
+  page,
+  pageSize,
+  query,
+  typeStatus,
+  typeAuction,
+  startDate,
+  endDate
+}: ParamsFilter) => {
+  const searchParams = new URLSearchParams()
+
+  searchParams.set('page', page.toString())
+  searchParams.set('pageSize', pageSize.toString())
+  searchParams.set('query', query)
+  searchParams.set('typeStatus', typeStatus.toString())
+  searchParams.set('typeAuction', typeAuction.toString())
+
+  if (startDate !== undefined) {
+    searchParams.set('startDate', startDate)
+  }
+
+  if (endDate !== undefined) {
+    searchParams.set('endDate', endDate)
+  }
+
+  const url = `${BASE_PUBLICATIONS_URL}/auctions/filters?${searchParams.toString()}`
   try {
-    const res = await api.get<GenericResponse<AuctionsFiltersResponse>>(
-      `${BASE_PUBLICATIONS_URL}/auctions/filters?page=${page}`
-    )
+    const res = await api.get<GenericResponse<AuctionsFiltersResponse>>(url)
 
     const { data } = res
     return data
@@ -53,10 +76,23 @@ export const getAllAuctionsPublications = async ({
   }
 }
 
-export const getAllGeneralPublications = async ({ page }: { page: number }) => {
+export const getAllGeneralPublications = async ({ page, pageSize, startDate, endDate, query }: ParamsPostFilter) => {
+  const searchParams = new URLSearchParams()
+
+  searchParams.set('page', page.toString())
+  searchParams.set('pageSize', pageSize.toString())
+  searchParams.set('query', query)
+  if (startDate !== undefined) {
+    searchParams.set('startDate', startDate)
+  }
+
+  if (endDate !== undefined) {
+    searchParams.set('endDate', endDate)
+  }
+  const url = `${BASE_PUBLICATIONS_URL}?${searchParams.toString()}`
   try {
     const res = await api.get<GenericResponse<PublicationFiltersResponse>>(
-      `${BASE_PUBLICATIONS_URL}?page=${page}`
+      url
     )
 
     const { data } = res

@@ -6,7 +6,8 @@ import {
   type BodyActiveUserApp,
   type BodyActiveSeller,
   type BodyUpdateSeller,
-  type BodyAddress
+  type BodyAddress,
+  type UserFilter
 } from '@/types/api/request/client-form'
 import {
   type AddressBaseData,
@@ -15,14 +16,31 @@ import {
 import {
   type SellerData,
   type ClientResponse,
-  type UserClientResponse
+  type UserClientResponse,
+  type UserListResponse
 } from '@/types/api/response/user'
 
-export const getAllAppUsers = async () => {
+export const getAllAppUsers = async ({
+  page,
+  pageSize,
+  query,
+  userType
+}: UserFilter) => {
+  const searchParams = new URLSearchParams()
+
+  searchParams.set('page', page.toString())
+  searchParams.set('pageSize', pageSize.toString())
+
+  if (query !== '') {
+    searchParams.set('query', query)
+  }
+
+  if (userType !== undefined) {
+    searchParams.set('userType', userType.toString())
+  }
+  const url = `${BASE_CLIENT_URL}?${searchParams.toString()}`
   try {
-    const res = await api.get<GenericResponse<UserClientResponse[]>>(
-      BASE_CLIENT_URL
-    )
+    const res = await api.get<GenericResponse<UserListResponse>>(url)
 
     const { data } = res
     return data

@@ -7,7 +7,8 @@ import api from '@/lib/axios/axios-client'
 import { type GenericResponse } from '@/types/api'
 import {
   type BodyUpdateLotForm,
-  type BodyLotForm
+  type BodyLotForm,
+  type LotsFilter
 } from '@/types/api/request/lots'
 import {
   type LotFullDataResponse,
@@ -18,11 +19,36 @@ import {
   type TransmissionStatusLot
 } from '@/types/api/response/lots'
 
-export const getAllLots = async (status: string, page: number) => {
+export const getAllLots = async ({
+  page,
+  pageSize,
+  status,
+  query,
+  startDate,
+  endDate
+}: LotsFilter) => {
+  const searchParams = new URLSearchParams()
+
+  searchParams.set('page', page.toString())
+  searchParams.set('pageSize', pageSize.toString())
+
+  if (query !== '') {
+    searchParams.set('query', query)
+  }
+
+  if (status !== '') {
+    searchParams.set('status', status)
+  }
+  if (startDate !== undefined) {
+    searchParams.set('startDate', startDate)
+  }
+
+  if (endDate !== undefined) {
+    searchParams.set('endDate', endDate)
+  }
+  const url = `${BASE_LOTS_URL}?${searchParams.toString()}`
   try {
-    const res = await api.get<GenericResponse<LotsResponse>>(
-      `${BASE_LOTS_URL}?status=${status}&page=${page}`
-    )
+    const res = await api.get<GenericResponse<LotsResponse>>(url)
 
     const { data } = res
     return data

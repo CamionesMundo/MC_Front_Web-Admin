@@ -1,17 +1,42 @@
 import { BASE_PAYMENT_ORDERS_URL } from '@/const/base-url'
 import api from '@/lib/axios/axios-client'
 import { type GenericResponse } from '@/types/api'
-import { type BodyPayments } from '@/types/api/request/payments'
+import {
+  type PaymentsFilter,
+  type BodyPayments
+} from '@/types/api/request/payments'
 import {
   type PaymentStatusResponse,
   type PaymentsResponse
 } from '@/types/api/response/payments'
 
-export const getAllPayments = async ({ page }: { page: number }) => {
+export const getAllPayments = async ({
+  page,
+  pageSize,
+  query,
+  startDate,
+  endDate
+}: PaymentsFilter) => {
+  const searchParams = new URLSearchParams()
+
+  searchParams.set('page', page.toString())
+  searchParams.set('pageSize', pageSize.toString())
+
+  if (query !== '') {
+    searchParams.set('query', query)
+  }
+
+  if (startDate !== undefined) {
+    searchParams.set('startDate', startDate)
+  }
+
+  if (endDate !== undefined) {
+    searchParams.set('endDate', endDate)
+  }
+  const url = `${BASE_PAYMENT_ORDERS_URL}?${searchParams.toString()}`
+
   try {
-    const res = await api.get<GenericResponse<PaymentsResponse>>(
-      `${BASE_PAYMENT_ORDERS_URL}?page=${page}`
-    )
+    const res = await api.get<GenericResponse<PaymentsResponse>>(url)
 
     const { data } = res
     return data
