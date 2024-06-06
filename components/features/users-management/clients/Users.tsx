@@ -1,47 +1,69 @@
-import { FilterSelect, GenericButton } from '@/components'
+import { GenericButton } from '@/components'
 import CustomModal from '@/components/modal/CustomModal'
 import CustomTable from '@/components/table/CustomTable'
 import { BackComponent } from '@/components/ui/BackComponent'
 import { clientColumns } from '@/const/columns/users'
 import {
-  type UserAppType,
   type ClientDataType,
   type UserClientResponse
 } from '@/types/api/response/user'
 import { UserType } from '@/types/enums'
-import { SelectItem, useDisclosure } from '@nextui-org/react'
+import { Button, type Selection, useDisclosure } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import { type ChangeEvent, useState, useCallback, useMemo } from 'react'
+import {
+  useState,
+  useCallback,
+  useMemo,
+  type ReactNode,
+  useEffect
+} from 'react'
 import ClientDetails from './ClientDetails'
-import { Edit } from '@/icons'
+import { ClearFilter, Edit } from '@/icons'
 import ModalStatus from '@/components/modal/ModalStatus'
 import { useActiveStatusAppUser } from '@/hooks/api/useClients'
 import { type GenericResponse } from '@/types/api'
 import { showToast } from '@/hooks/useToast'
+import useQueryParams from '@/hooks/useQueryParams'
+import SearchBar from '@/components/inputs/SearchBar'
+import CustomPageSize from '@/components/selects/CustomPageSize'
+import FilterButtonSelection, {
+  type OptionsFilterProps
+} from '@/components/selects/FilterButtonSelection'
 
 type UsersProps = {
   clients: ClientDataType[]
   isLoading: boolean
+  bottomContent: ReactNode
+  totalRows: number
 }
 
-const dataUserTypes: UserAppType[] = [
+const dataUserTypes: OptionsFilterProps[] = [
   {
-    key: UserType.Buyer,
+    key: 'all',
+    display: 'Todos'
+  },
+  {
+    key: UserType.Buyer.toString(),
     display: 'Comprador'
   },
   {
-    key: UserType.Seller,
+    key: UserType.Seller.toString(),
     display: 'Vendedor'
   }
 ]
-const Users = ({ clients, isLoading }: UsersProps) => {
+const Users = ({
+  clients,
+  isLoading,
+  bottomContent,
+  totalRows
+}: UsersProps) => {
   const router = useRouter()
+  const { setQueryParams } = useQueryParams()
   const {
     mutateAsync: activeOrInactive,
     isPending: isLoadingActiveOrInactive
   } = useActiveStatusAppUser()
-  const [filterValue, setFilterValue] = useState('')
-  const [selectedType, setSelectedType] = useState<string>('')
+
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {
     isOpen: isOpenModalStatus,
@@ -49,72 +71,47 @@ const Users = ({ clients, isLoading }: UsersProps) => {
     onClose: onCloseModalStatus
   } = useDisclosure()
   const [currentIdUser, setCurrentIdUser] = useState<number | null>(null)
+  const [selectedType, setSelectedType] = useState<Selection>(new Set(['all']))
+  const [selectedKey, setSelectedKey] = useState<string>('all')
   const [currentUserSelected, setCurrentUserSelected] = useState<
   ClientDataType | undefined
   >(undefined)
-  const hasSearchFilter = Boolean(filterValue)
-  const handleSelectionChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSelectedType(e.target.value)
-  }
+
+  const handleSelectionChange = useCallback(
+    async (keys: Selection) => {
+      const statusArray = Array.from(keys)
+      const value = statusArray[0]
+      if (value === undefined) {
+        setSelectedType(new Set(['all']))
+        setQueryParams({ page: 1, userType: undefined, query: undefined })
+        setSelectedKey('all')
+        return
+      }
+      setSelectedType(keys)
+
+      setQueryParams({ page: 1, userType: value, query: undefined })
+      setSelectedKey(value.toString())
+    },
+    [setQueryParams]
+  )
 
   const filteredItems = useMemo(() => {
     if (clients !== undefined) {
-      let filtered = clients?.length > 0 ? [...clients] : []
-
-      if (hasSearchFilter) {
-        filtered = filtered.filter(
-          (item) =>
-            item.name.toLowerCase().includes(filterValue.toLowerCase()) ||
-            item.username?.toLowerCase().includes(filterValue.toLowerCase()) ||
-            item.email?.toLowerCase().includes(filterValue.toLowerCase())
-        )
-      }
-
-      if (selectedType !== '') {
-        filtered = filtered.filter(
-          (item) => item.user_type === Number(selectedType)
-        )
-      }
+      const filtered = clients?.length > 0 ? [...clients] : []
 
       return filtered
     }
 
     return []
-  }, [clients, filterValue, selectedType, hasSearchFilter])
+  }, [clients])
   const onEditClient = (id: number) => {
     router.push(`/users-management/clients/edit/id/${id}`)
   }
-  const onSearchChange = useCallback((value: string) => {
-    if (value !== undefined) {
-      setFilterValue(value)
-    } else {
-      setFilterValue('')
-    }
-  }, [])
 
   const onClickSwitch = (row: ClientDataType) => {
     setCurrentUserSelected(row)
     onOpenModalStatus()
   }
-  const filterTypeButton = useMemo(() => {
-    return (
-      <div className=' w-48'>
-        <FilterSelect
-          labelPlacement={'outside-left'}
-          aria-label='Tipo de usuario'
-          placeholder='Filtrar por:'
-          selectedKeys={selectedType}
-          onChange={handleSelectionChange}
-        >
-          {dataUserTypes.map((role) => (
-            <SelectItem key={role.key} value={role.key}>
-              {role.display}
-            </SelectItem>
-          ))}
-        </FilterSelect>
-      </div>
-    )
-  }, [selectedType])
 
   const handleOnMoreDetails = (id: number) => {
     setCurrentIdUser(id)
@@ -154,6 +151,53 @@ const Users = ({ clients, isLoading }: UsersProps) => {
       )
     }
   }
+
+  const handleClearFilters = useCallback(() => {
+    setQueryParams({
+      page: 1,
+      pageSize: 10,
+      query: undefined,
+      userType: undefined
+    })
+
+    router.refresh()
+  }, [setQueryParams, router])
+
+  const filterTypeButton = useMemo(() => {
+    return (
+      <div className=' w-full md:auto flex flex-col md:flex-row gap-6 items-center'>
+        <div className=' md:max-w-72 w-full'>
+          <FilterButtonSelection
+            labelPlacement={'outside-left'}
+            ariaLabel='Tipo'
+            label='Tipo: '
+            placeholder='Filtrar por:'
+            selectedKeys={selectedType}
+            onSelectionChange={handleSelectionChange}
+            options={dataUserTypes}
+            isLoading={isLoading}
+          />
+        </div>
+        <div className='w-full md:w-fit'>
+          <Button
+            startContent={
+              <ClearFilter className='w-4 h-4 text-blackText dark:text-white' />
+            }
+            onClick={handleClearFilters}
+            className='w-full md:w-fit dark:border dark:border-white/60'
+          >
+            Limpiar filtros
+          </Button>
+        </div>
+      </div>
+    )
+  }, [selectedType, handleSelectionChange, handleClearFilters, isLoading])
+
+  useEffect(() => {
+    if (selectedKey === 'all') {
+      setQueryParams({ userType: undefined })
+    }
+  }, [selectedKey, setQueryParams])
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -167,13 +211,10 @@ const Users = ({ clients, isLoading }: UsersProps) => {
       </div>
       <CustomTable<ClientDataType>
         filteredItems={filteredItems}
-        filterValue={filterValue}
-        handleSearch={onSearchChange}
         columns={clientColumns}
         useAddButton={false}
         emptyLabel={isLoading ? '' : 'No tienes registros'}
         totalLabel='clientes'
-        searchBarPlaceholder={'Buscar por nombre, correo y/o nombre de usuario'}
         initialVisibleColumns={clientColumns
           .map((column) => column.key)
           .filter((key) => key !== 'updatedAt')}
@@ -188,6 +229,19 @@ const Users = ({ clients, isLoading }: UsersProps) => {
           useEdit: true,
           useDelete: true
         }}
+        usePage={false}
+        totalRows={totalRows}
+        useCustomPagination={true}
+        customPagination={isLoading ? null : bottomContent}
+        useCustomSearchBar={true}
+        customSearchBar={
+          <SearchBar
+            searchBarPlaceholder='Buscar por nombre, correo y/o nombre de usuario'
+            styles='w-full flex-1'
+          />
+        }
+        useCustomPageSize={true}
+        customPageSize={<CustomPageSize />}
       />
       <CustomModal
         titleModal={'Detalles del usuario'}
