@@ -27,7 +27,7 @@ const HeaderPublication = ({
     : publication?.vehicle.sale_price
   return (
     <>
-      <div className='flex flex-row gap-4'>
+      <div className='flex flex-row gap-4 dark:text-white'>
         <div className='text-start text-default-500 dark:text-white flex flex-row gap-2 justify-start items-center'>
           {countryName !== undefined && (
             <Avatar
@@ -47,7 +47,7 @@ const HeaderPublication = ({
       <h1 className='font-bold text-black/80 text-lg dark:text-white'>
         {title}
       </h1>
-      <span className='text-lg'>
+      <span className='text-lg dark:text-white'>
         {price !== undefined
           ? formatPrice(Number(price))
           : 'Precio Inicial No Registrado'}

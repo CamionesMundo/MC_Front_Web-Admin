@@ -13,9 +13,10 @@ import React, { useCallback, useEffect, useState } from 'react'
 
 type AdminParameterProps = {
   item: AppParameterResponse
+  useMargin?: boolean
 }
 
-const AdminParameter = ({ item }: AdminParameterProps) => {
+const AdminParameter = ({ item, useMargin = false }: AdminParameterProps) => {
   const { data: responseAdmins } = useGetAllAdmins()
   const { mutateAsync: updateParameter, isPending } = useUpdateParameter()
   const router = useRouter()
@@ -65,7 +66,7 @@ const AdminParameter = ({ item }: AdminParameterProps) => {
     })
   }
   return (
-    <div className='flex flex-row gap-2 items-center w-full'>
+    <div className={`flex flex-row gap-2 items-center w-full ${useMargin && '-mt-4'}`}>
       <AdminsAutocomplete
         currentAdmin={currentAdmin}
         changeAdmin={handleChangeAdmin}
