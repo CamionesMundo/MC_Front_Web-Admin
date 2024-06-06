@@ -10,7 +10,7 @@ import {
   useUpdateAppUser
 } from '@/hooks/api/useClients'
 import { showToast } from '@/hooks/useToast'
-import { Edit } from '@/icons'
+import { Delete, Edit, Profile } from '@/icons'
 import { formatDateToYMD } from '@/lib/utils/utils'
 import { buyerFormSchema } from '@/lib/validators/clientFormValidator'
 import { REGEX_FORMAT_DATE } from '@/lib/validators/regex'
@@ -22,7 +22,7 @@ import {
   type ClientResponse
 } from '@/types/api/response/user'
 import { type BuyerProfileFormData } from '@/types/store/client'
-import { Chip, Switch, Tooltip, useDisclosure } from '@nextui-org/react'
+import { Avatar, Chip, Switch, Tooltip, useDisclosure } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import React, {
   type ChangeEvent,
@@ -188,24 +188,40 @@ const BuyerEditForm = ({ client }: BuyerEditFormProps) => {
   return (
     <div>
       <span className='font-semibold text-blackText dark:text-white flex justify-between items-center'>
-        <span>Usuario: {client?.username}</span>
-
-        <div className='flex flex-row gap-2 items-center'>
-          <span className='text-sm text-default-500'>
-            <Chip color={isActive ? 'success' : 'danger'}>
-              {isActive ? 'Activo' : 'No activo'}
-            </Chip>
-          </span>
-          <Tooltip content='Activar / Desactivar' color='foreground'>
-            <div className='flex items-center'>
-              <Switch
-                size='sm'
-                isSelected={isActive}
-                onValueChange={handleOnMoreDetails}
-                color='primary'
-              />
+        <div className='flex flex-row gap-3 items-center'>
+          <div className='w-20 h-20 relative'>
+            <Avatar
+              className='w-20 h-20 text-large'
+              fallback={<Profile className='w-8 h-8 text-default-500' />}
+              src={client?.file_profiles?.url ?? ''}
+            />
+            <input type='file' multiple accept='image/*' className='hidden' />
+            <Tooltip content='Eliminar Foto de Perfil' color='danger'>
+              <div className='bg-white dark:bg-primary hover:cursor-pointer hover:bg-danger hover:text-white transition-all w-8 h-8 rounded-full absolute bottom-0 right-0 flex justify-center items-center border border-gray'>
+                <Delete className='h-3.5 w-3.5' />
+              </div>
+            </Tooltip>
+          </div>
+          <div className='flex flex-col gap-2'>
+            <div className='flex flex-row gap-2 items-center'>
+              <span className='text-sm text-default-500'>
+                <Chip color={isActive ? 'success' : 'danger'}>
+                  {isActive ? 'Activo' : 'No activo'}
+                </Chip>
+              </span>
+              <Tooltip content='Activar / Desactivar' color='foreground'>
+                <div className='flex items-center'>
+                  <Switch
+                    size='sm'
+                    isSelected={isActive}
+                    onValueChange={handleOnMoreDetails}
+                    color='primary'
+                  />
+                </div>
+              </Tooltip>
             </div>
-          </Tooltip>
+            <span>Usuario: {client?.username}</span>
+          </div>
         </div>
       </span>
       <form onSubmit={onSubmit}>
