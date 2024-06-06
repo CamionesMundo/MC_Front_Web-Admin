@@ -333,3 +333,13 @@ export function getStatusAuctionLot (data: PublicationAuction | undefined) {
   }
   return 'Sin estado'
 }
+
+export function convertDateIsoFormat (dateStr: string) {
+  if (dateStr === '') return undefined
+
+  const [month, day, year] = dateStr.split('-')
+
+  const newFormat = `${year}-${month}-${day}`
+
+  return newFormat
+}
