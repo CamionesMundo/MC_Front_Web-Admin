@@ -1,6 +1,5 @@
 export * from './TableActions'
 export * from './TableUser'
-export * from './TableRole'
 export * from './TableUserClient'
 export * from './TableFullName'
 export * from './TableCountry'

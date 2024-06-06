@@ -130,7 +130,7 @@ const TableActions = ({
           </span>
         </Tooltip>
       )}
-      {(actions?.isPaymentActions ?? false) && isPendingPayment && (
+      {(actions?.isPaymentActions ?? false) && (
         <Tooltip content='Ver Detalles' color='foreground'>
           <span
             className='text-lg text-default-400 cursor-pointer active:opacity-50'

@@ -9,7 +9,7 @@ type Props = {
 const TablePromotion = ({ row }: Props) => {
   const data = row as GeneralPublicationDataType
   const isPromotion = data.promotion ?? false
-  return <div className='text-center'>{isPromotion ? 'Promocionado' : '--'}</div>
+  return <div className='text-center dark:text-white'>{isPromotion ? 'Promocionado' : '--'}</div>
 }
 
 export { TablePromotion }

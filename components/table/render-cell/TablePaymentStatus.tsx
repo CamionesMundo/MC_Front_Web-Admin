@@ -13,7 +13,7 @@ const TablePaymentStatus = ({ row }: Props) => {
       : status === true
         ? 'Pagado'
         : 'Rechazado'
-  return <div>{labelStatus}</div>
+  return <div className='dark:text-white'>{labelStatus}</div>
 }
 
 export { TablePaymentStatus }

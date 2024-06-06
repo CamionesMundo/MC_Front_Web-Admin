@@ -69,9 +69,11 @@ const TableLotTransmission = ({ row }: Props) => {
         <Button
           color='default'
           disabled
-          className='hover:cursor-not-allowed bg-gray-200'
+          className='hover:cursor-not-allowed bg-gray-200 dark:bg-zinc-500'
         >
-          <span className='text-default-400'>Transmisión</span>
+          <span className='text-default-400 dark:text-default-200'>
+            Transmisión
+          </span>
         </Button>
       )}
       {isEnabled && (

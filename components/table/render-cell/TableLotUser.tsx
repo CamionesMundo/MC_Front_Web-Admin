@@ -6,7 +6,7 @@ type Props = {
 }
 
 const TableLotUser = ({ row }: Props) => {
-  return <div>{row?.user_actionner?.name_user}</div>
+  return <div className='dark:text-white'>{row?.user_actionner?.name_user}</div>
 }
 
 export { TableLotUser }

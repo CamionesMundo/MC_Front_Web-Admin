@@ -5,7 +5,7 @@ type Props = {
   row: any
 }
 const TableConfirmationUser = ({ row }: Props) => {
-  return <div>{row.userAdmin !== null ? row.userAdmin?.name_user : 'N/D'}</div>
+  return <div className='dark:text-white'>{row.userAdmin !== null ? row.userAdmin?.name_user : 'N/D'}</div>
 }
 
 export { TableConfirmationUser }

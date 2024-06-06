@@ -11,7 +11,7 @@ const TableAuctionEndDate = ({ row }: Props) => {
   const data = row as AuctionFilterDataType
   const endDate = data.auction.end_date
   return (
-    <div>{endDate !== null ? formatFullDate(endDate.toString()) : '-'}</div>
+    <div className='dark:text-white'>{endDate !== null ? formatFullDate(endDate.toString()) : '-'}</div>
   )
 }
 

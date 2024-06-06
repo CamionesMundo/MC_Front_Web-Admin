@@ -9,7 +9,7 @@ const TableAuctionDescription = ({ row }: Props) => {
   const lengthDescription = description?.length
   return (
     <div
-      className={`text-sm max-w-44 ${
+      className={`text-sm max-w-44 dark:text-white ${
         lengthDescription > 35
           ? ' whitespace-nowrap overflow-hidden overflow-ellipsis'
           : ''

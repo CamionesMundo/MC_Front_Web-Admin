@@ -6,7 +6,7 @@ type Props = {
 }
 const TablePaymentType = ({ row }: Props) => {
   const type = row.typesPaymentOrder.name
-  return <div className='text-sm'>{type}</div>
+  return <div className='text-sm dark:text-white'>{type}</div>
 }
 
 export { TablePaymentType }
