@@ -8,7 +8,7 @@ type Props = {
 
 const TableUserClient = ({ row }: Props) => {
   const profileImg =
-    row.file_profile !== null ? row.file_profile?.url : undefined
+    row.file_profiles !== null ? row.file_profiles?.url : undefined
   return (
     <div className='max-w-[300px]'>
       <User
@@ -18,7 +18,7 @@ const TableUserClient = ({ row }: Props) => {
             <span>{row.email}</span>
           </div>
         }
-        name={row.username}
+        name={''}
         className='w-full max-w-[300px] flex justify-start dark:text-white'
       >
         {row.username}
