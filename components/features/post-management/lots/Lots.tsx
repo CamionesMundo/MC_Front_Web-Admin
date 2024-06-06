@@ -1,27 +1,33 @@
-import { FilterSelect } from '@/components'
+import AsyncRangePicker from '@/components/inputs/AsyncRangePicker'
+import SearchBar from '@/components/inputs/SearchBar'
+import CustomPageSize from '@/components/selects/CustomPageSize'
+import FilterButtonSelection, {
+  type OptionsFilterProps
+} from '@/components/selects/FilterButtonSelection'
 import CustomTable from '@/components/table/CustomTable'
 import { BackComponent } from '@/components/ui/BackComponent'
 import { lotsColumns } from '@/const/columns/post'
+import useQueryParams from '@/hooks/useQueryParams'
+import { ClearFilter } from '@/icons'
 import { type LotsDataType } from '@/types/api/response/lots'
-import { SelectItem, type Selection } from '@nextui-org/react'
+import { Button, type Selection } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import React, { type ReactNode, useCallback, useMemo, useState } from 'react'
+import React, {
+  type ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect
+} from 'react'
 
 type LotsProps = {
   lots: LotsDataType[]
   isLoading: boolean
-  selectedStatus: Selection
-  handleSelectionChange: (key: Selection) => void
   bottomContent: ReactNode
   totalRows: number
 }
 
-type LotStatusData = {
-  key: string
-  display: string
-}
-
-const dataLotStatus: LotStatusData[] = [
+const dataLotStatus: OptionsFilterProps[] = [
   {
     key: 'active',
     display: 'Activos'
@@ -40,17 +46,14 @@ const dataLotStatus: LotStatusData[] = [
   }
 ]
 
-const Lots = ({
-  lots,
-  isLoading,
-  selectedStatus,
-  handleSelectionChange,
-  bottomContent,
-  totalRows
-}: LotsProps) => {
+const Lots = ({ lots, isLoading, bottomContent, totalRows }: LotsProps) => {
   const router = useRouter()
-  const [filterValue, setFilterValue] = useState('')
-  const hasSearchFilter = Boolean(filterValue)
+  const { queryParams, setQueryParams } = useQueryParams()
+  const [selectedStatus, setSelectedStatus] = useState<Selection>(
+    new Set(['default'])
+  )
+  const [selectedKey, setSelectedKey] = useState<string>('default')
+
   const onCreateLot = () => {
     router.push('/post-management/lots/create')
   }
@@ -58,55 +61,82 @@ const Lots = ({
   const onEditLot = (id: number) => {
     router.push(`/post-management/lots/edit/id/${id}`)
   }
-  const onSearchChange = useCallback((value: string) => {
-    if (value !== undefined) {
-      setFilterValue(value)
-    } else {
-      setFilterValue('')
-    }
-  }, [])
+
+  const handleSelectionChange = useCallback(
+    async (keys: Selection) => {
+      const statusArray = Array.from(keys)
+      const value = statusArray[0]
+      if (value === undefined) {
+        setSelectedStatus(new Set(['default']))
+        setQueryParams({ page: 1, status: undefined, query: undefined })
+        setSelectedKey('default')
+        return
+      }
+      setSelectedStatus(keys)
+
+      setQueryParams({ page: 1, status: value, query: undefined })
+      setSelectedKey(value.toString())
+    },
+    [setQueryParams]
+  )
 
   const filteredItems = useMemo(() => {
     if (lots !== undefined) {
-      let filtered = lots?.length > 0 ? [...lots] : []
-
-      if (hasSearchFilter) {
-        filtered = filtered.filter((item) =>
-          item.lot_code.toLowerCase().includes(filterValue.toLowerCase())
-        )
-      }
+      const filtered = lots?.length > 0 ? [...lots] : []
 
       return filtered
     }
 
     return []
-  }, [lots, filterValue, hasSearchFilter])
+  }, [lots])
 
-  const filterLotButton = useMemo(() => {
+  const handleClearFilters = useCallback(() => {
+    setQueryParams({
+      page: 1,
+      pageSize: 10,
+      typeAuction: undefined,
+      typeStatus: undefined,
+      query: undefined,
+      startDate: undefined,
+      endDate: undefined
+    })
+    setSelectedStatus(new Set(['default']))
+
+    setSelectedKey('default')
+
+    router.refresh()
+  }, [setQueryParams, router])
+
+  const filterLotsButtons = useMemo(() => {
     return (
-      <div className=' w-48'>
-        <FilterSelect
-          labelPlacement={'outside-left'}
-          aria-label='Status'
-          placeholder='Filtrar por:'
-          selectedKeys={selectedStatus}
-          onSelectionChange={handleSelectionChange}
-          classNames={{
-            trigger:
-              'bg-slate-300 text-blackText dark:bg-default-200 dark:text-white',
-            base: 'items-center text-blackText'
-          }}
-          disabled={isLoading}
-        >
-          {dataLotStatus.map((lot) => (
-            <SelectItem key={lot.key} value={lot.key}>
-              {lot.display}
-            </SelectItem>
-          ))}
-        </FilterSelect>
+      <div className='flex flex-col md:flex-row gap-6 items-center'>
+        <div className=' max-w-96 w-full'>
+          <AsyncRangePicker label='Fecha de Transmisión:' />
+        </div>
+        <div className=' md:max-w-72 w-full'>
+          <FilterButtonSelection
+            labelPlacement={'outside-left'}
+            ariaLabel='Status'
+            label='Status: '
+            placeholder='Filtrar por:'
+            selectedKeys={selectedStatus}
+            onSelectionChange={handleSelectionChange}
+            options={dataLotStatus}
+            isLoading={isLoading}
+          />
+        </div>
+        <div className='w-full md:w-fit'>
+          <Button
+            startContent={<ClearFilter className='w-4 h-4 text-blackText dark:text-white' />}
+            onClick={handleClearFilters}
+            className='w-full md:w-fit dark:border dark:border-white/60'
+          >
+            Limpiar filtros
+          </Button>
+        </div>
       </div>
     )
-  }, [selectedStatus, isLoading, handleSelectionChange])
+  }, [selectedStatus, isLoading, handleSelectionChange, handleClearFilters])
 
   const columns = useMemo(() => {
     const arrayStatus = Array.from(selectedStatus)
@@ -121,6 +151,12 @@ const Lots = ({
     }
   }, [selectedStatus])
 
+  useEffect(() => {
+    if (selectedKey === 'default') {
+      setQueryParams({ status: undefined })
+    }
+  }, [selectedKey, setQueryParams, queryParams])
+
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -134,8 +170,6 @@ const Lots = ({
       </div>
       <CustomTable<LotsDataType>
         filteredItems={filteredItems}
-        filterValue={filterValue}
-        handleSearch={onSearchChange}
         columns={columns}
         emptyLabel={isLoading ? '' : 'No tienes ningún lote creado'}
         totalLabel='lotes'
@@ -151,11 +185,21 @@ const Lots = ({
           useViewMore: false,
           labelEditingDisabled: 'El lote esta en progreso y no se puede editar'
         }}
-        filterContent={filterLotButton}
         usePage={false}
-        customPagination={isLoading ? null : bottomContent}
+        filterContent={filterLotsButtons}
         useCustomPagination={true}
+        customPagination={isLoading ? null : bottomContent}
         totalRows={totalRows}
+        useCustomSearchBar={true}
+        customSearchBar={
+          <SearchBar
+            searchBarPlaceholder='Buscar por ID lote'
+            styles='w-full flex-1'
+          />
+        }
+        useCustomPageSize={true}
+        customPageSize={<CustomPageSize />}
+        useFilterInNewRow={true}
       />
     </>
   )
