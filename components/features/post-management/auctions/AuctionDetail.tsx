@@ -185,13 +185,8 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
   }, [publication])
 
   const typeAccount = useMemo(() => {
-    if (user !== null) {
-      const typeAccount = getAccountType(
-        user?.firebase_uid?.uid_reference ?? ''
-      )
-      return typeAccount
-    }
-    return null
+    const typeAccount = getAccountType(user?.firebase_uid?.uid_reference ?? '')
+    return typeAccount
   }, [user])
 
   const accumulate = useMemo(() => {
@@ -250,6 +245,20 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
     router.push(`/users-management/clients/edit/id/${currentIdUser}`)
   }
 
+  const lotCode = useMemo(() => {
+    const isDetermined =
+      publication?.auction.type_auction === AuctionType.Determined
+    const lotCode = publication?.lot?.lot_code
+    if (lotCode !== null && lotCode !== undefined) {
+      return lotCode
+    }
+    if (lotCode === null || lotCode === undefined) {
+      if (isDetermined) {
+        return publication.publication_code
+      }
+      return 'N/D'
+    }
+  }, [publication])
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -267,13 +276,10 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
       {!isLoadingCurrentPublication && existPost && (
         <>
           <Divider />
-          <div className='grid grid-cols-3 my-3 gap-x-5'>
+          <div className='grid grid-cols-1 md:grid-cols-3 my-3 gap-y-3 md:gap-x-5 dark:text-white'>
             <div className='border border-default-200 shadow-lg rounded-lg px-4 py-2 flex flex-col items-center justify-center'>
               <span className='font-semibold'>ID SUBASTA:</span>
-              <span className='font-semibold'>
-                {' '}
-                #{publication?.lot?.lot_code ?? 'N/D'}
-              </span>
+              <span className='font-semibold'> #{lotCode}</span>
               <div className='border border-gray-400 p-2 font-semibold flex flex-row gap-2 rounded-lg w-fit text-xs'>
                 <span>Status:</span>
                 <span className='text-cyan-600'>
@@ -306,7 +312,7 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
 
             <div className=''>
               {!isLoading && (
-                <div className=' w-80 flex flex-row justify-between border border-default-200 shadow-lg rounded-lg p-4'>
+                <div className=' md:w-80 flex flex-row justify-between border border-default-200 shadow-lg rounded-lg p-4'>
                   <ProfileCard client={user} typeAccount={typeAccount} />
                   <Tooltip content='Editar usuario' color='primary'>
                     <div
@@ -321,24 +327,28 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
             </div>
           </div>
           <Divider />
-          <div className='grid grid-cols-2 gap-x-4 mt-3'>
-            <div className='flex flex-col'>
-              <div className='flex flex-row gap-3 items-center justify-between mb-3 mt-2'>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-x-4 mt-3 dark:text-white'>
+            <div className='flex flex-col order-2 md:order-1 '>
+              <div className='flex flex-col md:flex-row gap-3 md:items-center justify-between mb-3 mt-2'>
                 <span className='font-semibold text-lg'>{`Lote #${publication?.publication_code}`}</span>
-                <div className='flex flex-col'>
-                  <span className='font-semibold text-sm'>Tipo</span>
-                  <span className='text-sm'>
-                    {publication?.auction.type_auction ===
-                    AuctionType.Determined
-                      ? 'Determinada'
-                      : 'Martillero'}
-                  </span>
-                </div>
-                <div className='flex flex-col'>
-                  <span className='font-semibold text-sm'>Fecha de Cierre</span>
-                  <span className='text-sm'>
-                    {formatFullDate(publication?.auction.end_date.toString())}
-                  </span>
+                <div className='flex w-full flex-row gap-3 items-center justify-between'>
+                  <div className='flex flex-col'>
+                    <span className='font-semibold text-sm'>Tipo</span>
+                    <span className='text-sm'>
+                      {publication?.auction.type_auction ===
+                      AuctionType.Determined
+                        ? 'Determinada'
+                        : 'Martillero'}
+                    </span>
+                  </div>
+                  <div className='flex flex-col'>
+                    <span className='font-semibold text-sm'>
+                      Fecha de Cierre
+                    </span>
+                    <span className='text-sm'>
+                      {formatFullDate(publication?.auction.end_date.toString())}
+                    </span>
+                  </div>
                 </div>
               </div>
               <Gallery
@@ -349,13 +359,13 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
                 isPlaying={isPlaying}
               />
             </div>
-            <div className='flex flex-col gap-4 p-2'>
+            <div className='flex flex-col gap-4 order-1 md:order-2'>
               {isLoading && (
                 <div className='align-middle text-center h-40 flex justify-center items-center w-full'>
                   <Loader />
                 </div>
               )}
-              <div className='w-80 border border-default-200 shadow-lg rounded-lg p-4 ml-4'>
+              <div className='w-full md:w-80 border border-default-200 shadow-lg rounded-lg p-4 md:ml-4'>
                 {lastOffer !== undefined && (
                   <LastOfferCardDetail item={lastOffer} />
                 )}
@@ -385,29 +395,33 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
                   </>
                 )}
                 {historyBids?.length === 0 && (
-                  <div className='bg-zinc-200 rounded-lg p-4 text-center'>
+                  <div className='bg-zinc-200 dark:bg-zinc-600 rounded-lg p-4 text-center'>
                     <span className='text-default-500 dark:text-white text-center text-sm'>
                       Aún no existen ofertas para esta subasta
                     </span>
                   </div>
                 )}
               </div>
-              <div className='w-80 border border-default-200 shadow-lg rounded-lg p-4 ml-4 mt-2'>
+              <div className='w-full md:w-80 border border-default-200 shadow-lg rounded-lg p-4 md:ml-4 mt-2 dark:text-white'>
                 <>
                   <div className='flex flex-row gap-4'>
                     <div className='text-start text-default-500 dark:text-white flex flex-row gap-2 justify-start items-center'>
                       {dataPublicationCard.countryName !== '' && (
-                        <Avatar
-                          alt={`Bandera de ${dataPublicationCard.countryName}`}
-                          className='w-5 h-5'
-                          src={`https://flagcdn.com/${dataPublicationCard.countryCode}.svg`}
-                        />
+                        <>
+                          <Avatar
+                            alt={`Bandera de ${dataPublicationCard.countryName}`}
+                            className='w-5 h-5'
+                            src={`https://flagcdn.com/${dataPublicationCard.countryCode}.svg`}
+                          />
+                          <span className='text-xs dark:'>{`${
+                            dataPublicationCard.cityName ??
+                            'Ciudad no Registrada'
+                          }, ${
+                            dataPublicationCard.countryName ??
+                            'País no Registrado'
+                          }`}</span>
+                        </>
                       )}
-                      <span className='text-xs'>{`${
-                        dataPublicationCard.cityName ?? 'Ciudad no Registrada'
-                      }, ${
-                        dataPublicationCard.countryName ?? 'País no Registrado'
-                      }`}</span>
                     </div>
                   </div>
                   <h1 className='font-bold text-black/80 dark:text-white'>
@@ -447,7 +461,7 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
               </div>
             </div>
           </div>
-          <div className=''>
+          <div className='mt-4 md:mt-0'>
             <TabsPublication
               publication={publication}
               giftsGallery={giftImages}
