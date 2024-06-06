@@ -6,7 +6,8 @@
     "extends": [
         "standard-with-typescript",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "next/core-web-vitals"
     ],
     "parserOptions": {
         "ecmaVersion": "latest",
@@ -24,6 +25,8 @@
         "@typescript-eslint/no-misused-promises": "off",
         "@typescript-eslint/promise-function-async":"off",
         "react-hooks/rules-of-hooks": "error", 
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+        "react/jsx-uses-react": "off", 
+        "react/jsx-uses-vars": "error"
     }
 }
