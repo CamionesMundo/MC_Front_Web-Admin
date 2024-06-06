@@ -56,6 +56,7 @@ import { ReactComponent as Payment } from './src/Payment.svg'
 import { ReactComponent as Publication } from './src/Publication.svg'
 import { ReactComponent as NoImage } from './src/NoImage.svg'
 import { ReactComponent as NoVideo } from './src/NoVideo.svg'
+import { ReactComponent as ClearFilter } from './src/ClearFilter.svg'
 
 export {
   Visible,
@@ -115,5 +116,6 @@ export {
   Payment,
   Publication,
   NoImage,
-  NoVideo
+  NoVideo,
+  ClearFilter
 }
