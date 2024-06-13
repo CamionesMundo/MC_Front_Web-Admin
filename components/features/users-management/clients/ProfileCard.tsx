@@ -5,7 +5,7 @@ import React, { type ReactNode } from 'react'
 
 type ProfileCardProps = {
   typeAccount: ReactNode
-  client: ClientResponse | null
+  client: ClientResponse | null | undefined
 }
 
 const ProfileCard = ({ typeAccount, client }: ProfileCardProps) => {
