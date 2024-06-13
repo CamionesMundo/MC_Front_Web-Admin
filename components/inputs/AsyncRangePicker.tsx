@@ -79,7 +79,7 @@ const AsyncRangePicker = ({ label = 'Fecha: ' }: AsyncRangePickerProps) => {
         classNames={{
           base: 'w-full max-w-full',
           label:
-            'text-blackText placeholder:text-blackText/50 font-semibold dark:text-white md:max-w-[100px] w-full',
+            'text-blackText placeholder:text-blackText/50 font-semibold dark:text-white md:max-w-[120px] w-max',
           selectorIcon: 'dark:text-white',
           inputWrapper:
             'border border-[#e0e0e0] dark:hover:border-white data-[hover=true]:cursor-not-allowed'
