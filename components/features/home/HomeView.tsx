@@ -9,6 +9,7 @@ const HomeView = () => {
       return session?.user.name
     }
   }, [session])
+
   return (
     <div className='w-full h-full grid place-content-center px-3 md:px-10'>
       <div className='flex flex-col w-full'>
@@ -25,7 +26,7 @@ const HomeView = () => {
             {' al Panel admin de Mundo camiones!'}
           </p>
         </div>
-        <div className='w-full font-semibold text-xs md:text-sm mt-16 md:px-0 px-2 dark:text-white'>
+        <div className='w-full text-xs md:text-sm mt-16 md:px-0 px-2 dark:text-white'>
           <p>
             {
               'Aquí podrás - Gestionar usuarios reales del app móvil - Crear/editar roles para futuros administradores - Asignar permisos a roles existentes - Gestionar Publicaciones - Gestionar Pagos - Gestionar subastas (determinadas y con martillero) - Crear y asignar Lotes de subasta a usuarios martilleros - Crear/editar Martilleros - Crear/editar Agentes aduaneros - Crear nuevas Marcas, Modelos, Sub-modelos - Configurar parámetros del aplicativo móvil (monto garantía, comisiones, tiempo de pujas, monto máximo de subasta, incrementos) - Realizar transmisiones En vivo - Editar tus datos de perfil y Cambiar la apariencia de tu cuenta modo Light o Dark.'
