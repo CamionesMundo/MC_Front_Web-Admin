@@ -1,6 +1,6 @@
 export const paymentsColumns = [
   {
-    key: 'idpayment_order',
+    key: 'payment_id',
     display: '# Orden'
   },
   {
@@ -18,6 +18,10 @@ export const paymentsColumns = [
   {
     key: 'confirmation_user',
     display: 'Confirmado por'
+  },
+  {
+    key: 'payment_method',
+    display: 'Método de pago'
   },
   {
     key: 'payment_status',

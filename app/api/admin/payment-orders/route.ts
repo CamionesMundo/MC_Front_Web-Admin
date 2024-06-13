@@ -13,6 +13,7 @@ export async function GET (request: NextRequest) {
   const searchTerm = searchParams.get('query')
   const startDate = searchParams.get('startDate')
   const endDate = searchParams.get('endDate')
+  const typeStatus = searchParams.get('typeStatus')
   const queryParams = new URLSearchParams()
 
   if (page !== null && page !== '') queryParams.set('page', page)
@@ -30,6 +31,9 @@ export async function GET (request: NextRequest) {
 
   if (endDate !== null && endDate !== '') {
     queryParams.set('endDate', endDate)
+  }
+  if (typeStatus !== null && typeStatus !== '0') {
+    queryParams.set('typeStatus', typeStatus)
   }
   const url =
   `${BASE_MC_PAYMENT_ORDERS_URL}/all?${queryParams.toString()}`

@@ -2,6 +2,7 @@ import { CustomInput, GenericButton } from '@/components'
 import AsyncRangePicker from '@/components/inputs/AsyncRangePicker'
 import SearchBar from '@/components/inputs/SearchBar'
 import CustomModal from '@/components/modal/CustomModal'
+import ModalDelete from '@/components/modal/ModalDelete'
 import CustomPageSize from '@/components/selects/CustomPageSize'
 import FilterButtonSelection, {
   type OptionsFilterProps
@@ -20,9 +21,15 @@ import {
   type PaymentsDataType,
   type PaymentStatusResponse
 } from '@/types/api/response/payments'
-import { Button, Image, useDisclosure } from '@nextui-org/react'
+import { Button, Image, type Selection, useDisclosure } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import React, { type ReactNode, useCallback, useMemo, useState } from 'react'
+import React, {
+  type ReactNode,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect
+} from 'react'
 
 type PaymentsProps = {
   payments: PaymentsDataType[]
@@ -33,15 +40,15 @@ type PaymentsProps = {
 
 const dataPaymentStatus: OptionsFilterProps[] = [
   {
-    key: 'paid',
+    key: '20',
     display: 'Pagado'
   },
   {
-    key: 'pending',
+    key: '19',
     display: 'Pendiente'
   },
   {
-    key: 'all',
+    key: '0',
     display: 'Todos los estados'
   }
 ]
@@ -52,15 +59,23 @@ const Payments = ({
   totalRows
 }: PaymentsProps) => {
   const router = useRouter()
-  const { setQueryParams } = useQueryParams()
+  const { queryParams, setQueryParams } = useQueryParams()
   const { mutateAsync: updateStatus, isPending } = useUpdatePaymentStatus()
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isOpenConfirm,
+    onOpen: onOpenConfirm,
+    onClose: onCloseConfirm
+  } = useDisclosure()
   const [comment, setComment] = useState('')
   const [isDetail, setIsDetail] = useState(false)
   const [currentOrder, setCurrentOrder] = useState<
   PaymentsDataType | undefined
   >(undefined)
-
+  const [selectedStatus, setSelectedStatus] = useState<Selection>(
+    new Set(['0'])
+  )
+  const [selectedKey, setSelectedKey] = useState<string>('0')
   const filteredItems = useMemo(() => {
     if (payments !== undefined) {
       const filtered = payments?.length > 0 ? [...payments] : []
@@ -70,12 +85,29 @@ const Payments = ({
     return []
   }, [payments])
 
+  const handleSelectionChange = useCallback(
+    async (keys: Selection) => {
+      const statusArray = Array.from(keys)
+      const value = statusArray[0]
+      if (value === undefined) {
+        setSelectedStatus(new Set(['0']))
+        setQueryParams({ page: 1, typeStatus: undefined, query: undefined })
+        setSelectedKey('0')
+        return
+      }
+      setSelectedStatus(keys)
+
+      setQueryParams({ page: 1, typeStatus: value, query: undefined })
+      setSelectedKey(value.toString())
+    },
+    [setQueryParams]
+  )
   const handleConfirmPayment = (row: PaymentsDataType) => {
     setCurrentOrder(row)
     onOpen()
   }
 
-  const handleSubmitConfirmPayment = useCallback(async () => {
+  const handleOpenConfirm = useCallback(() => {
     if (comment === '' || comment.trim().length < 1) {
       showToast(
         'El comentario es obligatorio y al menos tener 1 caracter',
@@ -83,7 +115,10 @@ const Payments = ({
       )
       return
     }
+    onOpenConfirm()
+  }, [onOpenConfirm, comment])
 
+  const handleSubmitConfirmPayment = useCallback(async () => {
     const dataBody: BodyPayments = {
       id: currentOrder?.idpayment_order ?? 0,
       data: {
@@ -102,11 +137,12 @@ const Payments = ({
         showToast(data.message, 'error')
       }
     })
+    onCloseConfirm()
     onClose()
     setComment('')
     setCurrentOrder(undefined)
     setIsDetail(false)
-  }, [currentOrder, comment, updateStatus, onClose])
+  }, [currentOrder, comment, updateStatus, onClose, onCloseConfirm])
 
   const imageUrl = useMemo(() => {
     if (currentOrder === undefined) return ''
@@ -132,6 +168,7 @@ const Payments = ({
       page: 1,
       pageSize: 10,
       query: undefined,
+      typeStatus: undefined,
       startDate: undefined,
       endDate: undefined
     })
@@ -152,6 +189,8 @@ const Payments = ({
             label='Status: '
             placeholder='Filtrar por:'
             options={dataPaymentStatus}
+            selectedKeys={selectedStatus}
+            onSelectionChange={handleSelectionChange}
             isLoading={isLoading}
           />
         </div>
@@ -168,8 +207,12 @@ const Payments = ({
         </div>
       </div>
     )
-  }, [isLoading, handleClearFilters])
-
+  }, [isLoading, handleClearFilters, handleSelectionChange, selectedStatus])
+  useEffect(() => {
+    if (selectedKey === '0') {
+      setQueryParams({ typeStatus: undefined })
+    }
+  }, [selectedKey, setQueryParams, queryParams])
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -186,7 +229,9 @@ const Payments = ({
         columns={paymentsColumns}
         emptyLabel={isLoading ? '' : 'No tienes ninguna orden de pago creada'}
         totalLabel='órdenes de pago'
-        initialVisibleColumns={paymentsColumns.map((column) => column.key)}
+        initialVisibleColumns={paymentsColumns
+          .map((column) => column.key)
+          .filter((key) => key !== 'confirmation_user')}
         onViewMore={() => {}}
         onConfirmPayment={handleConfirmPayment}
         onDetailPayment={handleOpenDetailsPayment}
@@ -283,7 +328,7 @@ const Payments = ({
                 error={''}
               />
             )}
-            {isDetail && (
+            {isDetail && currentOrder?.comment !== null && (
               <div className='flex flex-col mt-1'>
                 <span className='font-semibold'>Comentario</span>
                 <span className='text-sm'>{currentOrder?.comment}</span>
@@ -296,13 +341,29 @@ const Payments = ({
                 type='button'
                 className='md:w-auto w-full bg-cyan-700 text-white'
                 label={'Confirmar'}
-                onClick={handleSubmitConfirmPayment}
-                isLoading={isPending}
+                onClick={handleOpenConfirm}
               />
             </div>
           )}
         </div>
       </CustomModal>
+      <ModalDelete
+        action={handleSubmitConfirmPayment}
+        isOpen={isOpenConfirm}
+        title='Confirmar pago'
+        loadingAction={isPending}
+        onCancel={onCloseConfirm}
+        onClose={onCloseConfirm}
+        actionLabel={isPending ? 'Confirmando' : 'Sí, confirmar'}
+        description={
+          <p className='dark:text-white text-default-600 text-sm'>
+            ¿Está completamente seguro de confirmar el pago?, asegúrese de
+            verificar el monto, la fecha y hora de depósito así como el número
+            de depósito/transferencia ingresado por el usuario antes de
+            confirmar. Esta acción No se puede revertir
+          </p>
+        }
+      />
     </>
   )
 }

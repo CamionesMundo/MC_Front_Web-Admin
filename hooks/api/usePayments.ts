@@ -12,12 +12,13 @@ export const useGetAllPayments = ({
   pageSize,
   query,
   startDate,
-  endDate
+  endDate,
+  typeStatus
 }: PaymentsFilter) => {
   return useQuery({
     queryKey: ['payment-orders', page],
     queryFn: async () =>
-      await getAllPayments({ page, pageSize, query, startDate, endDate })
+      await getAllPayments({ page, pageSize, query, startDate, endDate, typeStatus })
   })
 }
 

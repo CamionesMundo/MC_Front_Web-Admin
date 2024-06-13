@@ -15,7 +15,8 @@ export const getAllPayments = async ({
   pageSize,
   query,
   startDate,
-  endDate
+  endDate,
+  typeStatus
 }: PaymentsFilter) => {
   const searchParams = new URLSearchParams()
 
@@ -33,6 +34,11 @@ export const getAllPayments = async ({
   if (endDate !== undefined) {
     searchParams.set('endDate', endDate)
   }
+
+  if (typeStatus !== undefined) {
+    searchParams.set('typeStatus', typeStatus.toString())
+  }
+
   const url = `${BASE_PAYMENT_ORDERS_URL}?${searchParams.toString()}`
 
   try {

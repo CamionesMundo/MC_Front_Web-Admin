@@ -20,6 +20,7 @@ const PaymentsPage = () => {
     page: Number(queryParams.get('page')),
     pageSize: Number(queryParams.get('pageSize')),
     query: queryParams.get('query') ?? '',
+    typeStatus: Number(queryParams.get('typeStatus')),
     startDate: queryParams.get('startDate') ?? undefined,
     endDate: queryParams.get('endDate') ?? undefined
   })
