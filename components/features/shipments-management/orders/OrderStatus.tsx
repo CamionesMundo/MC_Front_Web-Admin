@@ -9,7 +9,6 @@ type OrderStatusProps = {
 }
 
 const OrderStatus = ({ history }: OrderStatusProps) => {
-
   const orderPlaced = useMemo(() => {
     const filtered = history.find(
       (item) => item.idorder_status === OrderStatusType.OrderPlaced
