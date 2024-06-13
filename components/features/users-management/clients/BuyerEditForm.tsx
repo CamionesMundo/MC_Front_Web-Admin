@@ -28,7 +28,8 @@ import React, {
   type ChangeEvent,
   useEffect,
   useState,
-  type FormEvent
+  type FormEvent,
+  useCallback
 } from 'react'
 
 type BuyerEditFormProps = {
@@ -185,6 +186,36 @@ const BuyerEditForm = ({ client }: BuyerEditFormProps) => {
       )
     }
   }
+
+  const onDeleteImage = useCallback(async () => {
+    if (client?.file_profile_picture === null) {
+      showToast('Este usuario no tiene imagen de perfil', 'error')
+      return
+    }
+    const dataBody: BodyUpdateUser = {
+      id: client?.iduser,
+      data: {
+        name: client?.name ?? '',
+        surname: client?.surname ?? '',
+        file_profile_picture: null,
+        file_profiles: null
+      }
+    }
+    await updateBuyer(dataBody, {
+      onSuccess: (data: GenericResponse<UserClientResponse> | undefined) => {
+        if (data?.error !== undefined) {
+          showToast(data.message, 'error')
+        } else {
+          showToast(data?.message ?? '', 'success')
+          router.refresh()
+        }
+      },
+      onError: (data: Error) => {
+        showToast(data.message, 'error')
+      }
+    })
+  }, [client, updateBuyer, router])
+
   return (
     <div>
       <span className='font-semibold text-blackText dark:text-white flex justify-between items-center'>
@@ -197,7 +228,7 @@ const BuyerEditForm = ({ client }: BuyerEditFormProps) => {
             />
             <input type='file' multiple accept='image/*' className='hidden' />
             <Tooltip content='Eliminar Foto de Perfil' color='danger'>
-              <div className='bg-white dark:bg-primary hover:cursor-pointer hover:bg-danger hover:text-white transition-all w-8 h-8 rounded-full absolute bottom-0 right-0 flex justify-center items-center border border-gray'>
+              <div className='bg-white dark:bg-primary hover:cursor-pointer hover:bg-danger hover:text-white transition-all w-8 h-8 rounded-full absolute bottom-0 right-0 flex justify-center items-center border border-gray' onClick={onDeleteImage}>
                 <Delete className='h-3.5 w-3.5' />
               </div>
             </Tooltip>
