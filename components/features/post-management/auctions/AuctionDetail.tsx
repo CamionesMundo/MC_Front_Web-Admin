@@ -67,7 +67,7 @@ const getAccountType = (accountType: string): ReactNode => {
         <div className='flex flex-row gap-2 items-center'>
           <Envelope className=' w-3 h-3' />
           <span className='text-sm text-default-500 text-wrap'>
-            {'Usuario con Credenciales'}
+            {'Usuario con Correo'}
           </span>
         </div>
       )
@@ -346,7 +346,7 @@ const AuctionDetail = ({ id }: AuctionDetailProps) => {
                       Fecha de Cierre
                     </span>
                     <span className='text-sm'>
-                      {formatFullDate(publication?.auction.end_date.toString())}
+                      {formatFullDate(publication?.auction?.end_date?.toString())}
                     </span>
                   </div>
                 </div>
