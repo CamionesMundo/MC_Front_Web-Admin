@@ -18,12 +18,14 @@ import { LotTransmissionStatus } from '@/types/enums'
 import CustomModal from '@/components/modal/CustomModal'
 import Gallery from './Gallery'
 import TabsPublication from './TabsPublication'
+import { useRouter } from 'next/navigation'
 
 type TransmissionProps = {
   codeLot: number
 }
 
 const Transmission = ({ codeLot }: TransmissionProps) => {
+  const router = useRouter()
   const [isReady, setIsReady] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {
@@ -280,6 +282,7 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                   onClick={async () => {
                     await handleFinishedLot()
                     onClose()
+                    router.push('/post-management/lots?page=1&pageSize=10')
                   }}
                 />
               </div>
