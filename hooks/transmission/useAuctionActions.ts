@@ -63,7 +63,7 @@ export const useAuctionActions = ({ socket, refetch }: Props) => {
   const disabledNextButton =
     (status !== TypeAuctionStatus.Awarded &&
       status !== TypeAuctionStatus.NoBidder) ||
-    !initCountdown ||
+    (!initCountdown && isLast) ||
     isLoadingNextButton
 
   const disabledInitAuctionButton =
