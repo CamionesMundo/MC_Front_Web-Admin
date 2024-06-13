@@ -54,7 +54,13 @@ import {
   TableTypePublication,
   TableCreationDate,
   TablePublicationStatus,
-  TablePromotion
+  TablePromotion,
+  TableOrderTitle,
+  TableOrderOrigin,
+  TableOrderCountry,
+  TableOrderStatus,
+  TableOrderPrice,
+  TablePaymentMethod
 } from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
@@ -287,6 +293,7 @@ const CustomTable = <T extends WithId>({
           return <TableUser row={row} />
         case 'updatedAt':
         case 'transmission_date':
+        case 'order_date':
           return <TableIsoDate row={row} />
         case 'createdAt':
           return <TableCreationDate row={row} />
@@ -347,6 +354,8 @@ const CustomTable = <T extends WithId>({
           return <TableConfirmationDate row={row} />
         case 'payment_date':
           return <TablePaymentDate row={row} />
+        case 'payment_method':
+          return <TablePaymentMethod row={row} />
         case 'confirmation_user':
           return <TableConfirmationUser row={row} />
         case 'auction_type':
@@ -366,6 +375,16 @@ const CustomTable = <T extends WithId>({
           )
         case 'promotion':
           return <TablePromotion row={row} />
+        case 'order_title':
+          return <TableOrderTitle row={row} />
+        case 'origin':
+          return <TableOrderOrigin row={row} />
+        case 'order_country':
+          return <TableOrderCountry row={row} />
+        case 'order_status':
+          return <TableOrderStatus row={row} />
+        case 'order_price':
+          return <TableOrderPrice row={row} />
         case 'actions':
           return (
             <TableActions
@@ -453,7 +472,10 @@ const CustomTable = <T extends WithId>({
                   placeholder={searchBarPlaceholder}
                   startContent={<Search className='w-3 h-3 dark:text-white' />}
                   value={filterValue}
-                  classNames={{ clearButton: 'dark:text-white', inputWrapper: 'dark:border dark:border-white/60' }}
+                  classNames={{
+                    clearButton: 'dark:text-white',
+                    inputWrapper: 'dark:border dark:border-white/60'
+                  }}
                   onClear={() => {
                     onClear()
                   }}

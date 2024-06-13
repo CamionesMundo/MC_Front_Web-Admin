@@ -9,8 +9,8 @@ type Props = {
 const TablePaymentDate = ({ row }: Props) => {
   return (
     <div className='text-center dark:text-white w-44'>
-      {row.payment_date !== null
-        ? parseIsoDate((row.payment_date.toString() as string) ?? '')
+      {row.bank_date !== null
+        ? parseIsoDate((row.bank_date?.toString() as string) ?? '')
         : 'dd/mm/aaa'}
     </div>
   )
