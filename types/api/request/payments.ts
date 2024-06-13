@@ -11,6 +11,7 @@ export type PaymentsFilter = {
   page: number
   pageSize: number
   query: string
+  typeStatus: number
   startDate: string | undefined
   endDate: string | undefined
 }
