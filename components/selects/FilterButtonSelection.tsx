@@ -41,7 +41,7 @@ const FilterButtonSelection = ({
           'bg-slate-300 text-blackText dark:bg-default-200 dark:text-white dark:border dark:border-white/60',
         base: 'items-center text-blackText w-full justify-center md:justify-start',
         label: 'font-semibold text-blackText dark:text-white',
-        mainWrapper: 'md:w-60'
+        mainWrapper: 'md:w-72'
       }}
       disabled={isLoading}
     >
