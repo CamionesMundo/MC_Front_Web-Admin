@@ -12,6 +12,7 @@ const BASE_AUCTIONS_URL = `${BASE_ADMIN_API}/auctions`
 const BASE_LOTS_QUEUE_URL = `${BASE_ADMIN_API}/lot-queue`
 const BASE_BID_CALCULATE = `${BASE_ADMIN_API}/bids-auction/calculate`
 const BASE_PAYMENT_ORDERS_URL = `${BASE_ADMIN_API}/payment-orders`
+const BASE_ORDERS_URL = `${BASE_ADMIN_API}/orders`
 const BASE_MC_AUTH_URL = '/auth/admin'
 const BASE_MC_CORE_URL = '/core'
 const BASE_MC_ADMIN_URL = `${BASE_MC_AUTH_URL}/users`
@@ -30,6 +31,8 @@ const BASE_MC_PUBLICATION_URL = `${BASE_MC_CORE_URL}/publications`
 const BASE_MC_BIDS_CALCULATE = `${BASE_MC_CORE_URL}/bids-auction/calculate-increment-for-amount`
 const BASE_MC_LOT_TRANSMISSION_STATUS_URL = `${BASE_MC_CORE_URL}/lot/transmission/status`
 const BASE_MC_PAYMENT_ORDERS_URL = `${BASE_MC_CORE_URL}/payment-orders/admin`
+const BASE_MC_ORDER_URL = `${BASE_MC_CORE_URL}/orders`
+const BASE_MC_ORDER_STATUS_URL = `${BASE_MC_CORE_URL}/order-status`
 
 export {
   BASE_ADMIN_API,
@@ -63,5 +66,8 @@ export {
   BASE_BID_CALCULATE,
   BASE_MC_LOT_TRANSMISSION_STATUS_URL,
   BASE_MC_PAYMENT_ORDERS_URL,
-  BASE_PAYMENT_ORDERS_URL
+  BASE_PAYMENT_ORDERS_URL,
+  BASE_MC_ORDER_URL,
+  BASE_ORDERS_URL,
+  BASE_MC_ORDER_STATUS_URL
 }
