@@ -121,6 +121,16 @@ enum PublicationType {
   Auction = 8
 }
 
+enum OrderStatusType {
+  OrderPlaced = 3,
+  ReservationPayment = 8,
+  VehicleShipment = 4,
+  ReceptionAtPort = 5,
+  PendingPayment = 6,
+  VehicleDelivery = 7,
+  Finished = 9
+}
+
 export {
   UserType,
   Sex,
@@ -135,5 +145,6 @@ export {
   BidStatus,
   LotTransmissionStatus,
   AuctionType,
-  PublicationType
+  PublicationType,
+  OrderStatusType
 }
