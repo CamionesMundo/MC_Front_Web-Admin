@@ -60,7 +60,8 @@ import {
   TableOrderCountry,
   TableOrderStatus,
   TableOrderPrice,
-  TablePaymentMethod
+  TablePaymentMethod,
+  TablePaymentAmount
 } from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
@@ -356,6 +357,8 @@ const CustomTable = <T extends WithId>({
           return <TablePaymentDate row={row} />
         case 'payment_method':
           return <TablePaymentMethod row={row} />
+        case 'payment_amount':
+          return <TablePaymentAmount row={row} />
         case 'confirmation_user':
           return <TableConfirmationUser row={row} />
         case 'auction_type':

@@ -8,6 +8,10 @@ export const paymentsColumns = [
     display: 'Tipo'
   },
   {
+    key: 'payment_amount',
+    display: 'Monto'
+  },
+  {
     key: 'payment_date',
     display: 'Fecha pago'
   },

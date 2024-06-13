@@ -208,6 +208,7 @@ const Payments = ({
       </div>
     )
   }, [isLoading, handleClearFilters, handleSelectionChange, selectedStatus])
+
   useEffect(() => {
     if (selectedKey === '0') {
       setQueryParams({ typeStatus: undefined })
@@ -231,7 +232,7 @@ const Payments = ({
         totalLabel='órdenes de pago'
         initialVisibleColumns={paymentsColumns
           .map((column) => column.key)
-          .filter((key) => key !== 'confirmation_user')}
+          .filter((key) => key !== 'confirmation_user' && key !== 'payment_date')}
         onViewMore={() => {}}
         onConfirmPayment={handleConfirmPayment}
         onDetailPayment={handleOpenDetailsPayment}
