@@ -57,7 +57,12 @@ import { ReactComponent as Publication } from './src/Publication.svg'
 import { ReactComponent as NoImage } from './src/NoImage.svg'
 import { ReactComponent as NoVideo } from './src/NoVideo.svg'
 import { ReactComponent as ClearFilter } from './src/ClearFilter.svg'
-
+import { ReactComponent as Message } from './src/Message.svg'
+import { ReactComponent as Cancel } from './src/Cancel.svg'
+import { ReactComponent as Output } from './src/Output.svg'
+import { ReactComponent as Copy } from './src/Copy.svg'
+import { ReactComponent as Calendar } from './src/Calendar.svg'
+import { ReactComponent as Info } from './src/Info.svg'
 export {
   Visible,
   Collapsable,
@@ -117,5 +122,11 @@ export {
   Publication,
   NoImage,
   NoVideo,
-  ClearFilter
+  ClearFilter,
+  Message,
+  Cancel,
+  Output,
+  Copy,
+  Calendar,
+  Info
 }
