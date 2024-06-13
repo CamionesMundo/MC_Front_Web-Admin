@@ -13,8 +13,8 @@ export type BodyActiveSeller = {
 
 export type DataUpdateUser = Pick<
 BaseUserData,
-'name' | 'surname' | 'phone_number' | 'sex' | 'document_number'
-> & { birthdate: string | null | undefined }
+'name' | 'surname' | 'phone_number' | 'sex' | 'document_number' | 'file_profile_picture' | 'file_profiles'
+> & { birthdate?: string | null | undefined }
 
 export type BodyUpdateUser = {
   id: number | undefined
