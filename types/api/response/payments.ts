@@ -36,6 +36,7 @@ export type PaymentStatusResponse = {
   payment_amount: string
   payment_id: string
   payment_status: boolean
+  payment_method: string | null
   bank_reference: null
   internal_reference_mc: null
   file_voucher: null

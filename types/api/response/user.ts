@@ -14,22 +14,22 @@ export interface BaseUserData {
   email: string
   name: string
   surname: string | null
-  phone_number: string | null
+  phone_number?: string | null
   document_type: DocumentType | null
-  document_number: string | null
+  document_number?: string | null
   user_type: UserType
   approved: boolean
-  file_profile_picture: number | null
+  file_profile_picture?: number | null
   accept_terms: boolean
   birthdate: Date | null
-  sex: Sex | undefined
+  sex?: Sex | undefined
   active: boolean
   comment: string | null
   idcountry: number | null
   idaddress: number | null
   createdAt: Date
   updatedAt: Date
-  file_profiles: FileProfiles | null
+  file_profiles?: FileProfiles | null
   country: CountryListItem
   address: Address | null
   firebase_uid: FirebaseUID | null
