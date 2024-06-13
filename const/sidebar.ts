@@ -8,12 +8,18 @@ export const usersManagement = [
 ]
 
 export const postManagement = [
-  { label: 'Gestión de publicaciones', href: '/post-management/post?page=1&pageSize=10' },
+  {
+    label: 'Gestión de publicaciones',
+    href: '/post-management/post?page=1&pageSize=10'
+  },
   {
     label: 'Gestión de subastas',
     href: '/post-management/auctions?page=1&pageSize=10'
   },
-  { label: 'Gestión de lotes', href: '/post-management/lots?page=1&pageSize=10' }
+  {
+    label: 'Gestión de lotes',
+    href: '/post-management/lots?page=1&pageSize=10'
+  }
 ]
 
 export const categoriesManagement = [
@@ -30,7 +36,7 @@ export const categoriesManagement = [
 ]
 
 export const shipmentsManagement = [
-  { label: 'Pedidos', href: '/shipments-management/orders' },
+  { label: 'Ventas', href: '/shipments-management/orders?page=1&pageSize=10' },
   {
     label: 'Historial',
     href: '/shipments-management/history'
@@ -39,7 +45,10 @@ export const shipmentsManagement = [
 ]
 
 export const paymentsManagement = [
-  { label: 'Gestión de pagos', href: '/payments-management/payments?page=1&pageSize=10' },
+  {
+    label: 'Gestión de pagos',
+    href: '/payments-management/payments?page=1&pageSize=10'
+  },
   {
     label: 'Cobros por penalidad',
     href: '/payments-management/penalty-charges'
