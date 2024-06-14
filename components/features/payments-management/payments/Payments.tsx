@@ -3,6 +3,7 @@ import AsyncRangePicker from '@/components/inputs/AsyncRangePicker'
 import SearchBar from '@/components/inputs/SearchBar'
 import CustomModal from '@/components/modal/CustomModal'
 import ModalDelete from '@/components/modal/ModalDelete'
+import ModalImagePreview from '@/components/modal/ModalImagePreview'
 import CustomPageSize from '@/components/selects/CustomPageSize'
 import FilterButtonSelection, {
   type OptionsFilterProps
@@ -17,6 +18,7 @@ import { ClearFilter } from '@/icons'
 import { parseIsoDate } from '@/lib/utils/utils'
 import { type GenericResponse } from '@/types/api'
 import { type BodyPayments } from '@/types/api/request/payments'
+import { type FileGallery } from '@/types/api/response/lots'
 import {
   type PaymentsDataType,
   type PaymentStatusResponse
@@ -63,6 +65,11 @@ const Payments = ({
   const { mutateAsync: updateStatus, isPending } = useUpdatePaymentStatus()
   const { isOpen, onOpen, onClose } = useDisclosure()
   const {
+    isOpen: isOpenImageModal,
+    onOpen: onOpenImageModal,
+    onClose: onCloseImageModal
+  } = useDisclosure()
+  const {
     isOpen: isOpenConfirm,
     onOpen: onOpenConfirm,
     onClose: onCloseConfirm
@@ -76,6 +83,11 @@ const Payments = ({
     new Set(['0'])
   )
   const [selectedKey, setSelectedKey] = useState<string>('0')
+
+  const [currentPicture, setCurrentPicture] = useState<FileGallery | undefined>(
+    undefined
+  )
+
   const filteredItems = useMemo(() => {
     if (payments !== undefined) {
       const filtered = payments?.length > 0 ? [...payments] : []
@@ -102,6 +114,12 @@ const Payments = ({
     },
     [setQueryParams]
   )
+  const handleImagePreview = (picture: FileGallery | undefined) => {
+    if (picture === undefined) return
+    setCurrentPicture(picture)
+    onOpenImageModal()
+  }
+
   const handleConfirmPayment = (row: PaymentsDataType) => {
     setCurrentOrder(row)
     onOpen()
@@ -232,7 +250,9 @@ const Payments = ({
         totalLabel='órdenes de pago'
         initialVisibleColumns={paymentsColumns
           .map((column) => column.key)
-          .filter((key) => key !== 'confirmation_user' && key !== 'payment_date')}
+          .filter(
+            (key) => key !== 'confirmation_user' && key !== 'payment_date'
+          )}
         onViewMore={() => {}}
         onConfirmPayment={handleConfirmPayment}
         onDetailPayment={handleOpenDetailsPayment}
@@ -269,14 +289,21 @@ const Payments = ({
       >
         <div className='flex flex-col dark:text-white mb-3'>
           {imageUrl !== '' && (
-            <div className='w-full h-40 rounded-lg bg-zinc-200 overflow-hidden'>
+            <div
+              className='w-full h-40 rounded-lg bg-zinc-200 overflow-hidden'
+              onClick={() => {
+                const gallery = currentOrder?.fileGallery
+                const file = gallery?.files[0]
+                handleImagePreview(file)
+              }}
+            >
               <Image
                 isBlurred
                 src={imageUrl}
                 width={800}
                 height={400}
                 alt={`Imagen de pago ${currentOrder?.idpayment_order}`}
-                className='w-full object-cover h-40'
+                className='w-full object-scale-down h-40'
               />
             </div>
           )}
@@ -365,6 +392,19 @@ const Payments = ({
           </p>
         }
       />
+
+      <ModalImagePreview isOpen={isOpenImageModal} onClose={onCloseImageModal}>
+        <div className='flex justify-center items-center'>
+          <Image
+            isBlurred
+            src={currentPicture?.url}
+            width={400}
+            height={800}
+            alt={currentPicture?.name}
+            className='w-fit max-h-[75vh]'
+          />
+        </div>
+      </ModalImagePreview>
     </>
   )
 }
