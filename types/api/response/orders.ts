@@ -1,4 +1,9 @@
-import { type CustomAgentsResponse, type AddressBaseData, type WithId } from '.'
+import {
+  type CustomAgentsResponse,
+  type AddressBaseData,
+  type WithId,
+  type FilesGallery
+} from '.'
 import { type PublicationResponse } from './publication'
 import { type FileProfiles, type BaseUserData } from './user'
 
@@ -19,7 +24,7 @@ export type OrderResponse = {
   updatedAt: Date
   address: AddressBaseData | null
   appType: OrderAppType
-  customsAgent: CustomAgentsResponse | null
+  customsAgent: CustomAgentsResponse | undefined
   customs_agent_port_origin: CustomAgentsResponse | null
   publication: PublicationResponse
   history: OrderHistory[]
@@ -68,6 +73,7 @@ export type TrackingHistory = {
   idorder_status: number
   notify_shipment: NotifyShipment | null
   orderStatus: OrderStatusResponse
+  file: FilesGallery | null
 }
 export type NotifyShipment = {
   idnotify_shipment: number
@@ -105,3 +111,17 @@ export type UserPublication = {
   file_profile_picture_data: FileProfiles | null
 }
 export type FullPublication = PublicationResponse & { user: UserPublication }
+
+export type CancelOrderResponse = {
+  idcancellation_request: number
+  reason: string
+  iduser_admin: number
+  idorder: number
+  canceler: string
+  status: boolean
+  updatedAt: Date
+  createdAt: Date
+  iduser_canceling: null | number
+  iduser_confirming: null | number
+  mediation: null
+}

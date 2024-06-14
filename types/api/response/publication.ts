@@ -261,10 +261,10 @@ export type Galleries = {
 export type FileGallery = {
   idfile: number
   url: string
-  thumbnail?: null
+  thumbnail?: null | undefined
   idgallery: number
   name: string
-  main_file?: boolean
+  main_file?: boolean | undefined
 }
 
 export type OtherSpecifications = {
