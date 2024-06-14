@@ -62,8 +62,8 @@ const api = (axiosInstance: AxiosInstance) => {
      * @param config Optional configuration for the request.
      * @returns A promise resolving to the response data of type T.
      */
-    delete: async <T>(url: string, config?: AxiosRequestConfig) =>
-      await axiosInstance.delete<T>(url, config)
+    delete: async <T>(url: string, body?: unknown, config?: AxiosRequestConfig) =>
+      await axiosInstance.delete<T>(url, { ...config, data: body })
   }
 }
 

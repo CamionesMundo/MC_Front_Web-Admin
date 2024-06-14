@@ -69,8 +69,11 @@ const mcApi = async () => {
      * @param config Optional configuration for the request.
      * @returns A promise resolving to the response data of type T.
      */
-    delete: async <T>(url: string, config?: AxiosRequestConfig) =>
-      await mcInstance.delete<T>(url, config)
+    delete: async <T>(
+      url: string,
+      body?: unknown,
+      config?: AxiosRequestConfig
+    ) => await mcInstance.delete<T>(url, { ...config, data: body })
   }
 }
 
