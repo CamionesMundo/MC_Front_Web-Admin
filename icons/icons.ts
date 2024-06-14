@@ -63,6 +63,7 @@ import { ReactComponent as Output } from './src/Output.svg'
 import { ReactComponent as Copy } from './src/Copy.svg'
 import { ReactComponent as Calendar } from './src/Calendar.svg'
 import { ReactComponent as Info } from './src/Info.svg'
+import { ReactComponent as FileUp } from './src/FileUp.svg'
 export {
   Visible,
   Collapsable,
@@ -128,5 +129,6 @@ export {
   Output,
   Copy,
   Calendar,
-  Info
+  Info,
+  FileUp
 }
