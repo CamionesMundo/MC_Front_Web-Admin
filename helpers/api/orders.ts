@@ -1,11 +1,18 @@
 import { BASE_ORDERS_URL } from '@/const/base-url'
 import api from '@/lib/axios/axios-client'
 import { type GenericResponse } from '@/types/api'
-import { type OrderFilter } from '@/types/api/request/order'
+import {
+  type BodyUpdateOrder,
+  type BodyHistoryStatus,
+  type OrderFilter,
+  type BodyDeleteOrder
+} from '@/types/api/request/order'
 import {
   type OrderStatusResponse,
   type OrderListResponse,
-  type OrderDetailResponse
+  type OrderDetailResponse,
+  type TrackingHistory,
+  type CancelOrderResponse
 } from '@/types/api/response/orders'
 
 export const getAllOrders = async ({
@@ -64,6 +71,48 @@ export const getOrderById = async (id: number) => {
   try {
     const res = await api.get<GenericResponse<OrderDetailResponse>>(
       `${BASE_ORDERS_URL}/id/${id}`
+    )
+
+    const { data } = res
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const updateHistoryStatus = async (body: BodyHistoryStatus) => {
+  try {
+    const res = await api.put<GenericResponse<TrackingHistory>>(
+      `${BASE_ORDERS_URL}/history-status/id/${body.id}`,
+      body
+    )
+
+    const { data } = res
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const updateOrder = async (id: number, body: BodyUpdateOrder) => {
+  try {
+    const res = await api.put<GenericResponse<OrderDetailResponse>>(
+      `${BASE_ORDERS_URL}/id/${id}`,
+      body
+    )
+
+    const { data } = res
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const cancelOrder = async (id: number, body: BodyDeleteOrder) => {
+  try {
+    const res = await api.delete<GenericResponse<CancelOrderResponse>>(
+      `${BASE_ORDERS_URL}/id/${id}`,
+      body
     )
 
     const { data } = res
