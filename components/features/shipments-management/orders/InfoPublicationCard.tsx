@@ -13,20 +13,20 @@ const InfoPublicationCard = ({ order }: InfoPublicationCardProps) => {
       <>
         <div className='flex flex-row gap-4'>
           <div className='text-start text-default-500 dark:text-white flex flex-row gap-2 justify-start items-center'>
-            {order?.publication.vehicle.city.country.country_code !== '' && (
+            {order?.publication?.vehicle?.city?.country.country_code !== '' && (
               <Avatar
-                alt={`Bandera de ${order?.publication.vehicle.city.country.country_name}`}
+                alt={`Bandera de ${order?.publication?.vehicle?.city?.country.country_name}`}
                 className='w-5 h-5'
-                src={`https://flagcdn.com/${order?.publication.vehicle.city.country.country_code
+                src={`https://flagcdn.com/${order?.publication?.vehicle?.city?.country.country_code
                   .toLowerCase()
                   .trim()}.svg`}
               />
             )}
             <span className='text-xs'>{`${
-              order?.publication.vehicle.city.city_name ??
+              order?.publication.vehicle?.city?.city_name ??
               'Ciudad no Registrada'
             }, ${
-              order?.publication.vehicle.city.country.country_name ??
+              order?.publication?.vehicle?.city?.country.country_name ??
               'País no Registrado'
             }`}</span>
           </div>
