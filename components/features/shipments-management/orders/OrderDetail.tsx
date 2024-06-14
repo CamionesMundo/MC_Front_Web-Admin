@@ -1,6 +1,4 @@
 import { BackComponent } from '@/components/ui/BackComponent'
-import { useGetAppUserById } from '@/hooks/api/useClients'
-import { useGetOrderById } from '@/hooks/api/useOrders'
 import {
   Cancel,
   ChevronRight,
@@ -18,11 +16,11 @@ import {
   Spacer,
   Tooltip
 } from '@nextui-org/react'
-import { type ReactNode, useMemo, useState, useEffect, type Key } from 'react'
-import ProfileCard from '../../users-management/clients/ProfileCard'
 import {
-  type OrderDetailResponse
-} from '@/types/api/response/orders'
+  type ReactNode
+} from 'react'
+import ProfileCard from '../../users-management/clients/ProfileCard'
+import { type OrderDetailResponse } from '@/types/api/response/orders'
 import { Loader } from '@/components/ui/Loader'
 import { formatPrice, parseIsoDate } from '@/lib/utils/utils'
 import CustomAgentCard from './CustomAgentCard'
@@ -32,8 +30,12 @@ import 'react-image-gallery/styles/css/image-gallery.css'
 import InfoPublicationCard from './InfoPublicationCard'
 import OrderStatus from './OrderStatus'
 import TabsPublication from '../../post-management/lots/transmission/TabsPublication'
-import { useGetPublicationById } from '@/hooks/api/usePublications'
 import InfoCard from '@/components/cards/InfoCard'
+import CustomModal from '@/components/modal/CustomModal'
+import CustomAgentsAutocomplete from '@/components/autocomplete/CustomAgentsAutocomplete'
+import { GenericButton } from '@/components'
+import CustomTextarea from '@/components/textarea/CustomTextarea'
+import useOrderDetail from '@/hooks/order/useOrderDetail'
 
 type OrderDetailProps = {
   id: string
@@ -99,109 +101,50 @@ const getTypeOrigin = (data: OrderDetailResponse | undefined) => {
   return 'Tipo no registrado'
 }
 const OrderDetail = ({ id }: OrderDetailProps) => {
-  const { data: detailResponse, isLoading } = useGetOrderById(Number(id))
-  const { data: buyerResponse, isLoading: isLoadingBuyerInfo } =
-    useGetAppUserById(Number(detailResponse?.data.iduser_buyer))
+  const {
+    isLoading,
+    order,
+    buyerInfo,
+    sellerInfo,
+    typeBuyerAccount,
+    typeSellerAccount,
+    publication,
+    videoUrl,
+    images,
+    giftImages,
+    isEditAgent,
+    handleChangeCustomAgentBuyer,
+    handleChangeCustomAgentSeller,
+    handleSelectionChange,
+    selected,
+    isPending,
+    isPendingCancel,
+    reason,
+    setReason,
+    onEditBuyer,
+    onEditSeller,
+    isOpen,
+    onOpen,
+    isOpenCancelModal,
+    onOpenCancelModal,
+    onCloseCancelModal,
+    isOpenSeller,
+    isLoadingBuyerInfo,
+    isLoadingSellerInfo,
+    isPlaying,
+    handleReady,
+    handleOpenEditAgentBuyer,
+    handleOpenEditAgentSeller,
+    handleCloseEditAgentBuyer,
+    handleCloseEditAgentSeller,
+    handleUpdateBuyerAgent,
+    handleUpdateSellerAgent,
+    onCancelOrder,
+    onOpenSeller,
+    currentAgentBuyer,
+    currentAgentSeller
+  } = useOrderDetail({ id, getAccountType })
 
-  const { data: sellerResponse, isLoading: isLoadingSellerInfo } =
-    useGetAppUserById(Number(detailResponse?.data.publication.iduser))
-  const { data: publicationResponse } =
-    useGetPublicationById(Number(detailResponse?.data.idpublication))
-
-  const [isReady, setIsReady] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [selected, setSelected] = useState('description')
-
-  const handleSelectionChange = (key: Key) => {
-    if (typeof key === 'string') {
-      setSelected(key)
-    }
-  }
-  const order = useMemo(() => {
-    if (detailResponse !== undefined) {
-      return detailResponse.data
-    } else {
-      return undefined
-    }
-  }, [detailResponse])
-
-  const buyerInfo = useMemo(() => {
-    if (buyerResponse !== undefined) {
-      return buyerResponse.data
-    }
-    return undefined
-  }, [buyerResponse])
-
-  const sellerInfo = useMemo(() => {
-    if (sellerResponse !== undefined) {
-      return sellerResponse.data
-    }
-    return undefined
-  }, [sellerResponse])
-
-  const typeBuyerAccount = useMemo(() => {
-    const typeAccount = getAccountType(
-      buyerInfo?.firebase_uid?.uid_reference ?? ''
-    )
-    return typeAccount
-  }, [buyerInfo])
-
-  const typeSellerAccount = useMemo(() => {
-    const typeAccount = getAccountType(
-      sellerInfo?.firebase_uid?.uid_reference ?? ''
-    )
-    return typeAccount
-  }, [sellerInfo])
-
-  const publication = useMemo(() => {
-    if (publicationResponse !== undefined) {
-      return publicationResponse.data
-    }
-    return undefined
-  }, [publicationResponse])
-
-  const handleReady = () => {
-    setIsReady(true)
-  }
-
-  const videoUrl = useMemo(() => {
-    if (order?.publication !== undefined) {
-      if (order?.publication.vehicle.video_galleries !== null) {
-        const videoGallery = order?.publication.vehicle.video_galleries?.files
-        const videoUrl = videoGallery[0].url
-        return videoUrl
-      }
-      return ''
-    } else {
-      return ''
-    }
-  }, [order?.publication])
-
-  const images = useMemo(() => {
-    if (order?.publication !== undefined) {
-      const images = order?.publication.vehicle.photo_galleries.files ?? []
-      const imagesMapped = images.map((item) => ({ original: item.url }))
-      return imagesMapped
-    } else {
-      return []
-    }
-  }, [order?.publication])
-
-  const giftImages = useMemo(() => {
-    if (order?.publication !== undefined) {
-      const gifts = order?.publication.vehicle.gift_galleries?.files ?? []
-      const giftsMapped = gifts.map((item) => ({ original: item.url }))
-      return giftsMapped
-    } else {
-      return []
-    }
-  }, [order?.publication])
-
-  useEffect(() => {
-    if (order?.publication !== undefined && videoUrl !== '' && isReady) {
-      setIsPlaying(true)
-    }
-  }, [videoUrl, order?.publication, isReady])
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -236,7 +179,7 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
                   <Tooltip content='Editar comprador' color='primary'>
                     <div
                       className='p-2 hover:bg-zinc-200 rounded-full h-fit hover:cursor-pointer'
-                      onClick={undefined}
+                      onClick={onEditBuyer}
                     >
                       <Edit className='w-4 h-4' />
                     </div>
@@ -262,7 +205,7 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
                   <Tooltip content='Editar vendedor' color='primary'>
                     <div
                       className='p-2 hover:bg-zinc-200 rounded-full h-fit hover:cursor-pointer'
-                      onClick={undefined}
+                      onClick={onEditSeller}
                     >
                       <Edit className='w-4 h-4' />
                     </div>
@@ -301,12 +244,25 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
                   <div className='w-full h-full items-center flex flex-col justify-center text-sm text-default-600 dark:text-white'>
                     <span>Agente no seleccionado</span>
                     <div className='w-fit mt-2'>
-                      <Button className=' h-6'> + Asignar Agente</Button>
+                      <Button className=' h-6' onClick={onOpen}>
+                        {' '}
+                        + Asignar Agente
+                      </Button>
                     </div>
                   </div>
                 )}
                 {order?.customsAgent !== null && (
-                  <CustomAgentCard agent={order?.customsAgent} />
+                  <div className=' flex flex-row justify-between w-full items-center'>
+                    <CustomAgentCard agent={order?.customsAgent} />
+                    <Tooltip content='Cambiar Agente' color='primary'>
+                      <div
+                        className='p-2 hover:bg-zinc-200 rounded-full h-fit hover:cursor-pointer'
+                        onClick={handleOpenEditAgentBuyer}
+                      >
+                        <Edit className='w-4 h-4' />
+                      </div>
+                    </Tooltip>
+                  </div>
                 )}
               </div>
             </div>
@@ -319,12 +275,25 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
                   <div className='w-full h-full items-center flex flex-col justify-center text-sm text-default-600 dark:text-white'>
                     <span>Agente no seleccionado</span>
                     <div className='w-fit mt-2'>
-                      <Button className=' h-6'> + Asignar Agente</Button>
+                      <Button className=' h-6' onClick={onOpenSeller}>
+                        {' '}
+                        + Asignar Agente
+                      </Button>
                     </div>
                   </div>
                 )}
                 {order?.customs_agent_port_origin !== null && (
-                  <CustomAgentCard agent={order?.customs_agent_port_origin} />
+                  <div className=' flex flex-row justify-between w-full'>
+                    <CustomAgentCard agent={order?.customs_agent_port_origin} />
+                    <Tooltip content='Cambiar agente' color='primary'>
+                      <div
+                        className='p-2 hover:bg-zinc-200 rounded-full h-fit hover:cursor-pointer'
+                        onClick={handleOpenEditAgentSeller}
+                      >
+                        <Edit className='w-4 h-4' />
+                      </div>
+                    </Tooltip>
+                  </div>
                 )}
               </div>
             </div>
@@ -392,7 +361,12 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
                   </span>
                 </div>
                 <div className='w-full p-3'>
-                  <div className='flex flex-row justify-between items-center hover:cursor-pointer hover:bg-zinc-100 rounded-lg'>
+                  <div
+                    className='flex flex-row justify-between items-center hover:cursor-pointer hover:bg-zinc-100 rounded-lg'
+                    onClick={
+                      order.active === null ? onOpenCancelModal : undefined
+                    }
+                  >
                     <span className='text-sm ml-5'>Cancelar orden</span>
                     <div className='p-2 flex justify-center items-center rounded-full border border-default-200'>
                       <ChevronRight className='w-3 h-3' />
@@ -435,6 +409,93 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
               handleSelectionChange={handleSelectionChange}
             />
           </div>
+          <CustomModal
+            titleModal={`${
+              isEditAgent ? 'Editar' : 'Asignar'
+            } Agente aduanero para el comprador`}
+            isOpen={isOpen}
+            onClose={handleCloseEditAgentBuyer}
+          >
+            <div>
+              <CustomAgentsAutocomplete
+                currentCustomAgent={currentAgentBuyer}
+                changeCustomAgent={handleChangeCustomAgentBuyer}
+                error=''
+              />
+              <div className='mb-3 mt-4'>
+                <GenericButton
+                  label={isEditAgent ? 'Actualizar agente' : 'Asignar agente'}
+                  onClick={handleUpdateBuyerAgent}
+                  isLoading={isPending}
+                  disabled={isPending}
+                />
+              </div>
+            </div>
+          </CustomModal>
+          <CustomModal
+            titleModal={'Asignar Agente aduanero para el vendedor'}
+            isOpen={isOpenSeller}
+            onClose={handleCloseEditAgentSeller}
+          >
+            <div>
+              <CustomAgentsAutocomplete
+                currentCustomAgent={currentAgentSeller}
+                changeCustomAgent={handleChangeCustomAgentSeller}
+                error=''
+              />
+              <div className='mb-3 mt-4'>
+                <GenericButton
+                  label={isEditAgent ? 'Actualizar agente' : 'Asignar agente'}
+                  onClick={handleUpdateSellerAgent}
+                  isLoading={isPending}
+                  disabled={isPending}
+                />
+              </div>
+            </div>
+          </CustomModal>
+          <CustomModal
+            titleModal={'Cancelar orden de venta'}
+            isOpen={isOpenCancelModal}
+            onClose={onCloseCancelModal}
+          >
+            <div>
+              <div>
+                <p>
+                  Escriba el motivo por la cual desea cancelar la orden de
+                  venta.
+                </p>
+                <CustomTextarea
+                  label={'Motivo'}
+                  name='reason'
+                  placeholder='Ingrese el motivo'
+                  error=''
+                  value={reason ?? ''}
+                  onChange={(e) => {
+                    setReason(e.target.value)
+                  }}
+                />
+              </div>
+              <div className='mb-3 mt-4 flex gap-3'>
+                <div className='md:w-1/2 w-full'>
+                  <GenericButton
+                    type='button'
+                    className='bg-red-700 text-white uppercase font-bold w-full dark:border dark:border-red-500'
+                    label={'Cancelar'}
+                    onClick={onCloseCancelModal}
+                    disabled={isPendingCancel}
+                  />
+                </div>
+                <div className='md:w-1/2 w-full'>
+                  <GenericButton
+                    label={isPendingCancel ? 'Cancelando orden' : 'Continuar'}
+                    onClick={onCancelOrder}
+                    isLoading={isPendingCancel}
+                    disabled={isPendingCancel}
+                  />
+                </div>
+              </div>
+            </div>
+          </CustomModal>
         </>
       )}
     </>
