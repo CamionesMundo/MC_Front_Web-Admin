@@ -5,6 +5,7 @@ import React from 'react'
 type CustomAgentCardProps = { agent: CustomAgentsResponse | null | undefined }
 
 const CustomAgentCard = ({ agent }: CustomAgentCardProps) => {
+  const fullName = `${agent?.name} ${agent?.surname}`
   return (
     <div className='w-full md:w-auto flex flew-row gap-2 items-center'>
       <div className='md:w-[50px] w-16 h-16 md:h-[50px] '>
@@ -16,7 +17,7 @@ const CustomAgentCard = ({ agent }: CustomAgentCardProps) => {
 
       <div className='flex flex-col'>
         <span className='dark:text-white text-sm'>
-          {agent?.company_name ?? 'Sin Registro'}
+          {fullName }
         </span>
         <span className='text-default-500 text-sm dark:text-white'>
           {agent?.email ?? 'Sin Registro'}
