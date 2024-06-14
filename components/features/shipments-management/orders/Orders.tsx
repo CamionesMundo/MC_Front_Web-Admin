@@ -138,9 +138,9 @@ const Orders = ({
     statusData
   ])
 
-  // const onViewOrderDetails = (id: number) => {
-  //   router.push(`/shipments-management/orders/details/id/${id}`)
-  // }
+  const onViewOrderDetails = (id: number) => {
+    router.push(`/shipments-management/orders/details/id/${id}`)
+  }
   useEffect(() => {
     if (selectedKey === '0') {
       setQueryParams({ idOrderStatus: undefined })
@@ -163,7 +163,7 @@ const Orders = ({
         emptyLabel={isLoading ? '' : 'No tienes ninguna venta registrada'}
         totalLabel='ventas'
         initialVisibleColumns={ordersFiltersColumns.map((column) => column.key)}
-        // onViewMore={onViewOrderDetails}
+        onViewMore={onViewOrderDetails}
         onDelete={() => {}}
         onEdit={() => {}}
         newButtonLabel='Crear Lote Subasta'
