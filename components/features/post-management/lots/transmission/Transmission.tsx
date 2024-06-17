@@ -70,7 +70,7 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
     isPendingStart,
     isLoadingDelete,
     isLoadingFinishedLot
-  } = useAuctionActions({ socket, refetch })
+  } = useAuctionActions({ socket, refetch, refetchStatusTransmission })
 
   const handleReady = () => {
     setIsReady(true)
@@ -146,6 +146,7 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                     playing={true}
                     width='100%'
                     height='100%'
+                    muted
                   />
                 )}
                 {!isOnline && (
