@@ -11,6 +11,18 @@ import { useDateFormatter } from '@react-aria/i18n'
 import { DateTime } from 'luxon'
 import React, { useCallback, useEffect, useState } from 'react'
 
+/**
+ * The `AsyncRangePicker` component provides a date range picker interface with asynchronous functionality.
+ *
+ * Props:
+ * @param {string} [label='Fecha: '] - Optional label for the date range picker.
+ *
+ * Behavior:
+ * - Initializes date range from query parameters if available.
+ * - Allows users to select a date range, updating query parameters accordingly.
+ * - Adjusts display based on responsive design for mobile and desktop.
+ * - Handles date formatting and conversion using Luxon and React Aria date formatting utilities.
+ */
 type AsyncRangePickerProps = {
   label?: string
 }

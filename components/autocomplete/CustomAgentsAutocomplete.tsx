@@ -9,22 +9,22 @@ import { useAsyncList } from '@react-stately/data'
 import React, { useState, type Key, useEffect } from 'react'
 
 /**
- * The `AdminsAutocomplete` component provides a user interface for selecting administrators
- * via an autocomplete field. This component fetches the list of administrators from the API
+ * The `CustomAgentsAutocomplete` component provides a user interface for selecting custom agents
+ * via an autocomplete field. This component fetches the list of custom agents from the API
  * and allows for dynamic selection by filtering based on user input.
  *
  * Props:
- * @param {CustomAgentsResponse | null | undefined} currentAdmin - The currently selected administrator, if any.
- * @param {(admin: CustomAgentsResponse | undefined) => void} changeAdmin - Callback function that is invoked when a new administrator is selected.
+ * @param {CustomAgentsResponse | null | undefined} currentCustomAgent - The currently selected custom agent, if any.
+ * @param {(admin: CustomAgentsResponse | undefined) => void} changeCustomAgent - Callback function that is invoked when a new custom agent is selected.
  * @param {string} [error] - Optional error message to display in the component in case of an error during the operation.
  *
  * Behavior:
- * - Utilizes `useAsyncList` to manage asynchronous loading and handling of the administrator list.
+ * - Utilizes `useAsyncList` to manage asynchronous loading and handling of the custom agents list.
  * - Filters available administrators based on user input.
- * - Allows for clear selection and display of a previously selected administrator.
+ * - Allows for clear selection and display of a previously selected custom agent.
  * - Displays appropriate error messages in case of errors during selection or data loading.
  *
- * This component is useful in forms where administrator selection is required.
+ * This component is useful in forms where custom agent selection is required.
  */
 type CustomAgentsAutocompleteProps = {
   currentCustomAgent: CustomAgentsResponse | null | undefined

@@ -3,6 +3,34 @@ import { cn } from '@/lib/clsx/clsx'
 import { Link } from '@nextui-org/react'
 import React from 'react'
 
+/**
+ * The `InfoCard` component displays an informational card with an optional link.
+ * This component is useful for showing brief pieces of information with an associated icon and optional link.
+ *
+ * Props:
+ * @param {string} content - The main text content of the info card.
+ * @param {string} [href] - Optional URL that the link will point to.
+ * @param {string} [link] - Optional text to display as a link. If provided, the link will be shown.
+ * @param {boolean} [noMargin=false] - If true, removes the default margin from the card.
+ *
+ * Behavior:
+ * - Displays an information icon on the left side of the card.
+ * - Shows the `content` text in a muted style.
+ * - If the `link` prop is provided, a clickable link is displayed below the `content` text.
+ * - The card has a default margin which can be removed by setting `noMargin` to true.
+ *
+ * Example usage:
+ * ```jsx
+ * <InfoCard
+ *   content="This is an important information message."
+ *   link="Read more"
+ *   href="https://example.com"
+ * />
+ * ```
+ *
+ * This component can be used to highlight important information or notices in your application.
+ */
+
 type Props = {
   content: string
   href?: string
