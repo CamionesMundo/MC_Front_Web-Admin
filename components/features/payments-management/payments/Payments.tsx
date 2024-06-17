@@ -232,6 +232,7 @@ const Payments = ({
       setQueryParams({ typeStatus: undefined })
     }
   }, [selectedKey, setQueryParams, queryParams])
+
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -307,15 +308,20 @@ const Payments = ({
               />
             </div>
           )}
-          {imageUrl === '' && (
+          {imageUrl === '' && currentOrder?.payment_method !== 'paypal' && (
             <div className='text-center text-default-500 mb-2'>
               <p>No tiene foto depósito/transferencia</p>
+            </div>
+          )}
+          {imageUrl === '' && currentOrder?.payment_method === 'paypal' && (
+            <div className='text-center text-default-500 mb-2'>
+              <p>Pago realizado con Paypal</p>
             </div>
           )}
           <div className='grid grid-cols-2 mt-3'>
             <div className='flex flex-col'>
               <span className='font-semibold'>#Orden</span>
-              <span className='text-sm'>#{currentOrder?.idpayment_order}</span>
+              <span className='text-sm'>#{currentOrder?.payment_id}</span>
             </div>
             <div className='flex flex-col'>
               <span className='font-semibold'>#Depósito</span>
