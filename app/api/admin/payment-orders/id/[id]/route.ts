@@ -11,7 +11,7 @@ import { type NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH (req: NextRequest) {
   const pathname = req.nextUrl.pathname
-  const id = pathname.split('/').pop() // id Address
+  const id = pathname.split('/').pop()
   const body = (await req.json()) as BodyPayments
   const { data } = body
   try {
