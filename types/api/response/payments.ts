@@ -14,6 +14,7 @@ export type PaymentsData = {
   confirmation_date: Date | null
   payment_status: boolean | null
   payment_amount: string | null
+  payment_method: string | null
   comment: null | string
   bank_reference: null | string
   createdAt: Date
