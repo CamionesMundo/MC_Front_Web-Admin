@@ -76,7 +76,13 @@ export const getAllAuctionsPublications = async ({
   }
 }
 
-export const getAllGeneralPublications = async ({ page, pageSize, startDate, endDate, query }: ParamsPostFilter) => {
+export const getAllGeneralPublications = async ({
+  page,
+  pageSize,
+  startDate,
+  endDate,
+  query
+}: ParamsPostFilter) => {
   const searchParams = new URLSearchParams()
 
   searchParams.set('page', page.toString())
@@ -91,9 +97,7 @@ export const getAllGeneralPublications = async ({ page, pageSize, startDate, end
   }
   const url = `${BASE_PUBLICATIONS_URL}?${searchParams.toString()}`
   try {
-    const res = await api.get<GenericResponse<PublicationFiltersResponse>>(
-      url
-    )
+    const res = await api.get<GenericResponse<PublicationFiltersResponse>>(url)
 
     const { data } = res
     return data
@@ -109,6 +113,23 @@ export const activeOrInactivePublication = async (
     const res = await api.patch<GenericResponse<GeneralPublicationResponse>>(
       `${BASE_PUBLICATIONS_URL}/id/${body.id}`,
       body
+    )
+
+    const { data } = res
+    return data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const activeOrInactiveAuction = async (
+  idAuction: number,
+  status: number
+) => {
+  try {
+    const res = await api.patch<GenericResponse<PublicationResponse>>(
+      `${BASE_PUBLICATIONS_URL}/auctions/id/${idAuction}/status/${status}`,
+      {}
     )
 
     const { data } = res

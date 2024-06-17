@@ -117,6 +117,10 @@ export const auctionsFiltersColumns = [
     display: 'Estado'
   },
   {
+    key: 'auction_active',
+    display: 'Activo'
+  },
+  {
     key: 'actions',
     display: 'Acciones'
   }
