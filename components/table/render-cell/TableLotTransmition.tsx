@@ -69,26 +69,25 @@ const TableLotTransmission = ({ row }: Props) => {
         <Button
           color='default'
           disabled
-          className='hover:cursor-not-allowed bg-gray-200 dark:bg-zinc-500'
+          className='hover:cursor-not-allowed bg-gray-200 dark:bg-zinc-500 w-full'
         >
           <span className='text-default-400 dark:text-default-200'>
-            Transmisión
+            Iniciar
           </span>
         </Button>
       )}
       {isEnabled && (
         <Button
           className={cn({
-            'hover:cursor-not-allowed bg-gray-200': isInactive
+            'hover:cursor-not-allowed bg-gray-200': isInactive,
+            'w-full': !isInactive
           })}
           color={isInactive ? 'default' : 'primary'}
           onClick={isInactive ? () => {} : handleClick}
           isLoading={isPending}
           disabled={isInactive}
         >
-          <span className={isInactive ? 'text-default-400' : ''}>
-            Transmisión
-          </span>
+          <span className={isInactive ? 'text-default-400' : ''}>Iniciar</span>
         </Button>
       )}
     </div>
