@@ -1,5 +1,6 @@
 import AsyncRangePicker from '@/components/inputs/AsyncRangePicker'
 import SearchBar from '@/components/inputs/SearchBar'
+import ModalStatus from '@/components/modal/ModalStatus'
 import CustomPageSize from '@/components/selects/CustomPageSize'
 import FilterButtonSelection, {
   type OptionsFilterProps
@@ -7,10 +8,13 @@ import FilterButtonSelection, {
 import CustomTable from '@/components/table/CustomTable'
 import { BackComponent } from '@/components/ui/BackComponent'
 import { auctionsFiltersColumns } from '@/const/columns/post'
+import { useActiveStatusPublication } from '@/hooks/api/usePublications'
 import useQueryParams from '@/hooks/useQueryParams'
+import { showToast } from '@/hooks/useToast'
 import { ClearFilter } from '@/icons'
-import { type AuctionFilterDataType } from '@/types/api/response/publication'
-import { Button, type Selection } from '@nextui-org/react'
+import { type GenericResponse } from '@/types/api'
+import { type GeneralPublicationResponse, type AuctionFilterDataType } from '@/types/api/response/publication'
+import { Button, useDisclosure, type Selection } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import React, {
   type ReactNode,
@@ -80,11 +84,22 @@ const Auctions = ({
   totalRows
 }: AuctionsProps) => {
   const { queryParams, setQueryParams } = useQueryParams()
+  const {
+    isOpen: isOpenModalStatus,
+    onOpen: onOpenModalStatus,
+    onClose: onCloseModalStatus
+  } = useDisclosure()
+  const {
+    mutateAsync: activeOrInactive,
+    isPending: isLoadingActiveOrInactive
+  } = useActiveStatusPublication(true)
   const router = useRouter()
   const [selectedStatus, setSelectedStatus] = useState<Selection>(
     new Set(['0'])
   )
-
+  const [currentPostSelected, setCurrentPostSelected] = useState<
+  AuctionFilterDataType | undefined
+  >(undefined)
   const [selectedType, setSelectedType] = useState<Selection>(new Set(['0']))
   const [selectedKey, setSelectedKey] = useState<string>('0')
   const [selectedTypeKey, setSelectedTypeKey] = useState<string>('0')
@@ -222,6 +237,44 @@ const Auctions = ({
     }
   }, [selectedTypeKey, setQueryParams])
 
+  const onClickSwitch = (row: AuctionFilterDataType) => {
+    setCurrentPostSelected(row)
+    onOpenModalStatus()
+  }
+
+  const isActive = useMemo(() => {
+    if (currentPostSelected !== undefined) {
+      return currentPostSelected.active ?? false
+    }
+    return false
+  }, [currentPostSelected])
+
+  const handleChangeSwitch = async () => {
+    await handleActiveOrInactivePublication()
+    onCloseModalStatus()
+  }
+  const handleActiveOrInactivePublication = async () => {
+    if (currentPostSelected !== undefined) {
+      await activeOrInactive(
+        {
+          id: currentPostSelected?.idpublication ?? 0,
+          active: !isActive
+        },
+        {
+          onSuccess: (
+            data: GenericResponse<GeneralPublicationResponse> | undefined
+          ) => {
+            if (data?.error !== undefined) {
+              showToast(data.message, 'error')
+            } else {
+              showToast(data?.message ?? '', 'success')
+            }
+          }
+        }
+      )
+    }
+  }
+
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -240,13 +293,14 @@ const Auctions = ({
         totalLabel='subastas'
         initialVisibleColumns={auctionsFiltersColumns
           .map((column) => column.key)
-          .filter((key) => key !== 'auction_description')}
+          .filter((key) => key !== 'auction_description' && key !== 'lot_code_auction')}
         onViewMore={onViewAuctionDetails}
         onDelete={() => {}}
         onEdit={() => {}}
         newButtonLabel='Crear Lote Subasta'
         actionOnAdd={onCreateLot}
         usePage={false}
+        onChangeActiveStatusRow={onClickSwitch}
         isLoading={isLoading}
         actions={{
           useViewMore: true,
@@ -267,6 +321,31 @@ const Auctions = ({
         customPageSize={<CustomPageSize />}
         filterContent={filterAuctionButtons}
         useFilterInNewRow={true}
+      />
+      <ModalStatus
+        isOpen={isOpenModalStatus}
+        onClose={onCloseModalStatus}
+        isLoading={isLoadingActiveOrInactive}
+        action={async () => {
+          await handleChangeSwitch()
+        }}
+        actionLabel={isActive ? 'Desactivar' : 'Activar'}
+        title={isActive ? 'Desactivar Subasta' : 'Activar Subasta'}
+        description={
+          <p className='text-black/80 dark:text-white text-sm'>
+            {`Estas a un paso de ${
+              isActive ? 'desactivar' : 'activar'
+            } la subasta con código`}
+            <span className='font-bold text-blackText dark:text-white'>{` ${currentPostSelected?.publication_code}`}</span>
+            {'. Si estas seguro que deseas hacerlo, presiona en el botón'}
+            <span
+              className={`font-bold ${
+                isActive ? 'text-red-700' : 'text-green-700'
+              }`}
+            >{` ${isActive ? 'DESACTIVAR' : 'ACTIVAR'}`}</span>
+            {' para continuar'}
+          </p>
+        }
       />
     </>
   )
