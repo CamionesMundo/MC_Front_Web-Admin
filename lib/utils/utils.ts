@@ -229,6 +229,15 @@ export function formatFullDate (dateString: string | null | undefined): string {
   return `${formattedDate.slice(0, -4)} ${formattedDate.slice(-4)}`
 }
 
+/**
+ * The function `isSameDate` compares the current date with a given date string to determine if they
+ * are the same date.
+ * @param {string} dateString - The `isSameDate` function you provided compares the current date with a
+ * date passed as a string (`dateString`) to determine if they are the same date. The function converts
+ * the `dateString` to a `Date` object and then compares the year, month, and date components of the
+ * @returns The function `isSameDate` is returning a boolean value indicating whether the current date
+ * is the same as the date parsed from the `dateString` parameter.
+ */
 export function isSameDate (dateString: string) {
   const currentDate = new Date()
 
@@ -241,6 +250,15 @@ export function isSameDate (dateString: string) {
   return isSame
 }
 
+/**
+ * The `formatPrice` function in TypeScript formats a number as a currency in USD with two decimal
+ * places.
+ * @param {number} number - The `number` parameter in the `formatPrice` function is the numerical value
+ * that you want to format as a currency. This function takes a number as input and returns a formatted
+ * string representing that number in USD currency format with two decimal places.
+ * @returns The `formatPrice` function returns a formatted string representing the input number as a
+ * currency value in USD with two decimal places.
+ */
 export function formatPrice (number: number): string {
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -251,6 +269,13 @@ export function formatPrice (number: number): string {
   return formattedPrice
 }
 
+/**
+ * The function calculates the number of weeks between a given date and the current date.
+ * @param {string} date - The `calculateWeeksOfAntiquity` function takes a date string as input and
+ * calculates the number of weeks between that date and the current date.
+ * @returns The function `calculateWeeksOfAntiquity` returns the number of weeks between the current
+ * date and the given date provided as a parameter.
+ */
 export function calculateWeeksOfAntiquity (date: string): number {
   const currentDate = new Date()
   const givenDate = new Date(date)
@@ -266,6 +291,14 @@ export function calculateWeeksOfAntiquity (date: string): number {
   return weeksOfAntiquity
 }
 
+/**
+ * The function `convertISOToLocalAndFormat` takes an ISO 8601 string, converts it to local time, and
+ * formats the local time as 'HH:mm'.
+ * @param {string} isoString - The `convertISOToLocalAndFormat` function takes an ISO 8601 string as
+ * input and converts it to the local time, then formats the local time as 'HH:mm'.
+ * @returns The function `convertISOToLocalAndFormat` returns a formatted local time string in the
+ * format 'HH:mm'.
+ */
 export function convertISOToLocalAndFormat (isoString: string) {
   // Create a Date object from the ISO 8601 string
 
@@ -287,6 +320,18 @@ export function convertISOToLocalAndFormat (isoString: string) {
   return formattedTime
 }
 
+/**
+ * The function `getCheckListStatus` takes a `CheckListStatus` parameter and returns a corresponding
+ * string value based on the status.
+ * @param {CheckListStatus | undefined} status - The `getCheckListStatus` function takes a parameter
+ * `status` of type `CheckListStatus` or `undefined`. It checks the value of `status` and returns a
+ * corresponding string based on the value. If `status` is `undefined` or `null`, it returns
+ * `NO_REGISTER
+ * @returns The function `getCheckListStatus` returns the corresponding string value based on the input
+ * `status` parameter. If the `status` is `undefined` or `null`, it returns `NO_REGISTER`. If the
+ * `status` is `CheckListStatus.NoApplicable`, it returns `'No aplicable'`. If the `status` is
+ * `CheckListStatus.Good`, it returns `'B
+ */
 export function getCheckListStatus (status: CheckListStatus | undefined) {
   if (status === undefined || status === null) {
     return NO_REGISTER
@@ -306,6 +351,17 @@ export function getCheckListStatus (status: CheckListStatus | undefined) {
   return status
 }
 
+/**
+ * The function `getStatusAuctionLot` returns the status of a publication auction lot based on the
+ * provided data.
+ * @param {PublicationAuction | undefined} data - The `getStatusAuctionLot` function takes a parameter
+ * `data` of type `PublicationAuction` or `undefined`. It checks the status of the auction lot based on
+ * the `type_status` property in the `data` object.
+ * @returns The function `getStatusAuctionLot` returns the status of a publication auction lot based on
+ * the provided data. If the data is undefined, it returns 'Sin estado' (which means 'No status' in
+ * Spanish). Otherwise, it checks the type of status from the data and returns a corresponding status
+ * message such as 'Activo' (Active), 'En progreso' (In progress), '
+ */
 export function getStatusAuctionLot (data: PublicationAuction | undefined) {
   if (data === undefined) return 'Sin estado'
   const status = data.type_status.type_name
@@ -334,6 +390,15 @@ export function getStatusAuctionLot (data: PublicationAuction | undefined) {
   return 'Sin estado'
 }
 
+/**
+ * The function `convertDateIsoFormat` takes a date string in the format "YYYY-MM-DD" and converts it
+ * to "DD-MM-YYYY".
+ * @param {string} dateStr - The `convertDateIsoFormat` function takes a date string in the format
+ * "YYYY-MM-DD" and converts it to "DD-MM-YYYY" format. If the input date string is empty, the function
+ * returns `undefined`.
+ * @returns The function `convertDateIsoFormat` returns the input date string in a new format where the
+ * year, month, and day are rearranged in the format `YYYY-MM-DD`.
+ */
 export function convertDateIsoFormat (dateStr: string) {
   if (dateStr === '') return undefined
 

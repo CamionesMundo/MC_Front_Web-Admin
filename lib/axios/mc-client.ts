@@ -65,8 +65,9 @@ const mcApi = async () => {
       await mcInstance.patch<T>(url, body, config),
     /**
      * Sends a DELETE request to the specified URL.
-     * @param url The URL to send the request to.
-     * @param config Optional configuration for the request.
+     * @param url The URL to send the DELETE request to.
+     * @param body Optional data to be sent in the request body.
+     * @param config Optional Axios request configuration.
      * @returns A promise resolving to the response data of type T.
      */
     delete: async <T>(
