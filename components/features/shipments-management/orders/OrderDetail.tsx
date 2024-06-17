@@ -10,15 +10,8 @@ import {
   Message
 } from '@/icons'
 import { AccountType, AuctionType, PublicationType } from '@/types/enums'
-import {
-  Button,
-  Divider,
-  Spacer,
-  Tooltip
-} from '@nextui-org/react'
-import {
-  type ReactNode
-} from 'react'
+import { Button, Divider, Spacer, Tooltip } from '@nextui-org/react'
+import { type ReactNode, useMemo } from 'react'
 import ProfileCard from '../../users-management/clients/ProfileCard'
 import { type OrderDetailResponse } from '@/types/api/response/orders'
 import { Loader } from '@/components/ui/Loader'
@@ -142,9 +135,19 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
     onCancelOrder,
     onOpenSeller,
     currentAgentBuyer,
-    currentAgentSeller
+    currentAgentSeller,
+    finished
   } = useOrderDetail({ id, getAccountType })
 
+  const isDisabled = useMemo(() => {
+    if (finished?.status === true) {
+      return true
+    }
+    if (order?.active !== null) {
+      return true
+    }
+    return false
+  }, [finished, order])
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -362,10 +365,12 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
                 </div>
                 <div className='w-full p-3'>
                   <div
-                    className='flex flex-row justify-between items-center hover:cursor-pointer hover:bg-zinc-100 rounded-lg'
-                    onClick={
-                      order.active === null ? onOpenCancelModal : undefined
-                    }
+                    className={`flex flex-row justify-between items-center ${
+                      isDisabled
+                        ? 'hover:cursor-not-allowed'
+                        : 'hover:cursor-pointer'
+                    } hover:bg-zinc-100 rounded-lg`}
+                    onClick={isDisabled ? undefined : onOpenCancelModal}
                   >
                     <span className='text-sm ml-5'>Cancelar orden</span>
                     <div className='p-2 flex justify-center items-center rounded-full border border-default-200'>

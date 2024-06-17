@@ -426,35 +426,35 @@ const OrderStatus = ({ history }: OrderStatusProps) => {
       <div className='flex flex-col'>
         <ItemStatus
           title='Orden realizada'
-          description='La orden ha sido recibida con éxito.'
+          description='La orden de pago ha sido enviada al comprador.'
           isFirst
           isCompleted={orderPlaced?.status}
         />
         <ItemStatus
           title='Emisión del pago de reserva'
-          description='Deberás emitir el pago del 30%'
+          description='El comprador debe pagar el 30% del monto del vehículo'
           isCompleted={reservationPayment?.status}
         />
         <ItemStatus
           title='El vendedor enviará el vehículo'
-          description='El vehículo debe ser enviado al puerto acordado.'
+          description='El vehículo debe enviar el vehículo al puerto o dirección de destino.'
           isCompleted={vehicleShipment?.status}
           footerComponent={footerVehicleShipment}
         />
         <ItemStatus
-          title='Recepción e inspección en puerto'
+          title='Recepción e inspección del vehículo'
           isCompleted={receptionAtPort?.status}
           description='El agente aduanero inspeccionará el vehículo y notificará al comprador'
           footerComponent={footerReceptionAtPort}
         />
         <ItemStatus
           title='Emisión del pago pendiente'
-          description='Deberás emitir el pago pendiente del 70% restante.'
+          description='Eel comprador de pagar el 70% del monto restante del vehículo'
           isCompleted={pendingPayment?.status}
         />
         <ItemStatus
-          title='Coordinación de la entrega del vehículo.'
-          description='Coordinarás con mundocamiones.com la recepción del vehículo.'
+          title='El comprador recibe el vehículo.'
+          description='El comprador confirma que ya recibió el vehículo'
           isCompleted={vehicleDelivery?.status}
           footerComponent={footerVehicleDelivery}
           isLast={finished?.status === false}
@@ -462,7 +462,7 @@ const OrderStatus = ({ history }: OrderStatusProps) => {
         {finished?.status === true && (
           <ItemStatus
             title='Proceso completado.'
-            description='Proceso completado.'
+            description='Proceso de venta completado.'
             isCompleted={finished?.status}
             isLast
           />
