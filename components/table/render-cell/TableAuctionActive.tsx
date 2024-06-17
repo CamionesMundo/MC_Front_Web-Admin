@@ -1,5 +1,5 @@
 import { type AuctionFilterDataType } from '@/types/api/response/publication'
-import { AuctionType } from '@/types/enums'
+import { AuctionType, TypeAuctionStatus } from '@/types/enums'
 import { Switch, Tooltip } from '@nextui-org/react'
 import { useState } from 'react'
 
@@ -19,19 +19,36 @@ const TableAuctionActive = ({ row, onChangeStatusRow }: Props) => {
       onChangeStatusRow(data)
     }
   }
+  const isDisabled = data.auction.type_status.type_name === TypeAuctionStatus.Pending
   return (
     <>
       {isDetermined && (
-        <Tooltip content='Activar/Desactivar' color='foreground'>
-          <div className='flex justify-center'>
-            <Switch
-              size='sm'
-              isSelected={isSelected}
-              onValueChange={handleChangeSwitch}
-              color='primary'
-            />
-          </div>
-        </Tooltip>
+        <>
+          {isDisabled && (
+            <div className='flex justify-center hover:cursor-not-allowed'>
+              <Switch
+                size='sm'
+                isSelected={isSelected}
+                disabled
+                classNames={{
+                  wrapper: '!bg-zinc-300 hover:cursor-not-allowed'
+                }}
+              />
+            </div>
+          )}
+          {!isDisabled && (
+            <Tooltip content='Activar/Desactivar' color='foreground'>
+              <div className='flex justify-center'>
+                <Switch
+                  size='sm'
+                  isSelected={isSelected}
+                  onValueChange={handleChangeSwitch}
+                  color='primary'
+                />
+              </div>
+            </Tooltip>
+          )}
+        </>
       )}
       {!isDetermined && (
         <div className='flex justify-center hover:cursor-not-allowed'>
