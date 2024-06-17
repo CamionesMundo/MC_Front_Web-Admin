@@ -1,5 +1,21 @@
 import { Button, Pagination } from '@nextui-org/react'
-import React from 'react'
+
+/**
+ * The `CustomPagination` component provides a user interface for pagination controls, including page selection and navigation buttons.
+ *
+ * Props:
+ * @param {number} page - The current page number.
+ * @param {number} totalPages - The total number of pages available.
+ * @param {boolean} isLoading - Boolean indicating whether data is currently being loaded.
+ * @param {(page: number) => void} onChangePage - Callback function invoked when the page number is changed.
+ * @param {() => void} onPreviousPage - Callback function invoked when the "Previous" button is pressed.
+ * @param {() => void} onNextPage - Callback function invoked when the "Next" button is pressed.
+ *
+ * Behavior:
+ * - Displays pagination controls including page numbers and navigation buttons.
+ * - Allows users to navigate between pages.
+ * - Disables controls while data is loading or if there is only one page.
+ */
 
 type CustomPaginationProps = {
   page: number

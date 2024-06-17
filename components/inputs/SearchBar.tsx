@@ -3,6 +3,20 @@ import { Search } from '@/icons'
 import { Input } from '@nextui-org/react'
 import React, { useCallback, useEffect, useState } from 'react'
 
+/**
+ * The `SearchBar` component provides a user interface for searching with an input field.
+ *
+ * Props:
+ * @param {string} [searchBarPlaceholder='Buscar por'] - Optional placeholder text for the search input.
+ * @param {string} [styles='w-full sm:max-w-[44%]'] - Optional custom styles for the search input.
+ *
+ * Behavior:
+ * - Initializes the search input value from query parameters if available.
+ * - Allows users to input search terms, updating query parameters accordingly.
+ * - Supports clearing the search input, resetting the query parameter.
+ * - Adjusts the display of the search input with custom styles and placeholder.
+ */
+
 type SearchingProps = {
   searchBarPlaceholder?: string
   styles?: string

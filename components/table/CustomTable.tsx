@@ -61,14 +61,18 @@ import {
   TableOrderStatus,
   TableOrderPrice,
   TablePaymentMethod,
-  TablePaymentAmount
+  TablePaymentAmount,
+  TableAuctionActive
 } from './render-cell'
 import TableRole from './render-cell/TableRole'
 import { type WithId } from '@/types/api/response/auth'
 import { TableAuctionDescription } from './render-cell/TableAuctionDescription'
 import { type PaymentsDataType } from '@/types/api/response/payments'
 import { type ClientDataType } from '@/types/api/response/user'
-import { type GeneralPublicationDataType } from '@/types/api/response/publication'
+import {
+  type AuctionFilterDataType,
+  type GeneralPublicationDataType
+} from '@/types/api/response/publication'
 
 /**
  * The `CustomTable` component is a reusable table component with various customization options
@@ -90,6 +94,10 @@ import { type GeneralPublicationDataType } from '@/types/api/response/publicatio
  * @param {(id: number) => void} [onViewMore] - The function to handle "View More" action.
  * @param {(id: number) => void} [onEdit] - The function to handle "Edit" action.
  * @param {(id: number) => void} [onDelete] - The function to handle "Delete" action.
+ * @param {() => void} [onChangeStatusRow] - The function to handle row status change.
+ * @param {() => void} [onChangePublicationStatus] - The function to handle publication status change.
+ * @param {() => void} [onConfirmPayment] - The function to handle payment confirmation.
+ * @param {((row: PaymentsDataType) => void) | undefined} [onDetailPayment] - The function to handle payment details.
  * @param {boolean} [useRounded=true] - Indicates whether rounded corners should be used in table wrapper.
  * @param {boolean} [useSearchBar=true] - Indicates whether to display the search bar.
  * @param {string} [searchBarPlaceholder='Buscar'] - The placeholder text for the search bar.
@@ -102,6 +110,19 @@ import { type GeneralPublicationDataType } from '@/types/api/response/publicatio
  * @param {boolean} [showBottomContent=true] - Indicates whether to display the bottom content section.
  * @param {ReactNode} [filterContent] - The content to display alongside the search bar.
  * @param {ActionsPermissions} [actions] - The permissions for table actions such as view more, edit, and delete.
+ * @param {boolean} [useMultipleSelection=false] - Indicates whether to enable multiple selection of rows.
+ * @param {boolean} [useCustomPagination=false] - Indicates whether to use custom pagination.
+ * @param {ReactNode} [customPagination] - Custom pagination component.
+ * @param {number} [totalRows=0] - Total number of rows in the data set.
+ * @param {T[]} [totalData] - The complete data set.
+ * @param {boolean} [useSelection=false] - Indicates whether to enable row selection.
+ * @param {boolean} [useScroll=false] - Indicates whether to enable scrollable table.
+ * @param {boolean} [usePage=true] - Indicates whether to enable pagination.
+ * @param {ReactNode} [customSearchBar] - Custom search bar component.
+ * @param {boolean} [useCustomSearchBar=false] - Indicates whether to use custom search bar.
+ * @param {boolean} [useCustomPageSize=false] - Indicates whether to use custom page size selector.
+ * @param {ReactNode} [customPageSize] - Custom page size selector component.
+ * @param {boolean} [useFilterInNewRow=false] - Indicates whether to display filter content in a new row.
  *
  * The `CustomTable` component renders a table with customizable features such as sorting, pagination,
  * search, column visibility, and action buttons. It utilizes various components from NextUI and custom
@@ -124,6 +145,7 @@ type CustomTableProps<T extends WithId> = {
   onEdit?: (id: number) => void
   onDelete?: (id: number) => void
   onChangeStatusRow?: (row: ClientDataType) => void
+  onChangeActiveStatusRow?: (row: AuctionFilterDataType) => void
   onChangePublicationStatus?: (row: GeneralPublicationDataType) => void
   onConfirmPayment?: (row: PaymentsDataType) => void
   onDetailPayment?: ((row: PaymentsDataType) => void) | undefined
@@ -171,6 +193,7 @@ const CustomTable = <T extends WithId>({
   onConfirmPayment,
   onDetailPayment,
   onChangeStatusRow,
+  onChangeActiveStatusRow,
   onChangePublicationStatus,
   useRounded = true,
   useSearchBar = true,
@@ -280,134 +303,97 @@ const CustomTable = <T extends WithId>({
     setPage(1)
   }, [handleSearch])
 
-  /**
-   * Renders a cell in the table based on column key.
-   */
   const renderCell = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (row: any, columnKey: any, index: number) => {
       const cellValue = row[columnKey]
-      switch (columnKey) {
-        case 'name_role':
-          return <TableRole row={row} />
-        case 'user':
-          return <TableUser row={row} />
-        case 'updatedAt':
-        case 'transmission_date':
-        case 'order_date':
-          return <TableIsoDate row={row} />
-        case 'createdAt':
-          return <TableCreationDate row={row} />
-        case 'status':
-          return (
-            <TableIsActive row={row} onChangeStatusRow={onChangeStatusRow} />
-          )
-        case 'user_client':
-          return <TableUserClient row={row} />
-        case 'full_name':
-          return <TableFullName row={row} />
-        case 'country_name':
-          return <TableCountry row={row} />
-        case 'user_type':
-          return <TableUserType row={row} />
-        case 'city-country':
-          return (
-            <TableCountryCity
-              row={row.idlot_queue !== undefined ? row.publication : row}
-            />
-          )
-        case 'port':
-          return <TablePort row={row} />
-        case 'type_lot':
-          return <TableTypeLot />
-        case 'lot_user':
-          return <TableLotUser row={row} />
-        case 'lot_status':
-          return <TableLotStatus row={row} />
-        case 'lot_transmission':
-          return <TableLotTransmission row={row} />
-        case 'auction_title':
-          return (
-            <TableAuctionTitle
-              row={row.idlot_queue !== undefined ? row.publication : row}
-            />
-          )
-        case 'base_price':
-          return (
-            <TableBasePrice
-              row={row.idlot_queue !== undefined ? row.publication : row}
-            />
-          )
-        case 'creation_auction':
-          return <TableCreationAuction row={row} />
-        case 'auction_status':
-          return <TableAuctionStatus row={row} />
-        case 'position':
-          return <TablePosition row={row} index={index} />
-        case 'auction_description':
-        case 'publication_description':
-          return <TableAuctionDescription row={row} />
-        case 'payment_status':
-          return <TablePaymentStatus row={row} />
-        case 'typePayment':
-          return <TablePaymentType row={row} />
-        case 'confirmation_date':
-          return <TableConfirmationDate row={row} />
-        case 'payment_date':
-          return <TablePaymentDate row={row} />
-        case 'payment_method':
-          return <TablePaymentMethod row={row} />
-        case 'payment_amount':
-          return <TablePaymentAmount row={row} />
-        case 'confirmation_user':
-          return <TableConfirmationUser row={row} />
-        case 'auction_type':
-          return <TableAuctionType row={row} />
-        case 'lot_code_auction':
-          return <TableLotCode row={row} />
-        case 'auction_end_date':
-          return <TableAuctionEndDate row={row} />
-        case 'type_publication':
-          return <TableTypePublication row={row} />
-        case 'publication_status':
-          return (
-            <TablePublicationStatus
-              row={row}
-              onChangePublicationStatus={onChangePublicationStatus}
-            />
-          )
-        case 'promotion':
-          return <TablePromotion row={row} />
-        case 'order_title':
-          return <TableOrderTitle row={row} />
-        case 'origin':
-          return <TableOrderOrigin row={row} />
-        case 'order_country':
-          return <TableOrderCountry row={row} />
-        case 'order_status':
-          return <TableOrderStatus row={row} />
-        case 'order_price':
-          return <TableOrderPrice row={row} />
-        case 'actions':
-          return (
-            <TableActions
-              onViewMore={onViewMore}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onConfirmPayment={onConfirmPayment}
-              onDetailPayment={onDetailPayment}
-              id={row.id}
-              actions={actions}
-              row={row}
-            />
-          )
-        default:
-          return (
-            <div className='flex justify-center dark:text-white'>
-              {cellValue}
-            </div>
-          )
+
+      const renderers: Record<string, ReactNode> = {
+        name_role: <TableRole row={row} />,
+        user: <TableUser row={row} />,
+        updatedAt: <TableIsoDate row={row} />,
+        transmission_date: <TableIsoDate row={row} />,
+        order_date: <TableIsoDate row={row} />,
+        createdAt: <TableCreationDate row={row} />,
+        status: (
+          <TableIsActive row={row} onChangeStatusRow={onChangeStatusRow} />
+        ),
+        user_client: <TableUserClient row={row} />,
+        full_name: <TableFullName row={row} />,
+        country_name: <TableCountry row={row} />,
+        user_type: <TableUserType row={row} />,
+        'city-country': (
+          <TableCountryCity
+            row={row.idlot_queue !== undefined ? row.publication : row}
+          />
+        ),
+        port: <TablePort row={row} />,
+        type_lot: <TableTypeLot />,
+        lot_user: <TableLotUser row={row} />,
+        lot_status: <TableLotStatus row={row} />,
+        lot_transmission: <TableLotTransmission row={row} />,
+        auction_title: (
+          <TableAuctionTitle
+            row={row.idlot_queue !== undefined ? row.publication : row}
+          />
+        ),
+        auction_active: (
+          <TableAuctionActive
+            row={row}
+            onChangeStatusRow={onChangeActiveStatusRow}
+          />
+        ),
+        base_price: (
+          <TableBasePrice
+            row={row.idlot_queue !== undefined ? row.publication : row}
+          />
+        ),
+        creation_auction: <TableCreationAuction row={row} />,
+        auction_status: <TableAuctionStatus row={row} />,
+        position: <TablePosition row={row} index={index} />,
+        auction_description: <TableAuctionDescription row={row} />,
+        publication_description: <TableAuctionDescription row={row} />,
+        payment_status: <TablePaymentStatus row={row} />,
+        typePayment: <TablePaymentType row={row} />,
+        confirmation_date: <TableConfirmationDate row={row} />,
+        payment_date: <TablePaymentDate row={row} />,
+        payment_method: <TablePaymentMethod row={row} />,
+        payment_amount: <TablePaymentAmount row={row} />,
+        confirmation_user: <TableConfirmationUser row={row} />,
+        auction_type: <TableAuctionType row={row} />,
+        lot_code_auction: <TableLotCode row={row} />,
+        auction_end_date: <TableAuctionEndDate row={row} />,
+        type_publication: <TableTypePublication row={row} />,
+        publication_status: (
+          <TablePublicationStatus
+            row={row}
+            onChangePublicationStatus={onChangePublicationStatus}
+          />
+        ),
+        promotion: <TablePromotion row={row} />,
+        order_title: <TableOrderTitle row={row} />,
+        origin: <TableOrderOrigin row={row} />,
+        order_country: <TableOrderCountry row={row} />,
+        order_status: <TableOrderStatus row={row} />,
+        order_price: <TableOrderPrice row={row} />,
+        actions: (
+          <TableActions
+            onViewMore={onViewMore}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onConfirmPayment={onConfirmPayment}
+            onDetailPayment={onDetailPayment}
+            id={row.id}
+            actions={actions}
+            row={row}
+          />
+        ),
+        default: (
+          <div className='flex justify-center dark:text-white'>{cellValue}</div>
+        )
       }
+
+      return renderers[columnKey] ?? renderers.default
     },
     [
       onEdit,
@@ -417,7 +403,8 @@ const CustomTable = <T extends WithId>({
       onConfirmPayment,
       onDetailPayment,
       onChangeStatusRow,
-      onChangePublicationStatus
+      onChangePublicationStatus,
+      onChangeActiveStatusRow
     ]
   )
 
