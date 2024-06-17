@@ -5,10 +5,16 @@ const useQueryParams = <T>() => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+
+  /* The `useMemo` hook in the provided code snippet is used to memoize the creation of a new
+  `URLSearchParams` object based on the `searchParams` value. */
   const urlSearchParams = useMemo(() => {
     return new URLSearchParams(searchParams?.toString())
   }, [searchParams])
 
+  /* The `setQueryParams` function is a callback function that takes an object of type `Partial<T>` as
+  its parameter. It iterates over the key-value pairs of the input object using
+  `Object.entries(params).forEach(([key, value]) => { ... }`. */
   const setQueryParams = useCallback(
     (params: Partial<T>) => {
       Object.entries(params).forEach(([key, value]) => {

@@ -8,6 +8,8 @@ const useSocket = () => {
 
   const [socket, setSocket] = useState<Socket | null>(null)
 
+  /* This `useEffect` hook is responsible for setting up and managing the WebSocket connection using
+  Socket.IO. Here's a breakdown of what it does: */
   useEffect(() => {
     if (session === undefined) return
     const customHeaders = {

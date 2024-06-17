@@ -1,4 +1,5 @@
 import {
+  activeOrInactiveAuction,
   activeOrInactivePublication,
   getAllAuctionsPublications,
   getAllGeneralPublications,
@@ -74,7 +75,7 @@ export const useGetAllGeneralPublications = ({
   })
 }
 
-export const useActiveStatusPublication = () => {
+export const useActiveStatusPublication = (isAuction: boolean = false) => {
   const queryClient = useQueryClient()
   const router = useRouter()
   return useMutation({
@@ -86,6 +87,35 @@ export const useActiveStatusPublication = () => {
       try {
         await queryClient.invalidateQueries({
           queryKey: ['publications-general']
+        })
+        if (isAuction) {
+          await queryClient.invalidateQueries({
+            queryKey: ['publications-auctions']
+          })
+        }
+        router.refresh()
+      } catch (error) {
+        console.error('Error al invalidar las queries:', error)
+      }
+    },
+    onError: (data: Error) => {
+      showToast(data.message, 'error')
+    }
+  })
+}
+
+export const useActiveStatusAuction = () => {
+  const queryClient = useQueryClient()
+  const router = useRouter()
+  return useMutation({
+    mutationKey: ['update-status-auction'],
+    mutationFn: async ({ id, status }: { id: number, status: number }) => {
+      return await activeOrInactiveAuction(id, status)
+    },
+    onSuccess: async () => {
+      try {
+        await queryClient.invalidateQueries({
+          queryKey: ['publications-auctions']
         })
         router.refresh()
       } catch (error) {

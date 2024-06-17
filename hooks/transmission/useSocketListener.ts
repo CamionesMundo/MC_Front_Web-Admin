@@ -43,6 +43,11 @@ export const useSocketListeners = ({ refetch }: Props) => {
     updateHasWinner
   } = useLiveTransmissionStore()
 
+  /* This `useEffect` hook is responsible for emitting a socket event called 'auctionTimerUpdate' under
+  certain conditions. It checks if the `socket` is not null, `initCountdown` is true, `count` is
+  greater than or equal to 0, and `emitToastFinished` is false. If all these conditions are met, it
+  creates an object `data` of type `DataToEmit` with the auction ID and the current count of
+  seconds. Then, it emits this data object to the socket with the event name 'auctionTimerUpdate'. */
   useEffect(() => {
     if (
       socket !== null &&
@@ -64,6 +69,10 @@ export const useSocketListeners = ({ refetch }: Props) => {
     emitToastFinished
   ])
 
+  /* This `useEffect` hook is setting up a listener for the 'bidPlaced' event on the `socket`
+  connection. It checks if the `socket` is not `undefined` and if the auction status is
+  'InProgress'. If these conditions are met, it defines a function `handleBidPlaced` that will be
+  called when the 'bidPlaced' event is received. */
   useEffect(() => {
     if (socket !== undefined && publication?.auction.type_status.type_name === TypeAuctionStatus.InProgress) {
       const handleBidPlaced = async (args: BidSocket) => {
@@ -93,6 +102,8 @@ export const useSocketListeners = ({ refetch }: Props) => {
     publication
   ])
 
+  /* This `useEffect` hook is responsible for handling the logic related to the end of an auction.
+  Here's a breakdown of what it does: */
   useEffect(() => {
     const handleAuctionEnd = () => {
       if (initCountdown && count === 0 && !emitToastFinished) {

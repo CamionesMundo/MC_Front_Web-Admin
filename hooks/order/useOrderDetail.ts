@@ -18,6 +18,7 @@ import {
 } from 'react'
 import { showToast } from '../useToast'
 import { type RequestDeleteOrder } from '@/types/api/request/order'
+import { OrderStatusType } from '@/types/enums'
 
 type Props = {
   id: string
@@ -64,12 +65,20 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
   const [isEditAgent, setIsEditAgent] = useState(false)
   const [reason, setReason] = useState<string | null>(null)
 
+  /* The `handleChangeCustomAgentBuyer` function is a callback function created using the `useCallback`
+  hook in React. It takes a parameter `customAgent` of type `CustomAgentsResponse` or `undefined`.
+  When this function is called, it sets the state of `currentAgentBuyer` using the
+  `setCurrentAgentBuyer` function with the value of the `customAgent` parameter passed to it. */
   const handleChangeCustomAgentBuyer = useCallback(
     (customAgent: CustomAgentsResponse | undefined) => {
       setCurrentAgentBuyer(customAgent)
     },
     []
   )
+
+  /* The `handleChangeCustomAgentSeller` constant is a callback function created using the
+  `useCallback` hook in React. This function takes a parameter `customAgent` of type
+  `CustomAgentsResponse` or `undefined`. */
   const handleChangeCustomAgentSeller = useCallback(
     (customAgent: CustomAgentsResponse | undefined) => {
       setCurrentAgentSeller(customAgent)
@@ -77,11 +86,17 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     []
   )
 
+  /* The `handleSelectionChange` function takes a parameter `key` of type `Key`. Inside the function,
+  it first checks if the `key` is of type `string` using the `typeof` operator. If the `key` is
+  indeed a string, it then calls the `setSelected` function with the `key` parameter passed to it.
+  This function is essentially updating the `selected` state with the value of the `key` only if
+  the `key` is a string. */
   const handleSelectionChange = (key: Key) => {
     if (typeof key === 'string') {
       setSelected(key)
     }
   }
+
   const order = useMemo(() => {
     if (detailResponse !== undefined) {
       return detailResponse.data
@@ -194,26 +209,47 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     isEditAgent
   ])
 
+  /**
+   * The function `handleOpenEditAgentBuyer` sets a state variable to true and then calls another
+   * function.
+   */
   const handleOpenEditAgentBuyer = () => {
     setIsEditAgent(true)
     onOpen()
   }
+
+  /**
+   * The function `handleOpenEditAgentSeller` sets a state variable to true and then calls another
+   * function.
+   */
   const handleOpenEditAgentSeller = () => {
     setIsEditAgent(true)
     onOpenSeller()
   }
 
+  /**
+   * The function handleCloseEditAgentBuyer closes the edit mode, resets the state for editing agent
+   * buyer, and clears the current agent buyer data.
+   */
   const handleCloseEditAgentBuyer = () => {
     onClose()
     setIsEditAgent(false)
     setCurrentAgentBuyer(undefined)
   }
+
+  /**
+   * The function handleCloseEditAgentSeller closes the edit mode for an agent seller and resets the
+   * current agent seller.
+   */
   const handleCloseEditAgentSeller = () => {
     onCloseSeller()
     setIsEditAgent(false)
     setCurrentAgentSeller(undefined)
   }
 
+  /* This `handleUpdateBuyerAgent` function is a callback function created using the `useCallback` hook
+  in React. It is responsible for updating the buyer's agent in an order. Here's a breakdown of what
+  it does: */
   const handleUpdateBuyerAgent = useCallback(async () => {
     if (currentAgentBuyer === undefined) {
       showToast('Debe seleccionar un agente aduanero', 'warning')
@@ -238,6 +274,9 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     })
   }, [currentAgentBuyer, updateOrder, id, onClose])
 
+  /* The `handleUpdateSellerAgent` function is a callback function that is created using the
+  `useCallback` hook in React. This function is responsible for updating the seller's agent in an
+  order. Here's a breakdown of what it does: */
   const handleUpdateSellerAgent = useCallback(async () => {
     if (currentAgentSeller === undefined) {
       showToast('Debe seleccionar un agente aduanero', 'warning')
@@ -262,6 +301,8 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     })
   }, [currentAgentSeller, updateOrder, id, onCloseSeller])
 
+  /* The above code is a TypeScript function using the `useCallback` hook. It is defining a function
+  `onCancelOrder` that is used to cancel an order. */
   const onCancelOrder = useCallback(async () => {
     if (reason === null) {
       showToast(
@@ -296,6 +337,14 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
       }
     })
   }, [id, reason, cancelOrder, onCloseCancelModal])
+
+  const finished = useMemo(() => {
+    const filtered = order?.history.find(
+      (item) => item.idorder_status === OrderStatusType.Finished
+    )
+    return filtered
+  }, [order])
+
   return {
     isReady,
     isLoading,
@@ -340,7 +389,8 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     onCancelOrder,
     onOpenSeller,
     currentAgentBuyer,
-    currentAgentSeller
+    currentAgentSeller,
+    finished
   }
 }
 

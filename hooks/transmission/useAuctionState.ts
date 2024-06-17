@@ -20,6 +20,8 @@ export const useAuctionState = () => {
     updateEmitToastFinished
   } = useLiveTransmissionStore()
 
+  /* This `useEffect` hook is responsible for updating the auction state based on the parameters
+  received from the API response. Here's a breakdown of what it does: */
   useEffect(() => {
     if (responseParameters !== undefined && !initCountdown) {
       const data = responseParameters.data?.find(
@@ -38,6 +40,8 @@ export const useAuctionState = () => {
     updatePercentPeerSecond
   ])
 
+  /* This `useEffect` hook is responsible for managing the countdown timer during the auction. Here's a
+  breakdown of what it does: */
   useEffect(() => {
     if (totalCount === 0 && isAuctionFinished) return
     let timer: NodeJS.Timeout
@@ -54,6 +58,8 @@ export const useAuctionState = () => {
     }
   }, [initCountdown, totalCount, decrementCount, isAuctionFinished])
 
+  /* This `useEffect` hook is responsible for updating the count and seconds percent when a new
+  `currentBid` is received. Here's a breakdown of what it does: */
   useEffect(() => {
     if (currentBid !== undefined) {
       updateCount(totalCount)
@@ -61,6 +67,9 @@ export const useAuctionState = () => {
     }
   }, [currentBid, totalCount, updateCount, updateSecondsPercent])
 
+  /* This `useEffect` hook is responsible for updating the state to emit a toast notification when the
+  auction is finished. It runs whenever the `isAuctionFinished` state changes or the
+  `updateEmitToastFinished` function reference changes. */
   useEffect(() => {
     if (isAuctionFinished) {
       updateEmitToastFinished(true)

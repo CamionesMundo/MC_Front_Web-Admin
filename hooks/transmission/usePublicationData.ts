@@ -18,11 +18,20 @@ export const usePublicationData = () => {
 
   const [selected, setSelected] = useState('description')
 
+  /**
+   * The function `handleSelectionChange` takes a key as input and sets it as the selected value if it
+   * is a string.
+   * @param {Key} key - The `key` parameter in the `handleSelectionChange` function is of type `Key`.
+   * It is used to determine the selected item and update the state accordingly.
+   */
   const handleSelectionChange = (key: Key) => {
     if (typeof key === 'string') {
       setSelected(key)
     }
   }
+
+  /* The `useEffect` hook in the provided code snippet is responsible for updating the state based on
+  the response data received from the API call. Here's a breakdown of what the `useEffect` is doing: */
   useEffect(() => {
     if (response !== undefined) {
       const publication = response.data

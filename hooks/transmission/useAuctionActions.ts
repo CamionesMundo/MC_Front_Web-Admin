@@ -17,7 +17,10 @@ import {
 } from '@tanstack/react-query'
 import { type GenericResponse } from '@/types/api'
 import { type PublicationResponse } from '@/types/api/response/publication'
-import { type LotQueueResponse } from '@/types/api/response/lots'
+import {
+  type TransmissionStatusLot,
+  type LotQueueResponse
+} from '@/types/api/response/lots'
 import { LOTS_LIST_ROUTE } from '@/const/routes'
 
 type Props = {
@@ -27,9 +30,21 @@ type Props = {
   ) => Promise<
   QueryObserverResult<GenericResponse<PublicationResponse> | undefined, Error>
   >
+  refetchStatusTransmission: (
+    options?: RefetchOptions | undefined
+  ) => Promise<
+  QueryObserverResult<
+  GenericResponse<TransmissionStatusLot> | undefined,
+  Error
+  >
+  >
 }
 
-export const useAuctionActions = ({ socket, refetch }: Props) => {
+export const useAuctionActions = ({
+  socket,
+  refetch,
+  refetchStatusTransmission
+}: Props) => {
   const router = useRouter()
   const {
     isLast,
@@ -77,6 +92,9 @@ export const useAuctionActions = ({ socket, refetch }: Props) => {
     status === TypeAuctionStatus.Awarded ||
     isLoadingNextButton
 
+  /* The `handleInitAuction` function is a callback function that is created using the `useCallback`
+  hook in React. This function is responsible for initiating an auction process. Here is a breakdown
+  of what it does: */
   const handleInitAuction = useCallback(async () => {
     if (disabledInitAuctionButton) {
       showToast('La subasta ha finalizado', 'warning')
@@ -103,6 +121,9 @@ export const useAuctionActions = ({ socket, refetch }: Props) => {
     updateInitCountDown
   ])
 
+  /* The `handleNextAuction` function is a callback function created using the `useCallback` hook in
+  React. This function is responsible for handling the logic when moving to the next auction lot.
+  Here is a breakdown of what it does: */
   const handleNextAuction = useCallback(async () => {
     if (
       status !== TypeAuctionStatus.NoBidder &&
@@ -114,7 +135,9 @@ export const useAuctionActions = ({ socket, refetch }: Props) => {
 
     updateIsLoadingNextButton(true)
     await goToNextLot(nextLotId ?? 0, {
-      onSuccess: (data: GenericResponse<LotQueueResponse> | undefined) => {
+      onSuccess: async (
+        data: GenericResponse<LotQueueResponse> | undefined
+      ) => {
         if (data?.error !== undefined) {
           showToast(data.error, 'error')
           return
@@ -124,6 +147,7 @@ export const useAuctionActions = ({ socket, refetch }: Props) => {
         updateCount(totalCount)
         updateSecondsPercent(100)
         updateInitCountDown(false)
+        await refetchStatusTransmission()
       },
       onError: (data: Error) => {
         showToast(data.message, 'error')
@@ -167,9 +191,13 @@ export const useAuctionActions = ({ socket, refetch }: Props) => {
     updateInitCountDown,
     updateIsLoadingNextButton,
     updateSecondsPercent,
-    updateIsAuctionFinished
+    updateIsAuctionFinished,
+    refetchStatusTransmission
   ])
 
+  /* The `handleUnlinkAuction` function is a callback function that is created using the `useCallback`
+  hook in React. This function is responsible for handling the logic when unlinking a lot from the
+  current auction queue. Here is a breakdown of what it does: */
   const handleUnlinkAuction = useCallback(async () => {
     await unlinkLotQueue(currentIdQueue ?? 0, {
       onSuccess: async (data) => {
@@ -212,6 +240,9 @@ export const useAuctionActions = ({ socket, refetch }: Props) => {
     updateSecondsPercent
   ])
 
+  /* The `handleFinishedLot` function is a callback function created using the `useCallback` hook in
+  React. This function is responsible for handling the logic when finishing a lot in the auction
+  process. Here is a breakdown of what it does: */
   const handleFinishedLot = useCallback(async () => {
     await changeStatusLot(currentIdLot, {
       onSuccess: (data) => {

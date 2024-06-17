@@ -88,6 +88,12 @@ const useLotsActions = ({
   } = useLotFormStore()
   const router = useRouter()
 
+  /**
+   * The onCreateLot function is an asynchronous function that creates a lot based on the provided data
+   * and handles success and error cases accordingly.
+   * @param {BodyLotForm} data - The `data` parameter in the `onCreateLot` function is of type
+   * `BodyLotForm`. It is the data that will be used to create a new lot.
+   */
   const onCreateLot = async (data: BodyLotForm) => {
     await createLot(data, {
       onSuccess: (data: GenericResponse<LotResponse> | undefined) => {
@@ -107,6 +113,14 @@ const useLotsActions = ({
     })
   }
 
+  /**
+   * The onUpdateLot function updates a lot with the provided data and handles success and error cases
+   * accordingly.
+   * @param {BodyLotForm} data - The `data` parameter in the `onUpdateLot` function is of type
+   * `BodyLotForm`, which likely contains information related to a lot or item that needs to be
+   * updated. This data will be used to create a new object of type `BodyUpdateLotForm` with an
+   * additional `id
+   */
   const onUpdateLot = async (data: BodyLotForm) => {
     const body: BodyUpdateLotForm = {
       id: Number(id),
@@ -132,6 +146,10 @@ const useLotsActions = ({
     })
   }
 
+  /**
+   * The `onDelete` function handles deleting a selected item and updating a lot with the remaining
+   * selected publications.
+   */
   const onDelete = async () => {
     deleteItemSelected(undefined)
 
@@ -176,6 +194,8 @@ const useLotsActions = ({
     })
   }
 
+  /* The above code is a TypeScript function using the `useCallback` hook. It is a function named
+  `deleteItemSelected` that takes an `id` parameter of type `number` or `undefined`. */
   const deleteItemSelected = useCallback(
     (id: number | undefined) => {
       const idToCompare = isEditing ? currentToDelete : id
@@ -218,6 +238,9 @@ const useLotsActions = ({
     ]
   )
 
+  /* The above code is a TypeScript function named `handleSelectionOnEdit` that is using the
+  `useCallback` hook. This function is responsible for handling the selection of rows in a table
+  component. Here is a breakdown of what the code is doing: */
   const handleSelectionOnEdit = useCallback(
     (keys: Selection) => {
       setSelectedKeys(keys)
@@ -321,6 +344,9 @@ const useLotsActions = ({
     ]
   )
 
+  /* The above code snippet is a TypeScript function named `handleSelection` that takes a parameter
+  `keys` of type `Selection`. The function updates the selected keys using the `setSelectedKeys`
+  function. It then initializes an empty array `selectedRowsData` to store the selected rows data. */
   const handleSelection = useCallback(
     (keys: Selection) => {
       setSelectedKeys(keys)
@@ -357,6 +383,13 @@ const useLotsActions = ({
     [filteredItems, totalData, updateSelectedRows, setSelectedKeys]
   )
 
+  /**
+   * The `handleSubmit` function validates form data and either updates or creates a lot based on the
+   * input.
+   * @returns If any of the conditions in the `handleSubmit` function are met (transmissionDate is
+   * empty, currentActionner is undefined, or selectedRows is empty), an error object is set with a
+   * specific message, a warning toast is shown, and the function returns without further execution.
+   */
   const handleSubmit = async () => {
     setErrors(null)
     if (transmissionDate === '') {
