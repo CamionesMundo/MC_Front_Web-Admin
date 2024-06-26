@@ -160,6 +160,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
       idrole_admin: Number(role),
       photo_idgallery: null
     }
+
     try {
       if (isEditing) {
         const body: BodyUpdateAdminForm = {
@@ -172,6 +173,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
           id: Number(adminId),
           body
         }
+
         await updateAdmin(requestBody, {
           onSuccess: (data: GenericResponse<UserResponse> | undefined) => {
             if (data?.error !== undefined) {
@@ -181,6 +183,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
               router.push(ADMIN_LIST_ROUTE)
               router.refresh()
             }
+            reset()
           },
           onError: (data: Error) => {
             showToast(data.message, 'error')
@@ -195,6 +198,7 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
             }
             showToast(data.message, 'success')
             router.push(ADMIN_LIST_ROUTE)
+            reset()
           },
           onError: (data: Error) => {
             showToast(data.message, 'error')
