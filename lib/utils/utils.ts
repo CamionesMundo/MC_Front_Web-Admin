@@ -408,3 +408,19 @@ export function convertDateIsoFormat (dateStr: string) {
 
   return newFormat
 }
+
+export function formatTimestamp (timestamp: string | undefined) {
+  if (timestamp === undefined) return undefined
+
+  const date = new Date(Number(timestamp))
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true
+  }
+  const formattedDate = new Intl.DateTimeFormat('es-ES', options).format(date)
+  return formattedDate
+}
