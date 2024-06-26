@@ -131,6 +131,12 @@ enum OrderStatusType {
   Finished = 9
 }
 
+enum ChatMemberType {
+  appUser = 'appUser',
+  admin = 'admin',
+  publication = 'publication',
+  customsMember = 'customsMember'
+}
 export {
   UserType,
   Sex,
@@ -146,5 +152,6 @@ export {
   LotTransmissionStatus,
   AuctionType,
   PublicationType,
-  OrderStatusType
+  OrderStatusType,
+  ChatMemberType
 }
