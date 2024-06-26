@@ -43,12 +43,12 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
   } = useDisclosure()
   const { data: detailResponse, isLoading } = useGetOrderById(Number(id))
   const { data: buyerResponse, isLoading: isLoadingBuyerInfo } =
-    useGetAppUserById(Number(detailResponse?.data.iduser_buyer))
+    useGetAppUserById(Number(detailResponse?.data?.iduser_buyer))
 
   const { data: sellerResponse, isLoading: isLoadingSellerInfo } =
-    useGetAppUserById(Number(detailResponse?.data.publication.iduser))
+    useGetAppUserById(Number(detailResponse?.data?.publication.iduser))
   const { data: publicationResponse } = useGetPublicationById(
-    Number(detailResponse?.data.idpublication)
+    Number(detailResponse?.data?.idpublication)
   )
 
   const [currentAgentBuyer, setCurrentAgentBuyer] = useState<
@@ -144,6 +144,10 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     setIsReady(true)
   }
 
+  const chatCode = useMemo(() => {
+    const code = `chat${publication?.publication_code}`
+    return code
+  }, [publication])
   const onEditBuyer = () => {
     router.push(`/users-management/clients/edit/id/${buyerInfo?.iduser}`)
   }
@@ -193,8 +197,8 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
 
   useEffect(() => {
     if (detailResponse !== undefined || isEditAgent) {
-      const agent = detailResponse?.data.customsAgent
-      const sellerAgent = detailResponse?.data.customs_agent_port_origin
+      const agent = detailResponse?.data?.customsAgent
+      const sellerAgent = detailResponse?.data?.customs_agent_port_origin
       if (agent !== undefined && agent !== null) {
         handleChangeCustomAgentBuyer(agent)
       }
@@ -345,6 +349,16 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     return filtered
   }, [order])
 
+  const canSendMessage = useMemo(() => {
+    const sellerId = sellerInfo?.iduser
+    const buyerId = buyerInfo?.iduser
+    const buyerAgent = currentAgentBuyer?.iduser_admin ?? -1
+    const sellerAgent = currentAgentSeller?.iduser_admin ?? -1
+
+    const excludedPersons = [sellerId, buyerId, buyerAgent, sellerAgent]
+    return excludedPersons
+  }, [buyerInfo, sellerInfo, currentAgentBuyer, currentAgentSeller])
+
   return {
     isReady,
     isLoading,
@@ -390,7 +404,9 @@ const useOrderDetail = ({ id, getAccountType }: Props) => {
     onOpenSeller,
     currentAgentBuyer,
     currentAgentSeller,
-    finished
+    finished,
+    chatCode,
+    canSendMessage
   }
 }
 
