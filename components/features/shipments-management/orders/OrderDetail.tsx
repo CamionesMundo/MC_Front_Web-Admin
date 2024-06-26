@@ -9,9 +9,13 @@ import {
   Location,
   Message
 } from '@/icons'
-import { AccountType, AuctionType, PublicationType } from '@/types/enums'
+import {
+  AccountType,
+  AuctionType,
+  PublicationType
+} from '@/types/enums'
 import { Button, Divider, Spacer, Tooltip } from '@nextui-org/react'
-import { type ReactNode, useMemo } from 'react'
+import { type ReactNode, useMemo, useState } from 'react'
 import ProfileCard from '../../users-management/clients/ProfileCard'
 import { type OrderDetailResponse } from '@/types/api/response/orders'
 import { Loader } from '@/components/ui/Loader'
@@ -29,6 +33,7 @@ import CustomAgentsAutocomplete from '@/components/autocomplete/CustomAgentsAuto
 import { GenericButton } from '@/components'
 import CustomTextarea from '@/components/textarea/CustomTextarea'
 import useOrderDetail from '@/hooks/order/useOrderDetail'
+import Chat from './Chat'
 
 type OrderDetailProps = {
   id: string
@@ -74,7 +79,7 @@ const getAccountType = (accountType: string): ReactNode => {
 
 const getTypeOrigin = (data: OrderDetailResponse | undefined) => {
   if (data === undefined) return ''
-  const type = data.publication?.type_publication
+  const type = data?.publication?.type_publication
 
   if (type === PublicationType.PostVehicle) {
     return 'Publicación'
@@ -93,6 +98,7 @@ const getTypeOrigin = (data: OrderDetailResponse | undefined) => {
 
   return 'Tipo no registrado'
 }
+
 const OrderDetail = ({ id }: OrderDetailProps) => {
   const {
     isLoading,
@@ -136,8 +142,16 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
     onOpenSeller,
     currentAgentBuyer,
     currentAgentSeller,
-    finished
+    finished,
+    chatCode,
+    canSendMessage
   } = useOrderDetail({ id, getAccountType })
+
+  const [showChat, setShowChat] = useState(false)
+
+  const handleShowChat = (value: boolean) => {
+    setShowChat(value)
+  }
 
   const isDisabled = useMemo(() => {
     if (finished?.status === true) {
@@ -148,6 +162,7 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
     }
     return false
   }, [finished, order])
+
   return (
     <>
       <div className='w-full flex justify-start mb-2'>
@@ -313,6 +328,9 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
                 </div>
                 <div className='h-full flex flex-row items-center text-blackText dark:text-white gap-1'>
                   <Button
+                    onClick={() => {
+                      handleShowChat(true)
+                    }}
                     className=' bg-cyan-700 font-semibold text-white'
                     startContent={<Message className='w-4 h-4 ' />}
                   >
@@ -403,7 +421,7 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
               <InfoCard content='En los siguientes "Tabs" podrás ver la descripción y características que han sido creadas por el propietario del vehículo, así como el detalle del regalo.' />
             </div>
             <div className='flex flex-col gap-4 order-1 md:order-2'>
-              <OrderStatus history={order.history} />
+              <OrderStatus history={order?.history} />
             </div>
           </div>
           <div className='mt-4 md:mt-0'>
@@ -501,6 +519,17 @@ const OrderDetail = ({ id }: OrderDetailProps) => {
               </div>
             </div>
           </CustomModal>
+          <Chat
+            buyerInfo={buyerInfo}
+            sellerInfo={sellerInfo}
+            chatCode={chatCode}
+            publication={publication}
+            showChat={showChat}
+            canSendMessage={canSendMessage}
+            currentAgentBuyer={currentAgentBuyer}
+            currentAgentSeller={currentAgentSeller}
+            handleShowChat={handleShowChat}
+          />
         </>
       )}
     </>
