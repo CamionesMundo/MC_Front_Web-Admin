@@ -437,7 +437,7 @@ const OrderStatus = ({ history }: OrderStatusProps) => {
         />
         <ItemStatus
           title='El vendedor enviará el vehículo'
-          description='El vehículo debe enviar el vehículo al puerto o dirección de destino.'
+          description='El vendedor debe enviar el vehículo al puerto o dirección de destino.'
           isCompleted={vehicleShipment?.status}
           footerComponent={footerVehicleShipment}
         />
@@ -449,7 +449,7 @@ const OrderStatus = ({ history }: OrderStatusProps) => {
         />
         <ItemStatus
           title='Emisión del pago pendiente'
-          description='Eel comprador de pagar el 70% del monto restante del vehículo'
+          description='El comprador de pagar el 70% del monto restante del vehículo'
           isCompleted={pendingPayment?.status}
         />
         <ItemStatus
