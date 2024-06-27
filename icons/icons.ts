@@ -66,6 +66,8 @@ import { ReactComponent as Info } from './src/Info.svg'
 import { ReactComponent as FileUp } from './src/FileUp.svg'
 import { ReactComponent as SendHorizontal } from './src/SendHorizontal.svg'
 import { ReactComponent as NoMessage } from './src/NoMessage.svg'
+import { ReactComponent as Video } from './src/Video.svg'
+import { ReactComponent as Gallery } from './src/Gallery.svg'
 
 export {
   Visible,
@@ -135,5 +137,7 @@ export {
   Info,
   FileUp,
   SendHorizontal,
-  NoMessage
+  NoMessage,
+  Video,
+  Gallery
 }
