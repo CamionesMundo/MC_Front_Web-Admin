@@ -9,10 +9,30 @@ import { useFilter } from '@react-aria/i18n'
 import { useAsyncList } from '@react-stately/data'
 import React, { useState, type Key, useEffect } from 'react'
 
+/**
+ * The `AdminsAutocomplete` component provides a user interface for selecting administrators
+ * via an autocomplete field. This component fetches the list of administrators from the API
+ * and allows for dynamic selection by filtering based on user input.
+ *
+ * Props:
+ * @param {UserResponse | null | undefined} currentAdmin - The currently selected administrator, if any.
+ * @param {(admin: UserResponse | undefined) => void} changeAdmin - Callback function that is invoked when a new administrator is selected.
+ * @param {string} [error] - Optional error message to display in the component in case of an error during the operation.
+ *
+ * Behavior:
+ * - Utilizes `useAsyncList` to manage asynchronous loading and handling of the administrator list.
+ * - Filters available administrators based on user input.
+ * - Allows for clear selection and display of a previously selected administrator.
+ * - Displays appropriate error messages in case of errors during selection or data loading.
+ *
+ * This component is useful in forms where administrator selection is required.
+ */
 type AdminsAutocompleteProps = {
   currentAdmin: UserResponse | null | undefined
   changeAdmin: (admin: UserResponse | undefined) => void
   error?: string
+  useMartillero?: boolean
+  labelAutocomplete?: string | undefined
 }
 type FieldState = {
   selectedKey: Key | null
@@ -23,7 +43,9 @@ type FieldState = {
 const AdminsAutocomplete = ({
   currentAdmin: admin,
   changeAdmin,
-  error
+  error,
+  useMartillero = false,
+  labelAutocomplete = 'Administrador'
 }: AdminsAutocompleteProps) => {
   const [fieldState, setFieldState] = useState<FieldState>({
     selectedKey: '',
@@ -39,7 +61,14 @@ const AdminsAutocomplete = ({
           BASE_ADMIN_URL,
           { signal }
         )
-        return { items: response.data.data }
+        if (useMartillero) {
+          const filtered = response.data.data.filter(
+            (admin) => admin.role.idrole_admin === 3
+          )
+          return { items: filtered }
+        } else {
+          return { items: response.data.data }
+        }
       } catch (error) {
         console.log('Error fetching admin users:', error)
         throw error
@@ -120,12 +149,10 @@ const AdminsAutocomplete = ({
       })
     }
   }, [list.items, admin])
-
+  console.log(error)
   return (
     <div
-      className={`flex flex-col justify-center mb-4 ${
-        error !== '' ? 'mt-8' : 'mt-4'
-      }`}
+    className={`flex flex-col justify-center ${error !== '' ? 'mt-4' : 'mt-4'}`}
     >
       <Autocomplete
         inputValue={fieldState.inputValue}
@@ -149,12 +176,14 @@ const AdminsAutocomplete = ({
           }
         }}
         color={error !== '' ? 'danger' : 'primary'}
-        label={'Administrador'}
+        label={labelAutocomplete}
         placeholder='Seleccione'
         radius='sm'
         variant='faded'
         isLoading={list.isLoading}
         startContent={<Search className='w-4 h-4 dark:text-white' />}
+        errorMessage={error !== '' && `(*) ${error}`}
+        isInvalid={error !== ''}
       >
         {(item) => {
           return (
@@ -182,9 +211,6 @@ const AdminsAutocomplete = ({
           )
         }}
       </Autocomplete>
-      {error !== '' && (
-        <span className='text-danger text-xs italic'>{`(*) Error: ${error}`}</span>
-      )}
     </div>
   )
 }

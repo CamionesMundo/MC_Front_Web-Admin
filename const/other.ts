@@ -22,6 +22,7 @@ const COUNTRY_MESSAGE = 'País no válido'
 const PORT_MESSAGE = 'Puerto no válido'
 const CITY_MESSAGE = 'Ciudad no válida'
 const MAX_LENGTH_IDENTITY_DOCUMENT_MESSAGE = 'Máximo 15 caracteres'
+const NO_REGISTER = 'No registrado'
 
 export {
   MINUTE,
@@ -43,5 +44,6 @@ export {
   PORT_MESSAGE,
   CITY_MESSAGE,
   MAX_LENGTH_IDENTITY_DOCUMENT,
-  MAX_LENGTH_IDENTITY_DOCUMENT_MESSAGE
+  MAX_LENGTH_IDENTITY_DOCUMENT_MESSAGE,
+  NO_REGISTER
 }

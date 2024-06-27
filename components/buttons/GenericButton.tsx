@@ -32,7 +32,7 @@ const GenericButton = ({
   ...props
 }: Props) => {
   return (
-    <div>
+    <div className='w-full md:w-auto'>
       <Button
         className={cn('uppercase font-bold w-full', {
           ' bg-secondary text-blackText': isSecondary,

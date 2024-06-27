@@ -19,7 +19,7 @@ const MobileAside = () => {
               <Close className='w-5 h-5' />
             </div>
           </div>
-          <div className='p-2 h-screen'>
+          <div className='p-2 h-screen pb-6'>
             <Sidebar />
           </div>
         </div>

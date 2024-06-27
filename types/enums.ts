@@ -44,7 +44,8 @@ enum AppParametersType {
   CustomAgentDescription = 12,
   TimeOfMarginForPayment = 13,
   SupportContactNumber = 14,
-  DefaultAdmin = 15
+  DefaultAdmin = 15,
+  TimeBetweenBids = 16
 }
 
 enum ModulesType {
@@ -72,6 +73,64 @@ enum ModulesType {
   AccountConfiguration = 'account_configuration'
 }
 
+enum LotStatus {
+  Active = 'active',
+  InProgress = 'progress',
+  Finished = 'finished'
+}
+
+enum PaymentType {
+  CreditCard = 'Credit Card',
+  BankDeposit = 'Deposito bancario'
+}
+
+export enum TypeAuctionStatus {
+  Active = 'active',
+  InProgress = 'in progress',
+  Pending = 'pending',
+  Awarded = 'awarded',
+  NoBidder = 'no bidder',
+  UnderReview = 'under review'
+}
+
+enum CheckListStatus {
+  NoApplicable = 'no_applicable',
+  Good = 'good',
+  Regular = 'regular',
+  Bad = 'bad'
+}
+
+enum BidStatus {
+  Winner = 'winner',
+  Penalized = 'penalized'
+}
+
+enum LotTransmissionStatus {
+  Offline = 'OFFLINE',
+  Online = 'LIVE'
+}
+
+enum AuctionType {
+  Determined = 14,
+  Auctioneer = 13
+}
+
+enum PublicationType {
+  PostVehicle = 6,
+  Rent = 7,
+  Auction = 8
+}
+
+enum OrderStatusType {
+  OrderPlaced = 3,
+  ReservationPayment = 8,
+  VehicleShipment = 4,
+  ReceptionAtPort = 5,
+  PendingPayment = 6,
+  VehicleDelivery = 7,
+  Finished = 9
+}
+
 export {
   UserType,
   Sex,
@@ -79,5 +138,13 @@ export {
   LanguagePreference,
   AddressType,
   AppParametersType,
-  ModulesType
+  ModulesType,
+  LotStatus,
+  PaymentType,
+  CheckListStatus,
+  BidStatus,
+  LotTransmissionStatus,
+  AuctionType,
+  PublicationType,
+  OrderStatusType
 }

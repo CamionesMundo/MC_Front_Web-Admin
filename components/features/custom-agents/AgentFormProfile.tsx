@@ -36,7 +36,6 @@ const AgentFormProfile = ({
     updateFilesCertificates
   } = useCustomAgentFormStore()
 
-  console.log(idGallery)
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       const newImagesBase64: FilesSelected[] = []

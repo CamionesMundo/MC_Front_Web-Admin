@@ -19,7 +19,7 @@ export const useUpdateParameter = () => {
     mutationFn: async (body: BodyParameters) => {
       return await updateParameter(body)
     },
-    onSuccess: async (response) => {
+    onSuccess: async () => {
       try {
         await queryClient.invalidateQueries({ queryKey: ['parameters'] })
 

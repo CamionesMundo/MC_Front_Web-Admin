@@ -1,4 +1,5 @@
 import { showToast } from '@/hooks/useToast'
+import { capitalize } from '@/lib/utils/utils'
 import { AxiosError } from 'axios'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
@@ -71,9 +72,7 @@ export const handleValidationFormErrors = (
   }
 }
 
-export const handleValidationErrors = (
-  err: unknown
-): string | undefined => {
+export const handleValidationErrors = (err: unknown): string | undefined => {
   if (err instanceof ZodError) {
     const errorMessage = err.errors[0]?.message
     return errorMessage
@@ -97,5 +96,37 @@ export const handleClientError = (statusCode: number) => {
   }
   if (statusCode === 500) {
     showToast('Error en el servidor', 'error')
+  }
+}
+
+interface TransportError extends Error {
+  description?: Event
+  context?: unknown
+  type?: string
+}
+
+export function handleSocketError (error: unknown) {
+  console.error('Socket error:', error)
+  console.log(error)
+
+  if (error instanceof Error) {
+    let message = error.message
+
+    if ((error as TransportError).type === 'TransportError') {
+      const transportError = error as TransportError
+      const eventDescription = transportError.description
+
+      if (eventDescription !== undefined) {
+        const ws = eventDescription.currentTarget as WebSocket
+
+        message += `\n: No se pudo conectar a la \nURL ${ws.url}`
+      }
+    }
+
+    if (message !== 'timeout') {
+      showToast(`${capitalize(message)}`, 'error')
+    }
+  } else {
+    showToast('Unknown error occurred', 'error')
   }
 }

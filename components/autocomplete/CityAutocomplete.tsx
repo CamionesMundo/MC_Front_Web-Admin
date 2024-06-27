@@ -192,6 +192,7 @@ const CityAutocomplete = ({
         variant='faded'
         isLoading={list.isLoading}
         errorMessage={error !== '' && `(*) ${error}`}
+        isInvalid={error !== ''}
       >
         {(item) => {
           return (

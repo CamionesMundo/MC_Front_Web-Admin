@@ -174,6 +174,7 @@ const CountryAutocomplete = ({
         variant='faded'
         isLoading={list.isLoading}
         errorMessage={error !== '' && `(*) ${error}`}
+        isInvalid={error !== ''}
       >
         {(item) => {
           const countryCode = item.country_code.toLowerCase().trim()

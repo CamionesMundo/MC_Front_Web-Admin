@@ -13,8 +13,8 @@ export type BodyActiveSeller = {
 
 export type DataUpdateUser = Pick<
 BaseUserData,
-'name' | 'surname' | 'phone_number' | 'sex' | 'document_number'
-> & { birthdate: string | null | undefined }
+'name' | 'surname' | 'phone_number' | 'sex' | 'document_number' | 'file_profile_picture' | 'file_profiles'
+> & { birthdate?: string | null | undefined }
 
 export type BodyUpdateUser = {
   id: number | undefined
@@ -51,4 +51,11 @@ export type DataAddress = {
 export type BodyAddress = {
   id: number | undefined // on Create is idUser, on Edit is id Address.
   data: DataAddress
+}
+
+export type UserFilter = {
+  page: number
+  pageSize: number
+  query: string
+  userType: number
 }

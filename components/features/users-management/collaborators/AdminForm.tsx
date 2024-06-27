@@ -13,8 +13,10 @@ import {
   useGetAdminById,
   useUpdateAdmin
 } from '@/hooks/api/useAdmins'
+import { useGetAllRoles } from '@/hooks/api/useRoles'
 import { showToast } from '@/hooks/useToast'
 import { Visible } from '@/icons'
+import { capitalize } from '@/lib/utils/utils'
 import { adminFormSchema } from '@/lib/validators/adminFormValidator'
 import { type AdminFormData, useAdminFormStore } from '@/store/useAdminForm'
 import { type GenericResponse } from '@/types/api'
@@ -29,7 +31,13 @@ import {
 } from '@/types/api/response/auth'
 import { Divider, SelectItem, Spacer } from '@nextui-org/react'
 import { useParams, useRouter } from 'next/navigation'
-import { type FormEvent, useState, type ChangeEvent, useEffect } from 'react'
+import {
+  type FormEvent,
+  useState,
+  type ChangeEvent,
+  useEffect,
+  useMemo
+} from 'react'
 
 type AdminFormProps = {
   isEditing?: boolean
@@ -43,6 +51,7 @@ type TypeParams = {
  * @param isEditing Indicates whether editing an existing admin.
  */
 const AdminForm = ({ isEditing = false }: AdminFormProps) => {
+  const { data: rolesResponse, isLoading: isLoadingRoles } = useGetAllRoles()
   // Hooks and states
   const router = useRouter()
   const { mutateAsync: createAdmin, isPending: isPendingCreate } =
@@ -73,6 +82,28 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
   const [adminId, setAdminId] = useState<number | null>(null)
   const loading: boolean = isLoading ?? isRefetching
   const [errors, setErrors] = useState<FormErrorMessages | null>(null)
+
+  const roles = useMemo(() => {
+    if (rolesResponse !== undefined) {
+      const mapped = rolesResponse.data?.map((roleData) => {
+        const data = {
+          idrole_admin: roleData.idrole_admin,
+          name_role: roleData.name_role
+        }
+        return data
+      })
+      if (isEditing) {
+        return mapped
+      } else {
+        const filtered = mapped.filter(
+          (roleData) => roleData.idrole_admin !== 2
+        )
+        return filtered
+      }
+    } else {
+      return []
+    }
+  }, [rolesResponse, isEditing])
 
   /**
    * Side effect for loading admin data when editing.
@@ -280,14 +311,17 @@ const AdminForm = ({ isEditing = false }: AdminFormProps) => {
               color={errors?.role !== undefined ? 'danger' : 'primary'}
               error={errors?.role?.toString() ?? ''}
               label='Rol'
+              isLoading={isLoadingRoles}
             >
-              <SelectItem key={1} value={1}>
-                {'Admin'}
-              </SelectItem>
+              {roles.map((r) => (
+                <SelectItem key={r.idrole_admin} value={r.idrole_admin}>
+                  {capitalize(r.name_role)}
+                </SelectItem>
+              ))}
             </CustomSelect>
           </div>
-          <div className='w-full flex justify-start mt-10'>
-            <div className='w-1/4'>
+          <div className='w-full flex justify-center md:justify-start mt-10'>
+            <div className='md:w-1/4 w-full'>
               <GenericButton
                 type='submit'
                 label={isEditing ? 'Actualizar Datos' : 'Crear Administrador'}

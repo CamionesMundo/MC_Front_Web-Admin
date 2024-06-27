@@ -50,6 +50,12 @@ export async function POST (req: Request) {
         `${BASE_MC_PERMISSIONS_ROLE_URL}/create/block/${idRole}`,
         permissionsData
       )
+
+      await mcInstance.put<GenericResponse<RoleResponse>>(
+        `${BASE_MC_ROLES_URL}/update/${idRole}`,
+        roleData
+      )
+
       return NextResponse.json(resPermissions.data)
     } else {
       const mcInstance = await mcApi()
@@ -73,11 +79,6 @@ export async function POST (req: Request) {
       }
     }
   } catch (error) {
-    return NextResponse.json({
-      statusCode: 500,
-      message: null,
-      data: null,
-      error: handleServerError(error)
-    })
+    return handleServerError(error)
   }
 }

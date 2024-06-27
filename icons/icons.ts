@@ -46,7 +46,24 @@ import { ReactComponent as Briefcase } from './src/Briefcase.svg'
 import { ReactComponent as Upload } from './src/Upload.svg'
 import { ReactComponent as Document } from './src/Document.svg'
 import { ReactComponent as SendFile } from './src/SendFile.svg'
-
+import { ReactComponent as StarFilled } from './src/StarFilled.svg'
+import { ReactComponent as Radio } from './src/Radio.svg'
+import { ReactComponent as Truck } from './src/Truck.svg'
+import { ReactComponent as Mileage } from './src/Mileage.svg'
+import { ReactComponent as Gift } from './src/Gift.svg'
+import { ReactComponent as Refresh } from './src/Refresh.svg'
+import { ReactComponent as Payment } from './src/Payment.svg'
+import { ReactComponent as Publication } from './src/Publication.svg'
+import { ReactComponent as NoImage } from './src/NoImage.svg'
+import { ReactComponent as NoVideo } from './src/NoVideo.svg'
+import { ReactComponent as ClearFilter } from './src/ClearFilter.svg'
+import { ReactComponent as Message } from './src/Message.svg'
+import { ReactComponent as Cancel } from './src/Cancel.svg'
+import { ReactComponent as Output } from './src/Output.svg'
+import { ReactComponent as Copy } from './src/Copy.svg'
+import { ReactComponent as Calendar } from './src/Calendar.svg'
+import { ReactComponent as Info } from './src/Info.svg'
+import { ReactComponent as FileUp } from './src/FileUp.svg'
 export {
   Visible,
   Collapsable,
@@ -95,5 +112,23 @@ export {
   Briefcase,
   Upload,
   Document,
-  SendFile
+  SendFile,
+  StarFilled,
+  Radio,
+  Truck,
+  Mileage,
+  Gift,
+  Refresh,
+  Payment,
+  Publication,
+  NoImage,
+  NoVideo,
+  ClearFilter,
+  Message,
+  Cancel,
+  Output,
+  Copy,
+  Calendar,
+  Info,
+  FileUp
 }

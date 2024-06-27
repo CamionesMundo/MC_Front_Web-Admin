@@ -1,0 +1,59 @@
+import { formatPrice } from '@/lib/utils/utils'
+import { type PublicationResponse } from '@/types/api/response/publication'
+import { Avatar } from '@nextui-org/react'
+import React, { useMemo } from 'react'
+
+type HeaderPublicationProps = {
+  publication: PublicationResponse | undefined
+  isTransmission?: boolean
+}
+const HeaderPublication = ({
+  publication,
+  isTransmission = true
+}: HeaderPublicationProps) => {
+  const countryCode = useMemo(() => {
+    return (
+      publication?.vehicle?.city?.country.country_code.toLowerCase().trim() ??
+      ''
+    )
+  }, [publication])
+
+  const countryName = publication?.vehicle?.city?.country.country_name ?? ''
+  const cityName = publication?.vehicle?.city?.city_name ?? ''
+  const publicationCode = publication?.publication_code ?? ''
+  const title = publication?.vehicle.name_vehicle
+  const price = isTransmission
+    ? publication?.auction.starting_price
+    : publication?.vehicle.sale_price
+  return (
+    <>
+      <div className='flex flex-row gap-4 dark:text-white'>
+        <div className='text-start text-default-500 dark:text-white flex flex-row gap-2 justify-start items-center'>
+          {countryName !== undefined && (
+            <Avatar
+              alt={`Bandera de ${countryName}`}
+              className='w-5 h-5'
+              src={`https://flagcdn.com/${countryCode}.svg`}
+            />
+          )}
+          <span className='text-xs'>{`${cityName ?? 'Ciudad no Registrada'}, ${
+            countryName ?? 'País no Registrado'
+          }`}</span>
+        </div>
+        <div className='font-semibold'>{`Lote #${
+          publicationCode ?? 'No registrado'
+        }`}</div>
+      </div>
+      <h1 className='font-bold text-black/80 text-lg dark:text-white'>
+        {title}
+      </h1>
+      <span className='text-lg dark:text-white'>
+        {price !== undefined
+          ? formatPrice(Number(price))
+          : 'Precio Inicial No Registrado'}
+      </span>
+    </>
+  )
+}
+
+export default HeaderPublication

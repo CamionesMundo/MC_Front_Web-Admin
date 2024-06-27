@@ -18,7 +18,9 @@ const TableUser = ({ row }: Props) => {
           avatarProps={{ radius: 'lg', src: profileImg }}
           description={
             <div className='flex flex-col'>
-              <span className='uppercase text-black dark:text-white'>{row?.name}</span>
+              <span className='uppercase text-black dark:text-white'>
+                {row?.name}
+              </span>
               <span>{row.email}</span>
             </div>
           }
@@ -42,7 +44,7 @@ const TableUser = ({ row }: Props) => {
             <span>{row.email}</span>
           </div>
         }
-        name={row.name_user}
+        name={''}
         className='w-full max-w-[300px] flex justify-start dark:text-white'
       >
         {row.name_user}

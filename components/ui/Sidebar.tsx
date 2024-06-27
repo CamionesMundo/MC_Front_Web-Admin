@@ -4,6 +4,7 @@ import {
   Category,
   Delivery,
   Home,
+  Payment,
   Post,
   Profile,
   Settings,
@@ -14,7 +15,8 @@ import {
   categoriesManagement,
   postManagement,
   shipmentsManagement,
-  usersManagement
+  usersManagement,
+  paymentsManagement
 } from '@/const/sidebar'
 import { ItemAside, SectionItemAside } from '.'
 import { Avatar } from '@nextui-org/react'
@@ -53,15 +55,10 @@ const Sidebar = () => {
             items={postManagement}
             label='Gestión de Publicaciones'
           />
-          <ItemAside
-            IconComponent={Ship}
-            href='/customs-agents'
-            label='Agentes aduaneros'
-          />
-          <ItemAside
-            IconComponent={AppConfig}
-            href='/app-config'
-            label='Configuraciones App'
+          <SectionItemAside
+            IconComponent={Payment}
+            items={paymentsManagement}
+            label='Gestión de Pagos'
           />
           <SectionItemAside
             IconComponent={Category}
@@ -72,6 +69,16 @@ const Sidebar = () => {
             IconComponent={Delivery}
             items={shipmentsManagement}
             label='Gestión de Envíos'
+          />
+          <ItemAside
+            IconComponent={Ship}
+            href='/customs-agents'
+            label='Agentes aduaneros'
+          />
+          <ItemAside
+            IconComponent={AppConfig}
+            href='/app-config'
+            label='Configuraciones App'
           />
           <ItemAside
             IconComponent={Settings}

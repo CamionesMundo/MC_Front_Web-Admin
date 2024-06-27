@@ -19,9 +19,10 @@ import { useCallback, useState } from 'react'
 
 type InputParameterDataProps = {
   item: AppParameterResponse
+  customLabel?: string
 }
 
-const InputParameter = ({ item }: InputParameterDataProps) => {
+const InputParameter = ({ item, customLabel }: InputParameterDataProps) => {
   const { mutateAsync: updateParameter, isPending } = useUpdateParameter()
   const router = useRouter()
   const name = `param${item.idparameter}`
@@ -240,7 +241,7 @@ const InputParameter = ({ item }: InputParameterDataProps) => {
             onChange={handleChange}
             onBlur={onBlur}
             color={errors?.name !== undefined ? 'danger' : 'primary'}
-            label={capitalize(item.name)}
+            label={customLabel !== undefined ? capitalize(customLabel) : capitalize(item.name)}
             placeholder={
               item.idparameter === AppParametersType.SupportContactNumber
                 ? 'Ej. 888888888'

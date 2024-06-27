@@ -14,7 +14,8 @@ import {
   type BodyActiveUserApp,
   type BodyActiveSeller,
   type BodyUpdateSeller,
-  type BodyAddress
+  type BodyAddress,
+  type UserFilter
 } from '@/types/api/request/client-form'
 import {
   type QueryClient,
@@ -25,10 +26,16 @@ import {
 import { useRouter } from 'next/navigation'
 import { showToast } from '../useToast'
 import { type ClientResponse } from '@/types/api/response/user'
-export const useGetAllAppUsers = () => {
+export const useGetAllAppUsers = ({
+  page,
+  pageSize,
+  query,
+  userType
+}: UserFilter) => {
   return useQuery({
     queryKey: ['clients'],
-    queryFn: async () => await getAllAppUsers()
+    queryFn: async () =>
+      await getAllAppUsers({ page, pageSize, query, userType })
   })
 }
 
