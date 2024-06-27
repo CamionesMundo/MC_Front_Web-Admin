@@ -37,9 +37,6 @@ const LastOfferCardDetail = ({ item }: LastOfferCardProps) => {
         Últimas Ofertas
       </span>
       <div className='flex flex-row justify-between w-full col-span-4'>
-        <div className='pl-8'>
-          <span className='text-[11px] text-zinc-700'>Última oferta</span>
-        </div>
         {getStatus()}
       </div>
       <div className='col-span-3'>

@@ -1,5 +1,5 @@
 import { Tab, Tabs } from '@nextui-org/react'
-import React, { type Key } from 'react'
+import React, { type ReactNode, type Key } from 'react'
 import TabDescription from './TabDescription'
 import TabCharacteristics from './TabCharacteristics'
 import TabCheckList from './TabCheckList'
@@ -10,6 +10,10 @@ type TabsPublicationProps = {
   publication: PublicationResponse | undefined
   giftsGallery: ImagesUrl[]
   selected: string
+  useInitialTab?: boolean
+  titleAdditionalTab?: string
+  contentAdditionalTab?: ReactNode
+  useOneColumn?: boolean
   handleSelectionChange: (key: Key) => void
 }
 
@@ -17,6 +21,10 @@ const TabsPublication = ({
   publication,
   giftsGallery,
   selected,
+  useInitialTab = false,
+  titleAdditionalTab = 'Adicional',
+  contentAdditionalTab,
+  useOneColumn = false,
   handleSelectionChange
 }: TabsPublicationProps) => {
   return (
@@ -36,16 +44,21 @@ const TabsPublication = ({
         selectedKey={selected}
         onSelectionChange={handleSelectionChange}
       >
+        {useInitialTab && (
+          <Tab key='additional' title={titleAdditionalTab}>
+            {contentAdditionalTab}
+          </Tab>
+        )}
         <Tab key='description' title='Descripción General'>
           <TabDescription publication={publication} />
         </Tab>
         <Tab key='specifications' title='Características'>
-          <TabCharacteristics publication={publication} />
+          <TabCharacteristics publication={publication} useOneColumn={useOneColumn}/>
         </Tab>
 
         {publication?.vehicle.check_list !== null && (
           <Tab key='list' title='Check List del Producto'>
-            <TabCheckList publication={publication} />
+            <TabCheckList publication={publication} useOneColumn={useOneColumn}/>
           </Tab>
         )}
         {giftsGallery.length > 0 && (

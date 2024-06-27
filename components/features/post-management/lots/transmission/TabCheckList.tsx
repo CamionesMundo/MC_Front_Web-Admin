@@ -5,6 +5,7 @@ import React from 'react'
 
 type TabCheckListProps = {
   publication: PublicationResponse | undefined
+  useOneColumn?: boolean
 }
 type ItemInfoProps = {
   title: string
@@ -19,7 +20,10 @@ const ItemInfo = ({ title, value }: ItemInfoProps) => {
     </div>
   )
 }
-const TabCheckList = ({ publication }: TabCheckListProps) => {
+const TabCheckList = ({
+  publication,
+  useOneColumn = false
+}: TabCheckListProps) => {
   const ENGINE_STATUS = getCheckListStatus(
     publication?.vehicle.check_list?.engine_status
   )
@@ -128,7 +132,7 @@ const TabCheckList = ({ publication }: TabCheckListProps) => {
         </h1>
         <Divider />
         <Spacer />
-        <div className='grid md:grid-cols-2 gap-x-10'>
+        <div className={`${useOneColumn ? 'md:grid-cols-1' : 'md:grid-cols-2'} grid gap-x-10 dark:text-white`}>
           <ItemInfo title='Estado del motor' value={ENGINE_STATUS} />
           <ItemInfo title='Estado de transmisión' value={TRANSMISSION_STATUS} />
           <ItemInfo

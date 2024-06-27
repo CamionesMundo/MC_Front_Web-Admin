@@ -30,7 +30,6 @@ const LotTransmission = ({ id }: LotTransmissionProps) => {
 
   const { data: response, isLoading } = useGetLotById(Number(id))
   const [selectedTab, setSelectedTab] = useState('transmission')
-  const [codeLot, setCodeLote] = useState('')
 
   const handleSelectionChangeTab = (key: Key) => {
     if (typeof key === 'string') {
@@ -46,7 +45,6 @@ const LotTransmission = ({ id }: LotTransmissionProps) => {
         id: item.idlot_queue
       }))
 
-      setCodeLote(response.data?.lot.lot_code)
       const currentLot = lotsMapped?.find((lotInQueue) => lotInQueue.current)
 
       const nextLot = lotsMapped?.find(
@@ -89,7 +87,7 @@ const LotTransmission = ({ id }: LotTransmissionProps) => {
             <span>Transmisión en vivo</span>
           </div>
         ),
-        content: <Transmission codeLot={Number(codeLot)} />
+        content: <Transmission />
       },
       {
         key: 'queue',
@@ -102,7 +100,7 @@ const LotTransmission = ({ id }: LotTransmissionProps) => {
         content: <Queue />
       }
     ]
-  }, [awaitingQueue, codeLot])
+  }, [awaitingQueue])
 
   const onBack = () => {
     setTimeout(() => {

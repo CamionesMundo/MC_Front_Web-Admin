@@ -40,9 +40,6 @@ const LastOfferCard = ({ item }: LastOfferCardProps) => {
             }}
           />
           <div className='flex flex-col gap-0'>
-            <span className='text-xs text-zinc-700 dark:text-white'>
-              Última oferta
-            </span>
             <div className='flex flex-row gap-2 items-center'>
               <Avatar
                 alt={`Bandera de ${item?.user.country?.country_name}`}
