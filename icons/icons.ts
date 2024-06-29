@@ -64,6 +64,11 @@ import { ReactComponent as Copy } from './src/Copy.svg'
 import { ReactComponent as Calendar } from './src/Calendar.svg'
 import { ReactComponent as Info } from './src/Info.svg'
 import { ReactComponent as FileUp } from './src/FileUp.svg'
+import { ReactComponent as SendHorizontal } from './src/SendHorizontal.svg'
+import { ReactComponent as NoMessage } from './src/NoMessage.svg'
+import { ReactComponent as Video } from './src/Video.svg'
+import { ReactComponent as Gallery } from './src/Gallery.svg'
+
 export {
   Visible,
   Collapsable,
@@ -130,5 +135,9 @@ export {
   Copy,
   Calendar,
   Info,
-  FileUp
+  FileUp,
+  SendHorizontal,
+  NoMessage,
+  Video,
+  Gallery
 }

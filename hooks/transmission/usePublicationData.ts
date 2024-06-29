@@ -16,7 +16,7 @@ export const usePublicationData = () => {
     refetch
   } = useGetPublicationById(currentLot?.idpublication ?? 0)
 
-  const [selected, setSelected] = useState('description')
+  const [selected, setSelected] = useState('additional')
 
   /**
    * The function `handleSelectionChange` takes a key as input and sets it as the selected value if it

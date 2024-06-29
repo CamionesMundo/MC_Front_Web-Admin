@@ -6,6 +6,7 @@ import React from 'react'
 
 type TabCharacteristicsProps = {
   publication: PublicationResponse | undefined
+  useOneColumn?: boolean
 }
 
 type ItemInfoProps = {
@@ -37,7 +38,10 @@ const ItemCheckValue = ({ title, value }: ItemCheckValueProps) => {
   )
 }
 
-const TabCharacteristics = ({ publication }: TabCharacteristicsProps) => {
+const TabCharacteristics = ({
+  publication,
+  useOneColumn = false
+}: TabCharacteristicsProps) => {
   const YEAR_VEHICLE = publication?.vehicle.year_vehicle ?? NO_REGISTER
   const MILEAGE_VEHICLE = `${
     publication?.vehicle.mileage !== undefined
@@ -160,7 +164,7 @@ const TabCharacteristics = ({ publication }: TabCharacteristicsProps) => {
 
   return (
     <div>
-      <div className='grid md:grid-cols-2 gap-x-6 dark:text-white'>
+      <div className={`${useOneColumn ? 'md:grid-cols-1' : 'md:grid-cols-2'} grid gap-x-6 dark:text-white`}>
         <div className='flex flex-col mb-3'>
           <h1 className='font-semibold text-blackText dark:text-white'>
             {'Especificaciones del vehículo'}

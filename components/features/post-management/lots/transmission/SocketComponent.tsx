@@ -85,8 +85,8 @@ const SocketComponent = ({ isLoadingTotalCount }: SocketComponentProps) => {
     }
   }, [currentBid, lastOffer, startingPrice])
   return (
-    <div className=' md:w-[450px] mx-auto'>
-      <div className='mt-5 flex flex-col md:flex-row justify-between items-center px-12 my-3'>
+    <div className=' md:w-[440px] mx-auto'>
+      <div className='mt-0 flex flex-col md:flex-row justify-between items-center px-12 my-3'>
         {!isLoadingTotalCount && (
           <CountDown
             countryName={lastOffer?.user.country?.country_name}
@@ -152,7 +152,7 @@ const SocketComponent = ({ isLoadingTotalCount }: SocketComponentProps) => {
           </div>
         )}
         {historyBids?.length === 0 && (
-          <div className='bg-zinc-200 rounded-lg p-4 text-center'>
+          <div className='bg-zinc-200 dark:bg-zinc-600 rounded-lg p-4 text-center'>
             <span className='text-default-500 dark:text-white text-center text-sm'>
               Aún no existen ofertas para esta subasta
             </span>

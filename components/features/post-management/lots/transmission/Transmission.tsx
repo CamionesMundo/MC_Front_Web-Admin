@@ -12,22 +12,19 @@ import { useAuctionState } from '@/hooks/transmission/useAuctionState'
 import { useAuctionActions } from '@/hooks/transmission/useAuctionActions'
 import { useSocketListeners } from '@/hooks/transmission/useSocketListener'
 import { usePublicationData } from '@/hooks/transmission/usePublicationData'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGetTransmissionStatus } from '@/hooks/api/useLots'
 import { LotTransmissionStatus } from '@/types/enums'
 import CustomModal from '@/components/modal/CustomModal'
-import Gallery from './Gallery'
 import TabsPublication from './TabsPublication'
 import { useRouter } from 'next/navigation'
+import GalleryTabs from './GalleryTabs'
 
-type TransmissionProps = {
-  codeLot: number
-}
-
-const Transmission = ({ codeLot }: TransmissionProps) => {
+const Transmission = () => {
   const router = useRouter()
   const [isReady, setIsReady] = useState(false)
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const [currentSelected, setCurrentSelected] = useState('video')
   const {
     data: statusResponse,
     refetch: refetchStatusTransmission,
@@ -97,8 +94,75 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
     await refetchStatusTransmission()
   }, [refetchStatusTransmission])
 
-  const handleFinishLot = () => {
+  const handleFinishLot = useCallback(() => {
     onOpen()
+  }, [onOpen])
+
+  const auctionTab = useMemo(() => {
+    return (
+      <>
+        <div className='flex flex-col gap-5 md:gap-0 md:flex-row'>
+          <div className='flex flex-col md:flex-col gap-3 mt-0'>
+            <GenericButton
+              type='button'
+              label='Iniciar Pujas'
+              color='default'
+              className={
+                disabledInitAuctionButton
+                  ? 'cursor-not-allowed w-full'
+                  : 'bg-green-700 text-white font-semibold w-full'
+              }
+              onClick={handleInitAuction}
+              isLoading={isPendingStart}
+              disabled={disabledInitAuctionButton}
+            />
+            <GenericButton
+              type='button'
+              label='Desvincular del lote'
+              color='default'
+              className={
+                disableUnlinkButton
+                  ? 'cursor-not-allowed w-full'
+                  : 'bg-gray-500 text-white font-semibold w-full'
+              }
+              onClick={handleUnlinkAuction}
+              isLoading={isLoadingDelete}
+              disabled={disableUnlinkButton}
+            />
+            <GenericButton
+              type='button'
+              label={isLast ? 'Finalizar Lote' : 'Siguiente Subasta'}
+              className={
+                !disabledNextButton
+                  ? 'text-capitalize bg-blue-800 text-white font-bold w-full'
+                  : 'cursor-not-allowed w-full'
+              }
+              onClick={isLast ? handleFinishLot : handleNextAuction}
+              isLoading={isLoadingNextButton}
+              disabled={disabledNextButton}
+            />
+          </div>
+          <SocketComponent isLoadingTotalCount={isLoadingParameters} />
+        </div>
+      </>
+    )
+  }, [
+    disabledInitAuctionButton,
+    handleInitAuction,
+    isPendingStart,
+    disableUnlinkButton,
+    handleUnlinkAuction,
+    isLoadingDelete,
+    isLast,
+    disabledNextButton,
+    handleFinishLot,
+    handleNextAuction,
+    isLoadingNextButton,
+    isLoadingParameters
+  ])
+
+  const handleChangeButton = (value: string) => {
+    setCurrentSelected(value)
   }
 
   return (
@@ -110,36 +174,19 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
       )}
       {publication !== undefined && (
         <>
-          <div className='grid md:grid-cols-3 gap-3 md:mb-0 mb-4'>
-            <div className='col-span-1'>
-              <p className='text-sm text-default-600 dark:text-white pt-2'>
-                Recuerda siempre{' '}
-                <span className='font-semibold'>
-                  {'INICIAR el Streaming desde tu OBS STUDIO '}
-                </span>
-                para que todos los usuarios puedan ver la transmisión En vivo de
-                subastas en la aplicación
-              </p>
-            </div>
-            <div className='grid grid-cols-1 md:grid-cols-6 col-span-1 md:col-span-2'>
-              <div className='flex flex-col col-span-2 gap-3 md:gap-0'>
-                <span className='font-semibold text-center pt-2 text-lg dark:text-white'>{`ID SUBASTA: #${codeLot}`}</span>
-                <GenericButton
-                  type='button'
-                  label={'Actualizar stream'}
-                  onClick={handleRefetch}
-                  isLoading={isLoadingStatus}
-                  startContent={
-                    isLoadingStatus
-                      ? undefined
-                      : (
-                      <Refresh className='w-4 h-4' />
-                        )
-                  }
-                />
-              </div>
-              <div className='md:col-span-4 w-full md:w-5/6 h-40 md:mx-auto md:mt-0 mt-4'>
-                {isOnline && (
+          <div className='flex flex-row w-full'>
+            <div className='w-full flex gap-2 flex-col md:flex-row items-start justify-end md:-mt-28'>
+              <GenericButton
+                type='button'
+                label={'stream'}
+                onClick={handleRefetch}
+                isLoading={isLoadingStatus}
+                startContent={
+                  isLoadingStatus ? undefined : <Refresh className='w-4 h-4' />
+                }
+              />
+              {isOnline && (
+                <div className='h-40 md:h-32 md:w-56 w-full'>
                   <ReactPlayer
                     url='https://50275799e5a0.us-east-1.playback.live-video.net/api/video/v1/us-east-1.339712782868.channel.SIV9qpv5k4AR.m3u8'
                     controls={true}
@@ -148,24 +195,22 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                     height='100%'
                     muted
                   />
-                )}
-                {!isOnline && (
-                  <div className='w-full h-40 bg-blackText grid place-content-center rounded-lg'>
-                    <div className='flex flex-col'>
-                      <div className='flex justify-center'>
-                        <Radio className='w-6 h-6 text-white animate-pulse' />
-                      </div>
-                      <span className='text-white text-sm animate-pulse'>
-                        La transmisión empezará pronto...
-                      </span>
+                </div>
+              )}
+              {!isOnline && (
+                <div className='h-40 md:h-32 md:w-56 w-full bg-blackText grid place-content-center rounded-lg'>
+                  <div className='flex flex-col'>
+                    <div className='flex justify-center'>
+                      <Radio className='w-6 h-6 text-white animate-pulse' />
                     </div>
+                    <span className='text-white text-sm animate-pulse text-center'>
+                      La transmisión empezará pronto...
+                    </span>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
-          <Spacer />
-          <Spacer />
           <h1 className='md:block hidden font-semibold text-black/80 dark:text-white'>
             {'Vehículos en pantalla'}
             <span className=' text-cyan-600 font-semibold'>
@@ -183,9 +228,9 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
             )}
             {!isLoadingCurrentPublication && (
               <>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-x-3 mb-3'>
-                  <div className='mt-2 order-2 md:order-1'>
-                    <div className='md:hidden block mt-3 mb-2'>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-x-3'>
+                  <div className='mt-2 order-2 md:order-1 md:max-h-[410px]'>
+                    <div className='md:hidden block mt-3'>
                       <h1 className=' font-semibold text-black/80 dark:text-white'>
                         {'Vehículos en pantalla'}
                         <span className=' text-cyan-600 font-semibold'>
@@ -196,68 +241,34 @@ const Transmission = ({ codeLot }: TransmissionProps) => {
                       <Divider />
                       <Spacer />
                     </div>
-                    <HeaderPublication publication={publication} />
-                    <Gallery
+                    <HeaderPublication
+                      publication={publication}
+                      currentButtonSelected={currentSelected}
+                      handleChangeButton={handleChangeButton}
+                      hasGifts={giftsGallery.length > 0}
+                    />
+                    <GalleryTabs
                       giftsGallery={giftsGallery}
                       handleReady={handleReady}
                       imagesGallery={imagesGallery}
                       isPlaying={isPlaying}
                       principalVideoUrl={principalVideoUrl}
+                      currentSelected={currentSelected}
                     />
                   </div>
-                  <div className='order-1 md:order-2'>
-                    <div className='flex flex-col md:flex-row gap-3 mt-4 md:mt-3 justify-center'>
-                      <GenericButton
-                        type='button'
-                        label='Iniciar Pujas'
-                        color='default'
-                        className={
-                          disabledInitAuctionButton
-                            ? 'cursor-not-allowed w-full'
-                            : 'bg-green-700 text-white font-semibold w-full'
-                        }
-                        onClick={handleInitAuction}
-                        isLoading={isPendingStart}
-                        disabled={disabledInitAuctionButton}
-                      />
-                      <GenericButton
-                        type='button'
-                        label='Desvincular del lote'
-                        color='default'
-                        className={
-                          disableUnlinkButton
-                            ? 'cursor-not-allowed w-full'
-                            : 'bg-gray-500 text-white font-semibold w-full'
-                        }
-                        onClick={handleUnlinkAuction}
-                        isLoading={isLoadingDelete}
-                        disabled={disableUnlinkButton}
-                      />
-                      <GenericButton
-                        type='button'
-                        label={isLast ? 'Finalizar Lote' : 'Siguiente Subasta'}
-                        className={
-                          !disabledNextButton
-                            ? 'text-capitalize bg-blue-800 text-white font-bold w-full'
-                            : 'cursor-not-allowed w-full'
-                        }
-                        onClick={isLast ? handleFinishLot : handleNextAuction}
-                        isLoading={isLoadingNextButton}
-                        disabled={disabledNextButton}
-                      />
-                    </div>
-
-                    <SocketComponent
-                      isLoadingTotalCount={isLoadingParameters}
+                  <div className='order-1 md:order-2 md:max-h-[410px] overflow-hidden overflow-y-auto mt-6 md:mt-0'>
+                    <TabsPublication
+                      publication={publication}
+                      giftsGallery={giftsGallery}
+                      selected={selected}
+                      handleSelectionChange={handleSelectionChange}
+                      useInitialTab
+                      titleAdditionalTab='Subasta'
+                      useOneColumn={true}
+                      contentAdditionalTab={auctionTab}
                     />
                   </div>
                 </div>
-                <TabsPublication
-                  publication={publication}
-                  giftsGallery={giftsGallery}
-                  selected={selected}
-                  handleSelectionChange={handleSelectionChange}
-                />
               </>
             )}
           </>

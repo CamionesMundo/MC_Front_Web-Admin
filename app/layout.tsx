@@ -11,7 +11,14 @@ const workSans = Work_Sans({
 
 export const metadata: Metadata = {
   title: 'Mundo Camiones | Administrador',
-  description: 'Mundo Camiones Admin es la plataforma administrativa para un mercado de vehículos comerciales. Aquí, los administradores pueden gestionar las transacciones de compra, alquiler y subasta de una variedad de vehículos, incluyendo camiones, autobuses, remolques, furgonetas y más. Esta plataforma es el complemento perfecto para nuestra aplicación móvil, permitiendo una gestión eficiente y efectiva del mercado.'
+  description: 'Mundo Camiones Admin es la plataforma administrativa para un mercado de vehículos comerciales. Aquí, los administradores pueden gestionar las transacciones de compra, alquiler y subasta de una variedad de vehículos, incluyendo camiones, autobuses, remolques, furgonetas y más. Esta plataforma es el complemento perfecto para nuestra aplicación móvil, permitiendo una gestión eficiente y efectiva del mercado.',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    height: '100%'
+  }
 }
 
 export default function RootLayout ({

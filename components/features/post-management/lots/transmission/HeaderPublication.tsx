@@ -6,10 +6,16 @@ import React, { useMemo } from 'react'
 type HeaderPublicationProps = {
   publication: PublicationResponse | undefined
   isTransmission?: boolean
+  currentButtonSelected?: string
+  handleChangeButton?: (value: string) => void
+  hasGifts?: boolean
 }
 const HeaderPublication = ({
   publication,
-  isTransmission = true
+  isTransmission = true,
+  currentButtonSelected = 'video',
+  hasGifts = false,
+  handleChangeButton
 }: HeaderPublicationProps) => {
   const countryCode = useMemo(() => {
     return (
@@ -25,6 +31,7 @@ const HeaderPublication = ({
   const price = isTransmission
     ? publication?.auction.starting_price
     : publication?.vehicle.sale_price
+  console.log(currentButtonSelected)
   return (
     <>
       <div className='flex flex-row gap-4 dark:text-white'>
@@ -47,11 +54,60 @@ const HeaderPublication = ({
       <h1 className='font-bold text-black/80 text-lg dark:text-white'>
         {title}
       </h1>
-      <span className='text-lg dark:text-white'>
-        {price !== undefined
-          ? formatPrice(Number(price))
-          : 'Precio Inicial No Registrado'}
-      </span>
+      <div className='flex flex-row justify-between'>
+        <span className='text-lg dark:text-white'>
+          {price !== undefined
+            ? formatPrice(Number(price))
+            : 'Precio Inicial No Registrado'}
+        </span>
+        <div className='flex flex-row gap-2 mb-2'>
+          <div
+            className={`py-1 px-3 hover:cursor-pointer rounded-lg flex justify-center items-center ${
+              currentButtonSelected === 'video'
+                ? 'bg-primary text-white'
+                : 'bg-slate-200 text-gray-400'
+            }`}
+            onClick={() => {
+              if (handleChangeButton !== undefined) {
+                handleChangeButton('video')
+              }
+            }}
+          >
+            <span className=''>Video</span>
+          </div>
+
+          <div
+            className={`py-1 px-3 hover:cursor-pointer rounded-lg flex justify-center items-center ${
+              currentButtonSelected === 'gallery'
+                ? 'bg-primary text-white'
+                : 'bg-slate-200 text-gray-400'
+            }`}
+            onClick={() => {
+              if (handleChangeButton !== undefined) {
+                handleChangeButton('gallery')
+              }
+            }}
+          >
+            <span className=''>Fotos</span>
+          </div>
+          {hasGifts && (
+            <div
+              className={`py-1 px-3 hover:cursor-pointer rounded-lg flex justify-center items-center ${
+                currentButtonSelected === 'gift'
+                  ? 'bg-primary text-white'
+                  : 'bg-slate-200 text-gray-400'
+              }`}
+              onClick={() => {
+                if (handleChangeButton !== undefined) {
+                  handleChangeButton('gift')
+                }
+              }}
+            >
+              <span className=''>Fotos Regalo</span>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   )
 }
