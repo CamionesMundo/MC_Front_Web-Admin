@@ -7,7 +7,7 @@ const nextConfig = withSvgr({
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'mcdev.sfo3.digitaloceanspaces.com',
+        hostname: process.env.NEXT_PUBLIC_DIGITAL_OCEAN_HOSTNAME,
       },
     ],
   },
