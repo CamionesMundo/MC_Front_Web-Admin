@@ -16,7 +16,7 @@ const useSocket = () => {
       token: session?.user.token ?? ''
     }
 
-    const socketIo = io('ws://143.198.63.3:9000/', {
+    const socketIo = io(process.env.NEXT_PUBLIC_SOCKET_URL ?? '', {
       extraHeaders: customHeaders,
       transports: ['websocket'],
       reconnectionAttempts: 5,
