@@ -5,8 +5,9 @@ pipeline {
             args '-p 5500:500'
         }
     }
-    parameters { 
-        choice choices: ['YES', 'NO'], description: 'TEST?', name: 'TEST'
+    parameters {
+        choice(name: "TEST_STAGE", choices: ['YES', 'NO'], description: "TEST_STAGE multi-choice parameter")
+        choice(name: "BUILD_STAGE", choices: ['YES', 'NO'], description: "BUILD_STAGE multi-choice parameter")
     }
     environment {
         CI = 'true'
@@ -19,13 +20,16 @@ pipeline {
         }
         stage('Test') {
             when {
-               expression { params.TEST == 'YES' }
+               expression { params.TEST_STAGE == 'YES' }
             }
             steps {
                 sh 'npm test'
             }
         }
         stage('Build') {
+            when {
+               expression { params.BUILD_STAGE == 'YES' }
+            }
             steps {
                 sh 'npm run build'
             }
