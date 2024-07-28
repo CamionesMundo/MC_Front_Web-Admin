@@ -5,6 +5,9 @@ pipeline {
             args '-p 5500:500'
         }
     }
+    parameters { 
+        choice choices: ['YES', 'NO'], description: 'TEST?', name: 'TEST'
+    }
     environment {
         CI = 'true'
     }
@@ -15,6 +18,9 @@ pipeline {
             }
         }
         stage('Test') {
+            when {
+               expression { params.TEST == 'YES' }
+            }
             steps {
                 sh 'npm test'
             }
