@@ -20,7 +20,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd "${{secrets.DEVELOPMENT_FOLDER}}"
-            echo "${{secrets.DEVELOPMENT_FOLDER}}"
-            echo $PWD
             ls -la
             exit
