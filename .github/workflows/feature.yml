@@ -21,9 +21,9 @@ jobs:
           script: |
             cd "${{secrets.DEVELOPMENT_FOLDER}}"
             echo "${{secrets.DEVELOPMENT_FOLDER}}"
-            echo "${PWD}"
+            echo ${PWD}
             git pull origin development
             ls -la
             echo "${{ secrets.DOT_ENV_DEVELOPMENT }}" > .env
-            docker build -t front_admin .
+            cat .env
             exit
