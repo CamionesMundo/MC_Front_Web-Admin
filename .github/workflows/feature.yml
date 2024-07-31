@@ -17,7 +17,7 @@ jobs:
           host: ${{ secrets.SSH_HOST_DEV }}
           username: ${{ secrets.SSH_USERNAME_DEV }}
           key: ${{ secrets.SSH_KEY_DEV }}
-          passphrase: ${{ secrets.SSH_PASSPHRASE }}
+          #passphrase: ${{ secrets.SSH_PASSPHRASE }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd "${{secrets.DEVELOPMENT_FOLDER}}"
